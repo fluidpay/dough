@@ -123,3 +123,79 @@ func TestGetAlphaFromISOCodeNumeric(t *testing.T) {
 		}
 	}
 }
+
+var TestConvertToStringData = []struct {
+	Num    uint
+	Exp    int
+	Output string
+}{
+	{uint(0), 0, "0"},
+	{uint(0), 1, "0.0"},
+	{uint(0), 2, "0.00"},
+	{uint(1), 2, "0.01"},
+	{uint(10), 2, "0.10"},
+	{uint(100), 2, "1.00"},
+	{uint(1000), 2, "10.00"},
+	{uint(10000), 2, "100.00"},
+	{uint(100000), 2, "1000.00"},
+	{uint(1000000), 2, "10000.00"},
+	{uint(10000000), 2, "100000.00"},
+	{uint(100000000), 2, "1000000.00"},
+}
+
+func TestConvertToString(t *testing.T) {
+	for _, v := range TestConvertToStringData {
+		result := convertToString(v.Num, v.Exp)
+		if result != v.Output {
+			t.Fatal()
+		}
+		t.Log(v.Num, v.Exp, "-->", result)
+	}
+}
+
+var TestSplitStringData = []struct {
+	Input  string
+	Output []string
+}{
+	{"0.00", []string{"0", "00"}},
+	{"0.01", []string{"0", "01"}},
+	{"0.10", []string{"0", "10"}},
+	{"1.00", []string{"1", "00"}},
+	{"10.00", []string{"10", "00"}},
+	{"100.00", []string{"100", "00"}},
+	{"1000.00", []string{"1000", "00"}},
+}
+
+func TestSplitString(t *testing.T) {
+	for _, v := range TestSplitStringData {
+		result := splitString(v.Input)
+		if result[0] != v.Output[0] || result[1] != v.Output[1] {
+			t.Fatal()
+		}
+		t.Log(v.Input, "-->", result)
+	}
+}
+
+var TestReverseStringData = []struct {
+	Input  string
+	Output string
+}{
+	{"0", "0"},
+	{"1", "1"},
+	{"01", "10"},
+	{"001", "100"},
+	{"000,1", "1,000"},
+	{"000,01", "10,000"},
+	{"000,001", "100,000"},
+	{"000,000,1", "1,000,000"},
+}
+
+func TestReverseString(t *testing.T) {
+	for _, v := range TestReverseStringData {
+		result := reverseString(v.Input)
+		if result != v.Output {
+			t.Fatal()
+		}
+		t.Log(v.Input, "-->", result)
+	}
+}
