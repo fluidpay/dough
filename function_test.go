@@ -10,9 +10,6 @@ var TestValidateISOCodeAlphaData = []struct {
 	{"ABC", errorInvalidISO.Error()},
 	{"ABCD", errorInvalidISO.Error()},
 	{"usd", "USD"},
-	{"AED", "AED"},
-	{"ARS", "ARS"},
-	{"aud", "AUD"},
 }
 
 func TestValidateISOCodeAlpha(t *testing.T) {
@@ -41,9 +38,6 @@ var TestValidateISOCodeNumericData = []struct {
 	{"123", errorInvalidISO.Error()},
 	{"1234", errorInvalidISO.Error()},
 	{"840", "840"},
-	{"784", "784"},
-	{"032", "032"},
-	{"036", "036"},
 }
 
 func TestValidateISOCodeNumeric(t *testing.T) {
@@ -71,10 +65,7 @@ var TestGetISOFromAlphaData = []struct {
 	{"", errorInvalidISO.Error()},
 	{"USA", errorInvalidISO.Error()},
 	{"USAA", errorInvalidISO.Error()},
-	{"USD", Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Exponent: 2, Decimal: ".", Separator: 3, Delimiter: ","}},
-	{"AED", Currency{Unit: "UAE Dirham", Alpha: "AED", Numeric: "784", Symbol: "\u0625\u002E\u062F", Exponent: 2, Decimal: ".", Separator: 3, Delimiter: ","}},
-	{"ARS", Currency{Unit: "Argentine Peso", Alpha: "ARS", Numeric: "032", Symbol: "\u0024", Exponent: 2, Decimal: ",", Separator: 3, Delimiter: "."}},
-	{"AUD", Currency{Unit: "Australian Dollar", Alpha: "AUD", Numeric: "036", Symbol: "\u0024", Exponent: 2, Decimal: ".", Separator: 3, Delimiter: " "}},
+	{"USD", Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "$", Exponent: 2, Decimal: ".", Separator: 3, Delimiter: ","}},
 }
 
 func TestGetISOFromAlpha(t *testing.T) {
@@ -102,9 +93,6 @@ var TestGetAlphaFromISOCodeNumericData = []struct {
 	{"000", errorInvalidISO.Error()},
 	{"12345", errorInvalidISO.Error()},
 	{"840", "USD"},
-	{"784", "AED"},
-	{"032", "ARS"},
-	{"036", "AUD"},
 }
 
 func TestGetAlphaFromISOCodeNumeric(t *testing.T) {
@@ -130,7 +118,6 @@ var TestConvertToStringData = []struct {
 	Output string
 }{
 	{uint(0), 0, "0"},
-	{uint(0), 1, "0.0"},
 	{uint(0), 2, "0.00"},
 	{uint(1), 2, "0.01"},
 	{uint(10), 2, "0.10"},
@@ -197,5 +184,163 @@ func TestReverseString(t *testing.T) {
 			t.Fatal()
 		}
 		t.Log(v.Input, "-->", result)
+	}
+}
+
+var TestInsertDelimiterData = []struct {
+	Str    string
+	Sep    int
+	Del    string
+	Output string
+}{
+	{"0", 3, ",", "0"},
+	{"01", 3, ",", "01"},
+	{"001", 3, ",", "001"},
+	{"0001", 3, ",", "000,1"},
+	{"00001", 3, ",", "000,01"},
+	{"000001", 3, ",", "000,001"},
+	{"0000001", 3, ",", "000,000,1"},
+}
+
+func TestInsertDelimiter(t *testing.T) {
+	for _, v := range TestInsertDelimiterData {
+		result := insertDelimiter(v.Str, v.Sep, v.Del)
+		if result != v.Output {
+			t.Fatal()
+		}
+		t.Log(v.Str, v.Sep, v.Del, "-->", result)
+	}
+}
+
+var TestSwapSymbolWithAlphaData = []struct {
+	Str    string
+	Sym    string
+	Alpha  string
+	Output string
+}{
+	{"$0.00", "$", "USD", "USD 0.00"},
+	{"$10.00", "$", "USD", "USD 10.00"},
+	{"$100.00", "$", "USD", "USD 100.00"},
+	{"$1,000.00", "$", "USD", "USD 1,000.00"},
+	{"$10,000.00", "$", "USD", "USD 10,000.00"},
+	{"$100,000.00", "$", "USD", "USD 100,000.00"},
+	{"$1,000,000.00", "$", "USD", "USD 1,000,000.00"},
+}
+
+func TestSwapSymbolWithAlpha(t *testing.T) {
+	for _, v := range TestSwapSymbolWithAlphaData {
+		result := swapSymbolWithAlpha(v.Str, v.Sym, v.Alpha)
+		if result != v.Output {
+			t.Fatal()
+		}
+		t.Log(v.Str, v.Sym, v.Alpha, "-->", result)
+	}
+}
+
+var TestRemoveSymbolData = []struct {
+	Str    string
+	Sym    string
+	Output string
+}{
+	{"$0.00", "$", "0.00"},
+	{"$0.01", "$", "0.01"},
+	{"$0.10", "$", "0.10"},
+	{"$1.00", "$", "1.00"},
+	{"$10.00", "$", "10.00"},
+	{"$100.00", "$", "100.00"},
+	{"$1,000.00", "$", "1,000.00"},
+	{"$10,000.00", "$", "10,000.00"},
+	{"$100,000.00", "$", "100,000.00"},
+	{"$1,000,000.00", "$", "1,000,000.00"},
+}
+
+func TestRemoveSymbol(t *testing.T) {
+	for _, v := range TestRemoveSymbolData {
+		result := removeSymbol(v.Str, v.Sym)
+		if result != v.Output {
+			t.Fatal()
+		}
+		t.Log(v.Str, v.Sym, "-->", result)
+	}
+}
+
+var TestRemoveDelimiterData = []struct {
+	Str    string
+	Del    string
+	Output string
+}{
+	{"$0.00", ",", "$0.00"},
+	{"$0.01", ",", "$0.01"},
+	{"$0.10", ",", "$0.10"},
+	{"$1.00", ",", "$1.00"},
+	{"$10.00", ",", "$10.00"},
+	{"$100.00", ",", "$100.00"},
+	{"$1,000.00", ",", "$1000.00"},
+	{"$10,000.00", ",", "$10000.00"},
+	{"$100,000.00", ",", "$100000.00"},
+	{"$1,000,000.00", ",", "$1000000.00"},
+}
+
+func TestRemoveDelimiter(t *testing.T) {
+	for _, v := range TestRemoveDelimiterData {
+		result := removeDelimiter(v.Str, v.Del)
+		if result != v.Output {
+			t.Fatal()
+		}
+		t.Log(v.Str, v.Del, "-->", result)
+	}
+}
+
+var TestRemoveDecimalData = []struct {
+	Str    string
+	Dec    string
+	Output string
+}{
+	{"$0.00", ".", "$000"},
+	{"$0.01", ".", "$001"},
+	{"$0.10", ".", "$010"},
+	{"$1.00", ".", "$100"},
+	{"$10.00", ".", "$1000"},
+	{"$100.00", ".", "$10000"},
+	{"$1,000.00", ".", "$1,00000"},
+	{"$10,000.00", ".", "$10,00000"},
+	{"$100,000.00", ".", "$100,00000"},
+	{"$1,000,000.00", ".", "$1,000,00000"},
+}
+
+func TestRemoveDecimal(t *testing.T) {
+	for _, v := range TestRemoveDecimalData {
+		result := removeDecimal(v.Str, v.Dec)
+		if result != v.Output {
+			t.Fatal()
+		}
+		t.Log(v.Str, v.Dec, "-->", result)
+	}
+}
+
+var TestFormatCurrencyData = []struct {
+	Num    uint
+	ISO    Currency
+	Output string
+}{
+	{uint(0), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Exponent: 2, Decimal: ".", Separator: 3, Delimiter: ","}, "$0.00"},
+	{uint(1), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Exponent: 2, Decimal: ".", Separator: 3, Delimiter: ","}, "$0.01"},
+	{uint(10), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Exponent: 2, Decimal: ".", Separator: 3, Delimiter: ","}, "$0.10"},
+	{uint(100), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Exponent: 2, Decimal: ".", Separator: 3, Delimiter: ","}, "$1.00"},
+	{uint(1000), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Exponent: 2, Decimal: ".", Separator: 3, Delimiter: ","}, "$10.00"},
+	{uint(10000), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Exponent: 2, Decimal: ".", Separator: 3, Delimiter: ","}, "$100.00"},
+	{uint(100000), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Exponent: 2, Decimal: ".", Separator: 3, Delimiter: ","}, "$1,000.00"},
+	{uint(1000000), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Exponent: 2, Decimal: ".", Separator: 3, Delimiter: ","}, "$10,000.00"},
+	{uint(10000000), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Exponent: 2, Decimal: ".", Separator: 3, Delimiter: ","}, "$100,000.00"},
+	{uint(100000000), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Exponent: 2, Decimal: ".", Separator: 3, Delimiter: ","}, "$1,000,000.00"},
+}
+
+func TestFormatCurrency(t *testing.T) {
+	for _, v := range TestFormatCurrencyData {
+		result := formatCurrency(v.Num, v.ISO)
+		if result != v.Output {
+			t.Fatal()
+		}
+		t.Log(v.Num, "-->", result)
 	}
 }
