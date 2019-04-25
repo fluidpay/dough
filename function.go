@@ -62,15 +62,15 @@ func ReverseString(str string) string {
 
 // InsertDelimiter : returns a new string with delimiter formatting
 func InsertDelimiter(str string, group int, del string) string {
-	var output strings.Builder
+	output := ""
 	for key, val := range str {
 		if key%group == 0 && key != 0 {
-			output.WriteString(del + string(val))
+			output += del + string(val)
 		} else {
-			output.WriteString(string(val))
+			output += string(val)
 		}
 	}
-	return output.String()
+	return output
 }
 
 // SwapSymbolWithAlpha : returns a string with the ISO alpha code instead of symbol
@@ -97,10 +97,8 @@ func RemoveDecimal(str string, dec string) string {
 func FormatCurrency(num uint, ISO Currency) string {
 	str := ConvertToStringWithDecimal(num, ISO.Fraction)
 	strSplit := strings.Split(str, ".")
-	strStart := strSplit[0]
-	strEnd := strSplit[1]
-	strStart = ReverseString(strStart)
-	strStart = InsertDelimiter(strStart, ISO.Grouping, ISO.Delimiter)
-	strStart = ReverseString(strStart)
-	return ISO.Symbol + strStart + ISO.Decimal + strEnd
+	strSplit[0] = ReverseString(strSplit[0])
+	strSplit[0] = InsertDelimiter(strSplit[0], ISO.Grouping, ISO.Delimiter)
+	strSplit[0] = ReverseString(strSplit[0])
+	return ISO.Symbol + strSplit[0] + ISO.Decimal + strSplit[1]
 }
