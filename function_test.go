@@ -18,11 +18,11 @@ func TestValidateISOCodeAlpha(t *testing.T) {
 		if err != nil {
 			t.Log(v.Input, "-->", err.Error())
 			if err.Error() != v.Output {
-				t.Fatal()
+				t.Error(err.Error())
 			}
 		} else {
 			if result != v.Output {
-				t.Fatal()
+				t.Error(result)
 			} else {
 				t.Log(v.Input, "-->", result)
 			}
@@ -45,12 +45,12 @@ func TestValidateISOCodeNumeric(t *testing.T) {
 		result, err := validateISOCodeNumeric(v.Input)
 		if err != nil {
 			if err.Error() != v.Output {
-				t.Fatal()
+				t.Error(err.Error())
 			}
 			t.Log(v.Input, "-->", err.Error())
 		} else {
 			if result != v.Output {
-				t.Fatal()
+				t.Error(result)
 			} else {
 				t.Log(v.Input, "-->", result)
 			}
@@ -73,12 +73,12 @@ func TestGetISOFromAlpha(t *testing.T) {
 		result, err := getISOFromAlpha(v.Input)
 		if err != nil {
 			if err.Error() != v.Output {
-				t.Fatal()
+				t.Error(err.Error())
 			}
 			t.Log(v.Input, "-->", err)
 		} else {
 			if result != v.Output {
-				t.Fatal()
+				t.Error(result)
 			}
 			t.Log(v.Input, "-->", result)
 		}
@@ -100,12 +100,12 @@ func TestGetAlphaFromISOCodeNumeric(t *testing.T) {
 		result, err := getAlphaFromISOCodeNumeric(v.Input)
 		if err != nil {
 			if err.Error() != v.Output {
-				t.Fatal()
+				t.Error(err.Error())
 			}
 			t.Log(v.Input, "-->", err.Error())
 		} else {
 			if result != v.Output {
-				t.Fatal()
+				t.Error(result)
 			}
 			t.Log(v.Input, "-->", result)
 		}
@@ -134,7 +134,7 @@ func TestConvertToString(t *testing.T) {
 	for _, v := range TestConvertToStringData {
 		result := convertToString(v.Num, v.Exp)
 		if result != v.Output {
-			t.Fatal()
+			t.Error(result)
 		}
 		t.Log(v.Num, v.Exp, "-->", result)
 	}
@@ -157,7 +157,7 @@ func TestSplitString(t *testing.T) {
 	for _, v := range TestSplitStringData {
 		result := splitString(v.Input)
 		if result[0] != v.Output[0] || result[1] != v.Output[1] {
-			t.Fatal()
+			t.Error(result)
 		}
 		t.Log(v.Input, "-->", result)
 	}
@@ -181,7 +181,7 @@ func TestReverseString(t *testing.T) {
 	for _, v := range TestReverseStringData {
 		result := reverseString(v.Input)
 		if result != v.Output {
-			t.Fatal()
+			t.Error(result)
 		}
 		t.Log(v.Input, "-->", result)
 	}
