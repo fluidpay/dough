@@ -74,12 +74,11 @@ func insertDelimiter(str string, group int, del string) string {
 	var output strings.Builder
 	for key, val := range str {
 		if key%group == 0 && key != 0 {
-			fmt.Fprintf(&output, del+string(val))
+			output.WriteString(del + string(val))
 		} else {
-			fmt.Fprintf(&output, string(val))
+			output.WriteString(string(val))
 		}
 	}
-	output.WriteString("")
 	return output.String()
 }
 
@@ -105,18 +104,12 @@ func removeDecimal(str string, dec string) string {
 
 // formatCurrency : returns basic currency formatting
 func formatCurrency(num uint, ISO Currency) string {
-	exp := ISO.Exponent
-	dec := ISO.Decimal
-	group := ISO.Grouping
-	del := ISO.Delimiter
-	sym := ISO.Symbol
-	str := convertToStringWithDecimal(num, exp)
+	str := convertToStringWithDecimal(num, ISO.Exponent)
 	strSplit := splitString(str)
 	strStart := strSplit[0]
 	strEnd := strSplit[1]
 	strReverse := reverseString(strStart)
-	strFlipped := insertDelimiter(strReverse, group, del)
+	strFlipped := insertDelimiter(strReverse, ISO.Grouping, ISO.Delimiter)
 	strStart = reverseString(strFlipped)
-	output := strings.Join([]string{sym + strStart, strEnd}, dec)
-	return output
+	return strings.Join([]string{ISO.Symbol + strStart, strEnd}, ISO.Decimal)
 }
