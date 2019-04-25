@@ -94,7 +94,7 @@ func TestGetAlphaFromISOCodeNumeric(t *testing.T) {
 	}
 }
 
-var TestConvertToStringData = []struct {
+var TestConvertToStringWithDecimalData = []struct {
 	Num    uint
 	Exp    int
 	Output string
@@ -112,9 +112,9 @@ var TestConvertToStringData = []struct {
 	{uint(100000000), 2, "1000000.00"},
 }
 
-func TestConvertToString(t *testing.T) {
-	for _, v := range TestConvertToStringData {
-		result := convertToString(v.Num, v.Exp)
+func TestConvertToStringWithDecimal(t *testing.T) {
+	for _, v := range TestConvertToStringWithDecimalData {
+		result := convertToStringWithDecimal(v.Num, v.Exp)
 		if result != v.Output {
 			t.Error(result)
 		}

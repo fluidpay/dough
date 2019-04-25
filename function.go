@@ -48,7 +48,7 @@ func getAlphaFromISOCodeNumeric(num string) (string, error) {
 }
 
 // convertToString : returns the uint number as a string
-func convertToString(num uint, exp int) string {
+func convertToStringWithDecimal(num uint, exp int) string {
 	floatNum := float64(num)
 	newNum := float64(floatNum / math.Pow10(exp))
 	output := fmt.Sprintf("%.*f", exp, newNum)
@@ -85,26 +85,22 @@ func insertDelimiter(str string, group int, del string) string {
 
 // swapSymbolWithAlpha : returns a string with the ISO alpha code instead of symbol
 func swapSymbolWithAlpha(str string, sym string, alpha string) string {
-	output := strings.Replace(str, sym, alpha+" ", -1)
-	return output
+	return strings.Replace(str, sym, alpha+" ", -1)
 }
 
 // removeSymbol : returns a string with the symbol removed
 func removeSymbol(str string, sym string) string {
-	output := strings.Replace(str, sym, "", -1)
-	return output
+	return strings.Replace(str, sym, "", -1)
 }
 
 // removeDelimiter : returns a string with the delimiter removed
 func removeDelimiter(str string, del string) string {
-	output := strings.Replace(str, del, "", -1)
-	return output
+	return strings.Replace(str, del, "", -1)
 }
 
 // removeDecimal : returns a string with the decimal removed
 func removeDecimal(str string, dec string) string {
-	output := strings.Replace(str, dec, "", -1)
-	return output
+	return strings.Replace(str, dec, "", -1)
 }
 
 // formatCurrency : returns basic currency formatting
@@ -114,7 +110,7 @@ func formatCurrency(num uint, ISO Currency) string {
 	group := ISO.Grouping
 	del := ISO.Delimiter
 	sym := ISO.Symbol
-	str := convertToString(num, exp)
+	str := convertToStringWithDecimal(num, exp)
 	strSplit := splitString(str)
 	strStart := strSplit[0]
 	strEnd := strSplit[1]
