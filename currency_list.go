@@ -8,22 +8,12 @@ type Currency struct {
 	Symbol    string
 	Exponent  int
 	Decimal   string
-	Separator int
+	Grouping  int
 	Delimiter string
 }
 
 // CurrencyList - complete list of supported currencies
 var CurrencyList = map[string]Currency{
-	"USD": {
-		Unit:      "US Dollar",
-		Alpha:     "USD",
-		Numeric:   "840",
-		Symbol:    "\u0024",
-		Exponent:  2,
-		Decimal:   ".",
-		Separator: 3,
-		Delimiter: ",",
-	},
 	"AED": {
 		Unit:      "UAE Dirham",
 		Alpha:     "AED",
@@ -31,7 +21,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "\u0625\u002E\u062F",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"AFN": {
@@ -41,7 +31,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "\u060B",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"ALL": {
@@ -51,7 +41,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "\u004c\u0065\u006B",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"AMD": {
@@ -61,7 +51,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "\u058F",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"ANG": {
@@ -71,7 +61,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "\u0192",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"AOA": {
@@ -81,7 +71,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "\u004B\u007A",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"ARS": {
@@ -91,7 +81,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "\u0024",
 		Exponent:  2,
 		Decimal:   ",",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ".",
 	},
 	"AUD": {
@@ -101,7 +91,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "\u0024",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: " ",
 	},
 	"AWG": {
@@ -111,7 +101,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "\u0192",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"AZN": {
@@ -121,7 +111,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "\u20BC",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"BAM": {
@@ -131,7 +121,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "\u004B\u004D",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"BBD": {
@@ -141,7 +131,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "\u0024",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"BDT": {
@@ -151,7 +141,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "\u0054\u006B",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"BGN": {
@@ -161,7 +151,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "\u043B\u0432",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"BHD": {
@@ -171,7 +161,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "\u002e\u062f\u002e\u0628",
 		Exponent:  3,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"BIF": {
@@ -181,7 +171,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "FBu",
 		Exponent:  0,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"BMD": {
@@ -191,7 +181,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "\u0024",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"BND": {
@@ -201,7 +191,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "\u0024",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"BOB": {
@@ -211,7 +201,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "$b",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"BRL": {
@@ -221,7 +211,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "R$",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"BSD": {
@@ -231,7 +221,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "\u0024",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"BTN": {
@@ -241,7 +231,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "Nu.",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"BWP": {
@@ -251,7 +241,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "P",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"BYN": {
@@ -261,7 +251,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "Br",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"BZD": {
@@ -271,7 +261,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "BZ$",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"CAD": {
@@ -281,7 +271,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "\u0024",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"CDF": {
@@ -291,7 +281,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "FC",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"CHF": {
@@ -301,7 +291,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "CHF",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"CLP": {
@@ -311,7 +301,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "\u0024",
 		Exponent:  0,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"CNY": {
@@ -321,7 +311,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "¥",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"COP": {
@@ -331,7 +321,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "\u0024",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"CRC": {
@@ -341,7 +331,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "₡",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"CUC": {
@@ -351,7 +341,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "CUC$",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"CUP": {
@@ -361,7 +351,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "₱",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"CVE": {
@@ -371,7 +361,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "\u0024",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"CZK": {
@@ -381,7 +371,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "Kč",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"DJF": {
@@ -391,7 +381,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "Fdj",
 		Exponent:  0,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"DKK": {
@@ -401,7 +391,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "kr.",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"DOP": {
@@ -411,7 +401,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "RD$",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"DZD": {
@@ -421,7 +411,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "DA",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"EGP": {
@@ -431,7 +421,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "£",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"ERN": {
@@ -441,7 +431,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "Nkf",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"ETB": {
@@ -451,7 +441,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "Br",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"EUR": {
@@ -461,7 +451,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "€",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"FJD": {
@@ -471,7 +461,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "\u0024",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"FKP": {
@@ -481,7 +471,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "£",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"GBP": {
@@ -491,7 +481,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "£",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"GEL": {
@@ -501,7 +491,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "₾",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"GHS": {
@@ -511,7 +501,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "GH¢",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"GIP": {
@@ -521,7 +511,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "£",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"GMD": {
@@ -531,7 +521,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "D",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"GNF": {
@@ -541,7 +531,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "FG",
 		Exponent:  0,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"GTQ": {
@@ -551,7 +541,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "Q",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"GYD": {
@@ -561,7 +551,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "\u0024",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"HKD": {
@@ -571,7 +561,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "HK$",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"HNL": {
@@ -581,7 +571,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "L",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"HRK": {
@@ -591,7 +581,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "kn",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"HTG": {
@@ -601,7 +591,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "G",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"HUF": {
@@ -611,7 +601,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "Ft",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"IDR": {
@@ -621,7 +611,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "Rp",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"ILS": {
@@ -631,7 +621,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "₪",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"INR": {
@@ -641,7 +631,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "₹",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"IQD": {
@@ -651,7 +641,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "د.ع",
 		Exponent:  3,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"IRR": {
@@ -661,7 +651,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "﷼",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"ISK": {
@@ -671,7 +661,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "kr",
 		Exponent:  0,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"JMD": {
@@ -681,7 +671,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "J$",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"JOD": {
@@ -691,7 +681,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "د.ا",
 		Exponent:  3,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"JPY": {
@@ -701,7 +691,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "¥",
 		Exponent:  0,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"KES": {
@@ -711,7 +701,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "KSh",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"KGS": {
@@ -721,7 +711,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "лв",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"KHR": {
@@ -731,7 +721,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "៛",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"KMF": {
@@ -741,7 +731,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "CF",
 		Exponent:  0,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"KPW": {
@@ -751,7 +741,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "₩",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"KRW": {
@@ -761,7 +751,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "₩",
 		Exponent:  0,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"KWD": {
@@ -771,7 +761,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "ك",
 		Exponent:  3,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"KYD": {
@@ -781,7 +771,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "\u0024",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"KZT": {
@@ -791,7 +781,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "₸",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"LAK": {
@@ -801,7 +791,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "₭",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"LBP": {
@@ -811,7 +801,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "ل.ل",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"LKR": {
@@ -821,7 +811,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "₨",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"LRD": {
@@ -831,7 +821,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "\u0024",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"LSL": {
@@ -841,7 +831,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "L",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"LYD": {
@@ -851,7 +841,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "LD",
 		Exponent:  3,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"MAD": {
@@ -861,7 +851,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "د.م.",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"MDL": {
@@ -871,7 +861,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "MDL",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"MGA": {
@@ -881,7 +871,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "Ar",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"MKD": {
@@ -891,7 +881,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "ден",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"MMK": {
@@ -901,7 +891,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "K",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"MNT": {
@@ -911,7 +901,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "₮",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"MOP": {
@@ -921,7 +911,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "MOP$",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"MRU": {
@@ -931,7 +921,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "UM",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"MUR": {
@@ -941,7 +931,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "₨",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"MVR": {
@@ -951,7 +941,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "Rf",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"MWK": {
@@ -961,7 +951,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "MK",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"MXN": {
@@ -971,7 +961,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "\u0024",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"MYR": {
@@ -981,7 +971,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "RM",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"MZN": {
@@ -991,7 +981,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "MT",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"NAD": {
@@ -1001,7 +991,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "\u0024",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"NGN": {
@@ -1011,7 +1001,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "₦",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"NIO": {
@@ -1021,7 +1011,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "C$",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"NOK": {
@@ -1031,7 +1021,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "kr",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"NPR": {
@@ -1041,7 +1031,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "₨",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"NZD": {
@@ -1051,7 +1041,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "\u0024",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"OMR": {
@@ -1061,7 +1051,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "﷼",
 		Exponent:  3,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"PAB": {
@@ -1071,7 +1061,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "B/.",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"PEN": {
@@ -1081,7 +1071,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "S/.",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"PGK": {
@@ -1091,7 +1081,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "K",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"PHP": {
@@ -1101,7 +1091,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "₱",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"PKR": {
@@ -1111,7 +1101,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "₨",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"PLN": {
@@ -1121,7 +1111,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "zł",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"PYG": {
@@ -1131,7 +1121,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "Gs",
 		Exponent:  0,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"QAR": {
@@ -1141,7 +1131,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "﷼",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"RON": {
@@ -1151,7 +1141,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "lei",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"RSD": {
@@ -1161,7 +1151,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "РСД",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"RUB": {
@@ -1171,7 +1161,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "₽",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"RWF": {
@@ -1181,7 +1171,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "FRw",
 		Exponent:  0,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"SAR": {
@@ -1191,7 +1181,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "﷼",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"SBD": {
@@ -1201,7 +1191,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "\u0024",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"SCR": {
@@ -1211,7 +1201,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "₨",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"SDG": {
@@ -1221,7 +1211,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "ج.س.",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"SEK": {
@@ -1231,7 +1221,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "kr",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"SGD": {
@@ -1241,7 +1231,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "\u0024",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"SHP": {
@@ -1251,7 +1241,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "£",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"SLL": {
@@ -1261,7 +1251,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "Le",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"SOS": {
@@ -1271,7 +1261,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "S",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"SRD": {
@@ -1281,7 +1271,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "\u0024",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"SSP": {
@@ -1291,7 +1281,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "£",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"STN": {
@@ -1301,7 +1291,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "Db",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"SVC": {
@@ -1311,7 +1301,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "\u0024",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"SYP": {
@@ -1321,7 +1311,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "£",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"SZL": {
@@ -1331,7 +1321,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "L",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"THB": {
@@ -1341,7 +1331,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "฿",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"TJS": {
@@ -1351,7 +1341,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "ЅM",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"TMT": {
@@ -1361,7 +1351,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "T",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"TND": {
@@ -1371,7 +1361,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "د.ت",
 		Exponent:  3,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"TOP": {
@@ -1381,7 +1371,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "T$",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"TRY": {
@@ -1391,7 +1381,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "₺",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"TTD": {
@@ -1401,7 +1391,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "TT$",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"TWD": {
@@ -1411,7 +1401,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "NT$",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"TZS": {
@@ -1421,7 +1411,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "TSh",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"UAH": {
@@ -1431,7 +1421,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "₴",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"UGX": {
@@ -1441,7 +1431,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "UGX",
 		Exponent:  0,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"USD": {
@@ -1451,7 +1441,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "\u0024",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"UYU": {
@@ -1461,7 +1451,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "$U",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"UZS": {
@@ -1471,7 +1461,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "лв",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"VES": {
@@ -1481,7 +1471,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "Bs. S",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"VND": {
@@ -1491,7 +1481,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "₫",
 		Exponent:  0,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"VUV": {
@@ -1501,7 +1491,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "VT",
 		Exponent:  0,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"WST": {
@@ -1511,7 +1501,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "\u0024",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"XAF": {
@@ -1521,7 +1511,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "FCFA",
 		Exponent:  0,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"XCD": {
@@ -1531,7 +1521,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "\u0024",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"XOF": {
@@ -1541,7 +1531,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "CFA",
 		Exponent:  0,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"XPF": {
@@ -1551,7 +1541,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "₣",
 		Exponent:  0,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"YER": {
@@ -1561,7 +1551,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "﷼",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"ZAR": {
@@ -1571,7 +1561,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "R",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"ZMW": {
@@ -1581,7 +1571,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "ZK",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 	"ZWL": {
@@ -1591,7 +1581,7 @@ var CurrencyList = map[string]Currency{
 		Symbol:    "\u0024",
 		Exponent:  2,
 		Decimal:   ".",
-		Separator: 3,
+		Grouping:  3,
 		Delimiter: ",",
 	},
 }

@@ -65,7 +65,7 @@ var TestGetISOFromAlphaData = []struct {
 	{"", errorInvalidISO.Error()},
 	{"USA", errorInvalidISO.Error()},
 	{"USAA", errorInvalidISO.Error()},
-	{"USD", Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "$", Exponent: 2, Decimal: ".", Separator: 3, Delimiter: ","}},
+	{"USD", Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "$", Exponent: 2, Decimal: ".", Grouping: 3, Delimiter: ","}},
 }
 
 func TestGetISOFromAlpha(t *testing.T) {
@@ -189,7 +189,7 @@ func TestReverseString(t *testing.T) {
 
 var TestInsertDelimiterData = []struct {
 	Str    string
-	Sep    int
+	Group    int
 	Del    string
 	Output string
 }{
@@ -204,11 +204,11 @@ var TestInsertDelimiterData = []struct {
 
 func TestInsertDelimiter(t *testing.T) {
 	for _, v := range TestInsertDelimiterData {
-		result := insertDelimiter(v.Str, v.Sep, v.Del)
+		result := insertDelimiter(v.Str, v.Group, v.Del)
 		if result != v.Output {
 			t.Fatal()
 		}
-		t.Log(v.Str, v.Sep, v.Del, "-->", result)
+		t.Log(v.Str, v.Group, v.Del, "-->", result)
 	}
 }
 
@@ -323,16 +323,16 @@ var TestFormatCurrencyData = []struct {
 	ISO    Currency
 	Output string
 }{
-	{uint(0), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Exponent: 2, Decimal: ".", Separator: 3, Delimiter: ","}, "$0.00"},
-	{uint(1), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Exponent: 2, Decimal: ".", Separator: 3, Delimiter: ","}, "$0.01"},
-	{uint(10), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Exponent: 2, Decimal: ".", Separator: 3, Delimiter: ","}, "$0.10"},
-	{uint(100), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Exponent: 2, Decimal: ".", Separator: 3, Delimiter: ","}, "$1.00"},
-	{uint(1000), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Exponent: 2, Decimal: ".", Separator: 3, Delimiter: ","}, "$10.00"},
-	{uint(10000), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Exponent: 2, Decimal: ".", Separator: 3, Delimiter: ","}, "$100.00"},
-	{uint(100000), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Exponent: 2, Decimal: ".", Separator: 3, Delimiter: ","}, "$1,000.00"},
-	{uint(1000000), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Exponent: 2, Decimal: ".", Separator: 3, Delimiter: ","}, "$10,000.00"},
-	{uint(10000000), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Exponent: 2, Decimal: ".", Separator: 3, Delimiter: ","}, "$100,000.00"},
-	{uint(100000000), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Exponent: 2, Decimal: ".", Separator: 3, Delimiter: ","}, "$1,000,000.00"},
+	{uint(0), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Exponent: 2, Decimal: ".", Grouping: 3, Delimiter: ","}, "$0.00"},
+	{uint(1), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Exponent: 2, Decimal: ".", Grouping: 3, Delimiter: ","}, "$0.01"},
+	{uint(10), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Exponent: 2, Decimal: ".", Grouping: 3, Delimiter: ","}, "$0.10"},
+	{uint(100), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Exponent: 2, Decimal: ".", Grouping: 3, Delimiter: ","}, "$1.00"},
+	{uint(1000), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Exponent: 2, Decimal: ".", Grouping: 3, Delimiter: ","}, "$10.00"},
+	{uint(10000), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Exponent: 2, Decimal: ".", Grouping: 3, Delimiter: ","}, "$100.00"},
+	{uint(100000), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Exponent: 2, Decimal: ".", Grouping: 3, Delimiter: ","}, "$1,000.00"},
+	{uint(1000000), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Exponent: 2, Decimal: ".", Grouping: 3, Delimiter: ","}, "$10,000.00"},
+	{uint(10000000), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Exponent: 2, Decimal: ".", Grouping: 3, Delimiter: ","}, "$100,000.00"},
+	{uint(100000000), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Exponent: 2, Decimal: ".", Grouping: 3, Delimiter: ","}, "$1,000,000.00"},
 }
 
 func TestFormatCurrency(t *testing.T) {

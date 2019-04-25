@@ -70,10 +70,10 @@ func reverseString(str string) string {
 }
 
 // insertDelimiter : returns a new string with delimiter formatting
-func insertDelimiter(str string, sep int, del string) string {
+func insertDelimiter(str string, group int, del string) string {
 	var output strings.Builder
 	for key, val := range str {
-		if key%sep == 0 && key != 0 {
+		if key%group == 0 && key != 0 {
 			fmt.Fprintf(&output, del+string(val))
 		} else {
 			fmt.Fprintf(&output, string(val))
@@ -111,7 +111,7 @@ func removeDecimal(str string, dec string) string {
 func formatCurrency(num uint, ISO Currency) string {
 	exp := ISO.Exponent
 	dec := ISO.Decimal
-	sep := ISO.Separator
+	group := ISO.Grouping
 	del := ISO.Delimiter
 	sym := ISO.Symbol
 	str := convertToString(num, exp)
@@ -119,7 +119,7 @@ func formatCurrency(num uint, ISO Currency) string {
 	strStart := strSplit[0]
 	strEnd := strSplit[1]
 	strReverse := reverseString(strStart)
-	strFlipped := insertDelimiter(strReverse, sep, del)
+	strFlipped := insertDelimiter(strReverse, group, del)
 	strStart = reverseString(strFlipped)
 	output := strings.Join([]string{sym + strStart, strEnd}, dec)
 	return output
