@@ -33,8 +33,7 @@ func getISOFromAlpha(alpha string) (Currency, error) {
 	if err != nil {
 		return Currency{}, err
 	}
-	output := CurrencyList[alpha]
-	return output, nil
+	return CurrencyList[alpha], nil
 }
 
 // getAlphaFromISOCodeNumeric : returns a formatted ISO alpha code from the ISO numeric counterpart
@@ -51,8 +50,7 @@ func getAlphaFromISOCodeNumeric(num string) (string, error) {
 func convertToStringWithDecimal(num uint, exp int) string {
 	floatNum := float64(num)
 	newNum := float64(floatNum / math.Pow10(exp))
-	output := fmt.Sprintf("%.*f", exp, newNum)
-	return output
+	return fmt.Sprintf("%.*f", exp, newNum)
 }
 
 // splitString : returns a map of strings separated by decimal place
