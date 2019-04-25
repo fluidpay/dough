@@ -27,11 +27,8 @@ func TestStringToUint(t *testing.T) {
 			if err.Error() != v.Output {
 				t.Error(err.Error())
 			}
-		} else {
-			if result != v.Output {
-				t.Error(result)
-			}
-			t.Log(v.Input, "-->", result)
+		} else if result != v.Output {
+			t.Error(result)
 		}
 	}
 }
@@ -60,15 +57,9 @@ func TestDisplayFull(t *testing.T) {
 		if err != nil {
 			if err.Error() != v.Output {
 				t.Error(err.Error())
-			} else {
-				t.Log(v.Amount, v.Alpha, "-->", err.Error())
 			}
-		} else {
-			if result != v.Output {
-				t.Error(result)
-			} else {
-				t.Log(v.Amount, v.Alpha, "-->", result)
-			}
+		} else if result != v.Output {
+			t.Error(result)
 		}
 	}
 }
@@ -88,15 +79,9 @@ func TestDisplayWithAlpha(t *testing.T) {
 		if err != nil {
 			if err.Error() != v.Output {
 				t.Error(err.Error())
-			} else {
-				t.Log(v.Amount, v.Alpha, "-->", err.Error())
 			}
-		} else {
-			if result != v.Output {
-				t.Error(result)
-			} else {
-				t.Log(v.Amount, v.Alpha, "-->", result)
-			}
+		} else if result != v.Output {
+			t.Error(result)
 		}
 	}
 }
@@ -120,15 +105,11 @@ func TestDisplayNoSymbol(t *testing.T) {
 	for _, v := range TestDisplayNoSymbolData {
 		result, err := DisplayNoSymbol(v.Num, v.Alpha)
 		if err != nil {
-			t.Log(err.Error())
 			if err.Error() != v.Output {
 				t.Error(err.Error())
 			}
-		} else {
-			if result != v.Output {
-				t.Error(result)
-			}
-			t.Log(v.Num, v.Alpha, "-->", result)
+		} else if result != v.Output {
+			t.Error(result)
 		}
 	}
 }
@@ -152,15 +133,11 @@ func TestDisplayWithDecimal(t *testing.T) {
 	for _, v := range TestDisplayWithDecimalData {
 		result, err := DisplayWithDecimal(v.Num, v.Alpha)
 		if err != nil {
-			t.Log(err.Error())
 			if err.Error() != v.Output {
 				t.Error(err.Error())
 			}
-		} else {
-			if result != v.Output {
-				t.Error(result)
-			}
-			t.Log(v.Num, v.Alpha, "-->", result)
+		} else if result != v.Output {
+			t.Error(result)
 		}
 	}
 }
@@ -184,15 +161,11 @@ func TestUintToString(t *testing.T) {
 	for _, v := range TestUintToStringData {
 		result, err := UintToString(v.Num, v.Alpha)
 		if err != nil {
-			t.Log(err.Error())
 			if err.Error() != v.Output {
 				t.Error(err.Error())
 			}
-		} else {
-			if result != v.Output {
-				t.Error(result)
-			}
-			t.Log(v.Num, v.Alpha, "-->", result)
+		} else if result != v.Output {
+			t.Error(result)
 		}
 	}
 }

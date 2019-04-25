@@ -16,16 +16,11 @@ func TestValidateISOCodeAlpha(t *testing.T) {
 	for _, v := range TestValidateISOCodeAlphaData {
 		result, err := validateISOCodeAlpha(v.Input)
 		if err != nil {
-			t.Log(v.Input, "-->", err.Error())
 			if err.Error() != v.Output {
-				t.Error(err.Error())
+				t.Error(err)
 			}
-		} else {
-			if result != v.Output {
-				t.Error(result)
-			} else {
-				t.Log(v.Input, "-->", result)
-			}
+		} else if result != v.Output {
+			t.Error(result)
 		}
 	}
 }
@@ -45,15 +40,10 @@ func TestValidateISOCodeNumeric(t *testing.T) {
 		result, err := validateISOCodeNumeric(v.Input)
 		if err != nil {
 			if err.Error() != v.Output {
-				t.Error(err.Error())
+				t.Error(err)
 			}
-			t.Log(v.Input, "-->", err.Error())
-		} else {
-			if result != v.Output {
-				t.Error(result)
-			} else {
-				t.Log(v.Input, "-->", result)
-			}
+		} else if result != v.Output {
+			t.Error(result)
 		}
 	}
 }
@@ -73,14 +63,10 @@ func TestGetISOFromAlpha(t *testing.T) {
 		result, err := getISOFromAlpha(v.Input)
 		if err != nil {
 			if err.Error() != v.Output {
-				t.Error(err.Error())
+				t.Error(err)
 			}
-			t.Log(v.Input, "-->", err)
-		} else {
-			if result != v.Output {
-				t.Error(result)
-			}
-			t.Log(v.Input, "-->", result)
+		} else if result != v.Output {
+			t.Error(result)
 		}
 	}
 }
@@ -100,14 +86,10 @@ func TestGetAlphaFromISOCodeNumeric(t *testing.T) {
 		result, err := getAlphaFromISOCodeNumeric(v.Input)
 		if err != nil {
 			if err.Error() != v.Output {
-				t.Error(err.Error())
+				t.Error(err)
 			}
-			t.Log(v.Input, "-->", err.Error())
-		} else {
-			if result != v.Output {
-				t.Error(result)
-			}
-			t.Log(v.Input, "-->", result)
+		} else if result != v.Output {
+			t.Error(result)
 		}
 	}
 }
@@ -136,7 +118,6 @@ func TestConvertToString(t *testing.T) {
 		if result != v.Output {
 			t.Error(result)
 		}
-		t.Log(v.Num, v.Exp, "-->", result)
 	}
 }
 
@@ -159,7 +140,6 @@ func TestSplitString(t *testing.T) {
 		if result[0] != v.Output[0] || result[1] != v.Output[1] {
 			t.Error(result)
 		}
-		t.Log(v.Input, "-->", result)
 	}
 }
 
@@ -183,7 +163,6 @@ func TestReverseString(t *testing.T) {
 		if result != v.Output {
 			t.Error(result)
 		}
-		t.Log(v.Input, "-->", result)
 	}
 }
 
@@ -208,7 +187,6 @@ func TestInsertDelimiter(t *testing.T) {
 		if result != v.Output {
 			t.Error(result)
 		}
-		t.Log(v.Str, v.Group, v.Del, "-->", result)
 	}
 }
 
@@ -233,7 +211,6 @@ func TestSwapSymbolWithAlpha(t *testing.T) {
 		if result != v.Output {
 			t.Error(result)
 		}
-		t.Log(v.Str, v.Sym, v.Alpha, "-->", result)
 	}
 }
 
@@ -260,7 +237,6 @@ func TestRemoveSymbol(t *testing.T) {
 		if result != v.Output {
 			t.Error(result)
 		}
-		t.Log(v.Str, v.Sym, "-->", result)
 	}
 }
 
@@ -287,7 +263,6 @@ func TestRemoveDelimiter(t *testing.T) {
 		if result != v.Output {
 			t.Error(result)
 		}
-		t.Log(v.Str, v.Del, "-->", result)
 	}
 }
 
@@ -314,7 +289,6 @@ func TestRemoveDecimal(t *testing.T) {
 		if result != v.Output {
 			t.Error(result)
 		}
-		t.Log(v.Str, v.Dec, "-->", result)
 	}
 }
 
@@ -341,6 +315,5 @@ func TestFormatCurrency(t *testing.T) {
 		if result != v.Output {
 			t.Error(result)
 		}
-		t.Log(v.Num, "-->", result)
 	}
 }
