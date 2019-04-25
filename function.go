@@ -6,8 +6,8 @@ import (
 	"strings"
 )
 
-// validateISOCodeAlpha : returns a formatted ISO alpha code or an error if the ISO is not found
-func validateISOCodeAlpha(alpha string) (string, error) {
+// ValidateISOCodeAlpha : returns a formatted ISO alpha code or an error if the ISO is not found
+func ValidateISOCodeAlpha(alpha string) (string, error) {
 	alpha = strings.ToUpper(alpha)
 	for key := range CurrencyList {
 		if key == alpha {
@@ -17,8 +17,8 @@ func validateISOCodeAlpha(alpha string) (string, error) {
 	return "", ErrorInvalidISO
 }
 
-// validateISOCodeNumeric : returns a formatted ISO numeric code or an error if the ISO is not found
-func validateISOCodeNumeric(num string) (string, error) {
+// ValidateISOCodeNumeric : returns a formatted ISO numeric code or an error if the ISO is not found
+func ValidateISOCodeNumeric(num string) (string, error) {
 	for _, value := range CurrencyList {
 		if value.Numeric == num {
 			return value.Numeric, nil
@@ -27,17 +27,17 @@ func validateISOCodeNumeric(num string) (string, error) {
 	return "", ErrorInvalidISO
 }
 
-// getISOFromAlpha : returns the Currency struct for that ISO code alpha
-func getISOFromAlpha(alpha string) (Currency, error) {
-	alpha, err := validateISOCodeAlpha(alpha)
+// GetISOFromAlpha : returns the Currency struct for that ISO code alpha
+func GetISOFromAlpha(alpha string) (Currency, error) {
+	alpha, err := ValidateISOCodeAlpha(alpha)
 	if err != nil {
 		return Currency{}, err
 	}
 	return CurrencyList[alpha], nil
 }
 
-// getAlphaFromISOCodeNumeric : returns a formatted ISO alpha code from the ISO numeric counterpart
-func getAlphaFromISOCodeNumeric(num string) (string, error) {
+// GetAlphaFromISONumeric : returns a formatted ISO alpha code from the ISO numeric counterpart
+func GetAlphaFromISONumeric(num string) (string, error) {
 	for _, value := range CurrencyList {
 		if value.Numeric == num {
 			return value.Alpha, nil
@@ -46,20 +46,13 @@ func getAlphaFromISOCodeNumeric(num string) (string, error) {
 	return "", ErrorInvalidISO
 }
 
-// convertToString : returns the uint number as a string
-func convertToStringWithDecimal(num uint, exp int) string {
-	floatNum := float64(num)
-	newNum := float64(floatNum / math.Pow10(exp))
-	return fmt.Sprintf("%.*f", exp, newNum)
+// ConvertToStringWithDecimal : returns the uint as a stringified float
+func ConvertToStringWithDecimal(num uint, exp int) string {
+	return fmt.Sprintf("%.*f", exp, float64(float64(num)/math.Pow10(exp)))
 }
 
-// splitString : returns a map of strings separated by decimal place
-func splitString(str string) []string {
-	return strings.Split(str, ".")
-}
-
-// reverseString : returns a reversed string for delimiter formatting
-func reverseString(str string) string {
+// ReverseString : returns a reversed string for delimiter formatting
+func ReverseString(str string) string {
 	var output string
 	for key := len(str) - 1; key >= 0; key-- {
 		output += string(str[key])
@@ -67,8 +60,8 @@ func reverseString(str string) string {
 	return output
 }
 
-// insertDelimiter : returns a new string with delimiter formatting
-func insertDelimiter(str string, group int, del string) string {
+// InsertDelimiter : returns a new string with delimiter formatting
+func InsertDelimiter(str string, group int, del string) string {
 	var output strings.Builder
 	for key, val := range str {
 		if key%group == 0 && key != 0 {
@@ -80,34 +73,34 @@ func insertDelimiter(str string, group int, del string) string {
 	return output.String()
 }
 
-// swapSymbolWithAlpha : returns a string with the ISO alpha code instead of symbol
-func swapSymbolWithAlpha(str string, sym string, alpha string) string {
+// SwapSymbolWithAlpha : returns a string with the ISO alpha code instead of symbol
+func SwapSymbolWithAlpha(str string, sym string, alpha string) string {
 	return strings.Replace(str, sym, alpha+" ", -1)
 }
 
-// removeSymbol : returns a string with the symbol removed
-func removeSymbol(str string, sym string) string {
+// RemoveSymbol : returns a string with the symbol removed
+func RemoveSymbol(str string, sym string) string {
 	return strings.Replace(str, sym, "", -1)
 }
 
-// removeDelimiter : returns a string with the delimiter removed
-func removeDelimiter(str string, del string) string {
+// RemoveDelimiter : returns a string with the delimiter removed
+func RemoveDelimiter(str string, del string) string {
 	return strings.Replace(str, del, "", -1)
 }
 
-// removeDecimal : returns a string with the decimal removed
-func removeDecimal(str string, dec string) string {
+// RemoveDecimal : returns a string with the decimal removed
+func RemoveDecimal(str string, dec string) string {
 	return strings.Replace(str, dec, "", -1)
 }
 
-// formatCurrency : returns basic currency formatting
-func formatCurrency(num uint, ISO Currency) string {
-	str := convertToStringWithDecimal(num, ISO.Exponent)
-	strSplit := splitString(str)
+// FormatCurrency : returns basic currency formatting
+func FormatCurrency(num uint, ISO Currency) string {
+	str := ConvertToStringWithDecimal(num, ISO.Fraction)
+	strSplit := strings.Split(str, ".")
 	strStart := strSplit[0]
 	strEnd := strSplit[1]
-	strReverse := reverseString(strStart)
-	strFlipped := insertDelimiter(strReverse, ISO.Grouping, ISO.Delimiter)
-	strStart = reverseString(strFlipped)
-	return strings.Join([]string{ISO.Symbol + strStart, strEnd}, ISO.Decimal)
+	strStart = ReverseString(strStart)
+	strStart = InsertDelimiter(strStart, ISO.Grouping, ISO.Delimiter)
+	strStart = ReverseString(strStart)
+	return ISO.Symbol + strStart + ISO.Decimal + strEnd
 }

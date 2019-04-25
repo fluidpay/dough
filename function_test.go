@@ -14,7 +14,7 @@ var TestValidateISOCodeAlphaData = []struct {
 
 func TestValidateISOCodeAlpha(t *testing.T) {
 	for _, v := range TestValidateISOCodeAlphaData {
-		result, err := validateISOCodeAlpha(v.Input)
+		result, err := ValidateISOCodeAlpha(v.Input)
 		if err != nil {
 			if err.Error() != v.Output {
 				t.Error(err)
@@ -37,7 +37,7 @@ var TestValidateISOCodeNumericData = []struct {
 
 func TestValidateISOCodeNumeric(t *testing.T) {
 	for _, v := range TestValidateISOCodeNumericData {
-		result, err := validateISOCodeNumeric(v.Input)
+		result, err := ValidateISOCodeNumeric(v.Input)
 		if err != nil {
 			if err.Error() != v.Output {
 				t.Error(err)
@@ -55,12 +55,12 @@ var TestGetISOFromAlphaData = []struct {
 	{"", ErrorInvalidISO.Error()},
 	{"USA", ErrorInvalidISO.Error()},
 	{"USAA", ErrorInvalidISO.Error()},
-	{"USD", Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "$", Exponent: 2, Decimal: ".", Grouping: 3, Delimiter: ","}},
+	{"USD", Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "$", Fraction: 2, Decimal: ".", Grouping: 3, Delimiter: ","}},
 }
 
 func TestGetISOFromAlpha(t *testing.T) {
 	for _, v := range TestGetISOFromAlphaData {
-		result, err := getISOFromAlpha(v.Input)
+		result, err := GetISOFromAlpha(v.Input)
 		if err != nil {
 			if err.Error() != v.Output {
 				t.Error(err)
@@ -83,7 +83,7 @@ var TestGetAlphaFromISOCodeNumericData = []struct {
 
 func TestGetAlphaFromISOCodeNumeric(t *testing.T) {
 	for _, v := range TestGetAlphaFromISOCodeNumericData {
-		result, err := getAlphaFromISOCodeNumeric(v.Input)
+		result, err := GetAlphaFromISONumeric(v.Input)
 		if err != nil {
 			if err.Error() != v.Output {
 				t.Error(err)
@@ -114,30 +114,8 @@ var TestConvertToStringWithDecimalData = []struct {
 
 func TestConvertToStringWithDecimal(t *testing.T) {
 	for _, v := range TestConvertToStringWithDecimalData {
-		result := convertToStringWithDecimal(v.Num, v.Exp)
+		result := ConvertToStringWithDecimal(v.Num, v.Exp)
 		if result != v.Output {
-			t.Error(result)
-		}
-	}
-}
-
-var TestSplitStringData = []struct {
-	Input  string
-	Output []string
-}{
-	{"0.00", []string{"0", "00"}},
-	{"0.01", []string{"0", "01"}},
-	{"0.10", []string{"0", "10"}},
-	{"1.00", []string{"1", "00"}},
-	{"10.00", []string{"10", "00"}},
-	{"100.00", []string{"100", "00"}},
-	{"1000.00", []string{"1000", "00"}},
-}
-
-func TestSplitString(t *testing.T) {
-	for _, v := range TestSplitStringData {
-		result := splitString(v.Input)
-		if result[0] != v.Output[0] || result[1] != v.Output[1] {
 			t.Error(result)
 		}
 	}
@@ -159,7 +137,7 @@ var TestReverseStringData = []struct {
 
 func TestReverseString(t *testing.T) {
 	for _, v := range TestReverseStringData {
-		result := reverseString(v.Input)
+		result := ReverseString(v.Input)
 		if result != v.Output {
 			t.Error(result)
 		}
@@ -183,7 +161,7 @@ var TestInsertDelimiterData = []struct {
 
 func TestInsertDelimiter(t *testing.T) {
 	for _, v := range TestInsertDelimiterData {
-		result := insertDelimiter(v.Str, v.Group, v.Del)
+		result := InsertDelimiter(v.Str, v.Group, v.Del)
 		if result != v.Output {
 			t.Error(result)
 		}
@@ -207,7 +185,7 @@ var TestSwapSymbolWithAlphaData = []struct {
 
 func TestSwapSymbolWithAlpha(t *testing.T) {
 	for _, v := range TestSwapSymbolWithAlphaData {
-		result := swapSymbolWithAlpha(v.Str, v.Sym, v.Alpha)
+		result := SwapSymbolWithAlpha(v.Str, v.Sym, v.Alpha)
 		if result != v.Output {
 			t.Error(result)
 		}
@@ -233,7 +211,7 @@ var TestRemoveSymbolData = []struct {
 
 func TestRemoveSymbol(t *testing.T) {
 	for _, v := range TestRemoveSymbolData {
-		result := removeSymbol(v.Str, v.Sym)
+		result := RemoveSymbol(v.Str, v.Sym)
 		if result != v.Output {
 			t.Error(result)
 		}
@@ -259,7 +237,7 @@ var TestRemoveDelimiterData = []struct {
 
 func TestRemoveDelimiter(t *testing.T) {
 	for _, v := range TestRemoveDelimiterData {
-		result := removeDelimiter(v.Str, v.Del)
+		result := RemoveDelimiter(v.Str, v.Del)
 		if result != v.Output {
 			t.Error(result)
 		}
@@ -285,7 +263,7 @@ var TestRemoveDecimalData = []struct {
 
 func TestRemoveDecimal(t *testing.T) {
 	for _, v := range TestRemoveDecimalData {
-		result := removeDecimal(v.Str, v.Dec)
+		result := RemoveDecimal(v.Str, v.Dec)
 		if result != v.Output {
 			t.Error(result)
 		}
@@ -297,21 +275,21 @@ var TestFormatCurrencyData = []struct {
 	ISO    Currency
 	Output string
 }{
-	{uint(0), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Exponent: 2, Decimal: ".", Grouping: 3, Delimiter: ","}, "$0.00"},
-	{uint(1), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Exponent: 2, Decimal: ".", Grouping: 3, Delimiter: ","}, "$0.01"},
-	{uint(10), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Exponent: 2, Decimal: ".", Grouping: 3, Delimiter: ","}, "$0.10"},
-	{uint(100), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Exponent: 2, Decimal: ".", Grouping: 3, Delimiter: ","}, "$1.00"},
-	{uint(1000), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Exponent: 2, Decimal: ".", Grouping: 3, Delimiter: ","}, "$10.00"},
-	{uint(10000), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Exponent: 2, Decimal: ".", Grouping: 3, Delimiter: ","}, "$100.00"},
-	{uint(100000), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Exponent: 2, Decimal: ".", Grouping: 3, Delimiter: ","}, "$1,000.00"},
-	{uint(1000000), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Exponent: 2, Decimal: ".", Grouping: 3, Delimiter: ","}, "$10,000.00"},
-	{uint(10000000), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Exponent: 2, Decimal: ".", Grouping: 3, Delimiter: ","}, "$100,000.00"},
-	{uint(100000000), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Exponent: 2, Decimal: ".", Grouping: 3, Delimiter: ","}, "$1,000,000.00"},
+	{uint(0), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Fraction: 2, Decimal: ".", Grouping: 3, Delimiter: ","}, "$0.00"},
+	{uint(1), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Fraction: 2, Decimal: ".", Grouping: 3, Delimiter: ","}, "$0.01"},
+	{uint(10), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Fraction: 2, Decimal: ".", Grouping: 3, Delimiter: ","}, "$0.10"},
+	{uint(100), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Fraction: 2, Decimal: ".", Grouping: 3, Delimiter: ","}, "$1.00"},
+	{uint(1000), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Fraction: 2, Decimal: ".", Grouping: 3, Delimiter: ","}, "$10.00"},
+	{uint(10000), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Fraction: 2, Decimal: ".", Grouping: 3, Delimiter: ","}, "$100.00"},
+	{uint(100000), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Fraction: 2, Decimal: ".", Grouping: 3, Delimiter: ","}, "$1,000.00"},
+	{uint(1000000), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Fraction: 2, Decimal: ".", Grouping: 3, Delimiter: ","}, "$10,000.00"},
+	{uint(10000000), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Fraction: 2, Decimal: ".", Grouping: 3, Delimiter: ","}, "$100,000.00"},
+	{uint(100000000), Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Fraction: 2, Decimal: ".", Grouping: 3, Delimiter: ","}, "$1,000,000.00"},
 }
 
 func TestFormatCurrency(t *testing.T) {
 	for _, v := range TestFormatCurrencyData {
-		result := formatCurrency(v.Num, v.ISO)
+		result := FormatCurrency(v.Num, v.ISO)
 		if result != v.Output {
 			t.Error(result)
 		}
