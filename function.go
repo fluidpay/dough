@@ -14,7 +14,7 @@ func validateISOCodeAlpha(alpha string) (string, error) {
 			return alpha, nil
 		}
 	}
-	return "", errorInvalidISO
+	return "", ErrorInvalidISO
 }
 
 // validateISOCodeNumeric : returns a formatted ISO numeric code or an error if the ISO is not found
@@ -24,7 +24,7 @@ func validateISOCodeNumeric(num string) (string, error) {
 			return value.Numeric, nil
 		}
 	}
-	return "", errorInvalidISO
+	return "", ErrorInvalidISO
 }
 
 // getISOFromAlpha : returns the Currency struct for that ISO code alpha
@@ -43,7 +43,7 @@ func getAlphaFromISOCodeNumeric(num string) (string, error) {
 			return value.Alpha, nil
 		}
 	}
-	return "", errorInvalidISO
+	return "", ErrorInvalidISO
 }
 
 // convertToString : returns the uint number as a string

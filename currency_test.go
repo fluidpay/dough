@@ -6,8 +6,8 @@ var TestStringToUintData = []struct {
 	Input  string
 	Output interface{}
 }{
-	{"", errorUnableToFormatCurrencyFromString.Error()},
-	{"abcd", errorUnableToFormatCurrencyFromString.Error()},
+	{"", ErrorUnableToFormatCurrencyFromString.Error()},
+	{"abcd", ErrorUnableToFormatCurrencyFromString.Error()},
 	{"$0.00", uint(0)},
 	{"$0.01", uint(1)},
 	{"$0.10", uint(10)},
@@ -38,7 +38,7 @@ var TestDisplayFullData = []struct {
 	Alpha  string
 	Output string
 }{
-	{0, "USA", errorInvalidISO.Error()},
+	{0, "USA", ErrorInvalidISO.Error()},
 	{0, "USD", "$0.00"},
 	{1, "USD", "$0.01"},
 	{10, "USD", "$0.10"},
@@ -69,7 +69,7 @@ var TestDisplayWithAlphaData = []struct {
 	Alpha  string
 	Output string
 }{
-	{0, "USA", errorInvalidISO.Error()},
+	{0, "USA", ErrorInvalidISO.Error()},
 	{0, "USD", "USD 0.00"},
 }
 
@@ -91,7 +91,7 @@ var TestDisplayNoSymbolData = []struct {
 	Alpha  string
 	Output string
 }{
-	{0, "USA", errorInvalidISO.Error()},
+	{0, "USA", ErrorInvalidISO.Error()},
 	{0, "USD", "0.00"},
 	{1, "USD", "0.01"},
 	{10, "USD", "0.10"},
@@ -119,7 +119,7 @@ var TestDisplayWithDecimalData = []struct {
 	Alpha  string
 	Output string
 }{
-	{0, "USA", errorInvalidISO.Error()},
+	{0, "USA", ErrorInvalidISO.Error()},
 	{0, "USD", "0.00"},
 	{1, "USD", "0.01"},
 	{10, "USD", "0.10"},
@@ -147,7 +147,7 @@ var TestUintToStringData = []struct {
 	Alpha  string
 	Output string
 }{
-	{0, "USA", errorInvalidISO.Error()},
+	{0, "USA", ErrorInvalidISO.Error()},
 	{0, "USD", "0"},
 	{1, "USD", "1"},
 	{10, "USD", "10"},

@@ -14,7 +14,7 @@ func StringToUint(num string) (uint, error) {
 	newStr := strings.Join(str, "")
 	output, err := strconv.ParseUint(newStr, 10, 64)
 	if err != nil {
-		return 0, errorUnableToFormatCurrencyFromString
+		return 0, ErrorUnableToFormatCurrencyFromString
 	}
 	return uint(output), nil
 }

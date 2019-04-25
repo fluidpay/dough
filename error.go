@@ -2,11 +2,11 @@ package currency
 
 import "errors"
 
-// errorInvalidISO : returns an error for an invalid ISO code
-var errorInvalidISO = errors.New("Invalid ISO Code")
+// ErrorInvalidISO : returns an error for an invalid ISO code
+var ErrorInvalidISO = errors.New("Invalid ISO Code")
 
-// errorUnableToFormatCurrency : returns an error for invalid currency formatting
-var errorUnableToFormatCurrency = errors.New("Unable To Format Currency")
+// ErrorUnableToFormatCurrency : returns an error for invalid currency formatting
+var ErrorUnableToFormatCurrency = errors.New("Unable To Format Currency")
 
-// errorUnableToFormatCurrencyFromString : returns an error for invalid formatting from a string
-var errorUnableToFormatCurrencyFromString = errors.New("Unable To Format Currency From String")
+// ErrorUnableToFormatCurrencyFromString : returns an error for invalid formatting from a string
+var ErrorUnableToFormatCurrencyFromString = errors.New("Unable To Format Currency From String")

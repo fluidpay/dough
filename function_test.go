@@ -6,9 +6,9 @@ var TestValidateISOCodeAlphaData = []struct {
 	Input  string
 	Output string
 }{
-	{"", errorInvalidISO.Error()},
-	{"ABC", errorInvalidISO.Error()},
-	{"ABCD", errorInvalidISO.Error()},
+	{"", ErrorInvalidISO.Error()},
+	{"ABC", ErrorInvalidISO.Error()},
+	{"ABCD", ErrorInvalidISO.Error()},
 	{"usd", "USD"},
 }
 
@@ -29,9 +29,9 @@ var TestValidateISOCodeNumericData = []struct {
 	Input  string
 	Output string
 }{
-	{"", errorInvalidISO.Error()},
-	{"123", errorInvalidISO.Error()},
-	{"1234", errorInvalidISO.Error()},
+	{"", ErrorInvalidISO.Error()},
+	{"123", ErrorInvalidISO.Error()},
+	{"1234", ErrorInvalidISO.Error()},
 	{"840", "840"},
 }
 
@@ -52,9 +52,9 @@ var TestGetISOFromAlphaData = []struct {
 	Input  string
 	Output interface{}
 }{
-	{"", errorInvalidISO.Error()},
-	{"USA", errorInvalidISO.Error()},
-	{"USAA", errorInvalidISO.Error()},
+	{"", ErrorInvalidISO.Error()},
+	{"USA", ErrorInvalidISO.Error()},
+	{"USAA", ErrorInvalidISO.Error()},
 	{"USD", Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "$", Exponent: 2, Decimal: ".", Grouping: 3, Delimiter: ","}},
 }
 
@@ -75,9 +75,9 @@ var TestGetAlphaFromISOCodeNumericData = []struct {
 	Input  string
 	Output string
 }{
-	{"", errorInvalidISO.Error()},
-	{"000", errorInvalidISO.Error()},
-	{"12345", errorInvalidISO.Error()},
+	{"", ErrorInvalidISO.Error()},
+	{"000", ErrorInvalidISO.Error()},
+	{"12345", ErrorInvalidISO.Error()},
 	{"840", "USD"},
 }
 
