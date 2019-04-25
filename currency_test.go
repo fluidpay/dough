@@ -3,26 +3,32 @@ package currency
 import "testing"
 
 var TestStringToUintData = []struct {
-	Input  string
+	Num    string
+	Alpha  string
 	Output interface{}
 }{
-	{"", ErrorUnableToFormatCurrencyFromString.Error()},
-	{"abcd", ErrorUnableToFormatCurrencyFromString.Error()},
-	{"$0.00", uint(0)},
-	{"$0.01", uint(1)},
-	{"$0.10", uint(10)},
-	{"$1.00", uint(100)},
-	{"$10.00", uint(1000)},
-	{"$100.00", uint(10000)},
-	{"$1,000.00", uint(100000)},
-	{"$10,000.00", uint(1000000)},
-	{"$100,000.00", uint(10000000)},
-	{"$1,000,000.00", uint(100000000)},
+	{"", "USD", ErrorUnableToFormatCurrencyFromString.Error()},
+	{"abcd", "USD", ErrorUnableToFormatCurrencyFromString.Error()},
+	{"$5", "USD", uint(500)},
+	{"$500", "USD", uint(50000)},
+	{"$05", "USD", uint(500)},
+	{"$0.05", "USD", uint(5)},
+	{"$5.0", "USD", uint(500)},
+	{"$0.00", "USD", uint(0)},
+	{"$0.01", "USD", uint(1)},
+	{"$0.10", "USD", uint(10)},
+	{"$1.00", "USD", uint(100)},
+	{"$10.00", "USD", uint(1000)},
+	{"$100.00", "USD", uint(10000)},
+	{"$1,000.00", "USD", uint(100000)},
+	{"$10,000.00", "USD", uint(1000000)},
+	{"$100,000.00", "USD", uint(10000000)},
+	{"$1,000,000.00", "USD", uint(100000000)},
 }
 
 func TestStringToUint(t *testing.T) {
 	for _, v := range TestStringToUintData {
-		result, err := StringToUint(v.Input)
+		result, err := StringToUint(v.Num, v.Alpha)
 		if err != nil {
 			if err.Error() != v.Output {
 				t.Error(err.Error())

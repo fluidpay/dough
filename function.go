@@ -47,8 +47,8 @@ func GetAlphaFromISONumeric(num string) (string, error) {
 }
 
 // ConvertToStringWithDecimal : returns the uint as a stringified float
-func ConvertToStringWithDecimal(num uint, exp int) string {
-	return fmt.Sprintf("%.*f", exp, float64(float64(num)/math.Pow10(exp)))
+func ConvertToStringWithDecimal(num uint, fraction int) string {
+	return fmt.Sprintf("%.*f", fraction, float64(float64(num)/math.Pow10(fraction)))
 }
 
 // ReverseString : returns a reversed string for delimiter formatting

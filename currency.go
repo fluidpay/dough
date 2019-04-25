@@ -2,21 +2,33 @@ package currency
 
 import (
 	"fmt"
+	"math"
 	"regexp"
 	"strconv"
 	"strings"
 )
 
 // StringToUint : returns a uint from a string value
-func StringToUint(num string) (uint, error) {
+func StringToUint(num string, alpha string) (uint, error) {
+	ISO, err := GetISOFromAlpha(alpha)
+	if err != nil {
+		return 0, err
+	}
 	reg := regexp.MustCompile("[0-9]+")
 	str := reg.FindAllString(num, -1)
-	newStr := strings.Join(str, "")
-	output, err := strconv.ParseUint(newStr, 10, 64)
+	strJoin := strings.Join(str, "")
+	parsedNum, err := strconv.ParseUint(strJoin, 10, 64)
 	if err != nil {
 		return 0, ErrorUnableToFormatCurrencyFromString
 	}
-	return uint(output), nil
+	if strings.Contains(num, ISO.Decimal) == true {
+		fmt.Println(parsedNum, ConvertToStringWithDecimal(uint(parsedNum), ISO.Fraction))
+		return uint(parsedNum), nil
+	}
+	return uint(int(parsedNum) * int(math.Pow10(ISO.Fraction))), nil
+	// strJoin = ConvertToStringWithDecimal(uint(parsedNum), ISO.Fraction)
+	// fmt.Println(strJoin)
+	// return 0, nil
 }
 
 // DisplayFull : returns a string with full currency formatting... "num" being the amount, "alpha" being the ISO three digit alphabetic code.
