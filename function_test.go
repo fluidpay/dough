@@ -189,7 +189,7 @@ func TestReverseString(t *testing.T) {
 
 var TestInsertDelimiterData = []struct {
 	Str    string
-	Group    int
+	Group  int
 	Del    string
 	Output string
 }{
@@ -206,7 +206,7 @@ func TestInsertDelimiter(t *testing.T) {
 	for _, v := range TestInsertDelimiterData {
 		result := insertDelimiter(v.Str, v.Group, v.Del)
 		if result != v.Output {
-			t.Fatal()
+			t.Error(result)
 		}
 		t.Log(v.Str, v.Group, v.Del, "-->", result)
 	}
@@ -231,7 +231,7 @@ func TestSwapSymbolWithAlpha(t *testing.T) {
 	for _, v := range TestSwapSymbolWithAlphaData {
 		result := swapSymbolWithAlpha(v.Str, v.Sym, v.Alpha)
 		if result != v.Output {
-			t.Fatal()
+			t.Error(result)
 		}
 		t.Log(v.Str, v.Sym, v.Alpha, "-->", result)
 	}
@@ -258,7 +258,7 @@ func TestRemoveSymbol(t *testing.T) {
 	for _, v := range TestRemoveSymbolData {
 		result := removeSymbol(v.Str, v.Sym)
 		if result != v.Output {
-			t.Fatal()
+			t.Error(result)
 		}
 		t.Log(v.Str, v.Sym, "-->", result)
 	}
@@ -285,7 +285,7 @@ func TestRemoveDelimiter(t *testing.T) {
 	for _, v := range TestRemoveDelimiterData {
 		result := removeDelimiter(v.Str, v.Del)
 		if result != v.Output {
-			t.Fatal()
+			t.Error(result)
 		}
 		t.Log(v.Str, v.Del, "-->", result)
 	}
@@ -312,7 +312,7 @@ func TestRemoveDecimal(t *testing.T) {
 	for _, v := range TestRemoveDecimalData {
 		result := removeDecimal(v.Str, v.Dec)
 		if result != v.Output {
-			t.Fatal()
+			t.Error(result)
 		}
 		t.Log(v.Str, v.Dec, "-->", result)
 	}
@@ -339,7 +339,7 @@ func TestFormatCurrency(t *testing.T) {
 	for _, v := range TestFormatCurrencyData {
 		result := formatCurrency(v.Num, v.ISO)
 		if result != v.Output {
-			t.Fatal()
+			t.Error(result)
 		}
 		t.Log(v.Num, "-->", result)
 	}

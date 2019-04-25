@@ -59,13 +59,13 @@ func TestDisplayFull(t *testing.T) {
 		result, err := DisplayFull(v.Amount, v.Alpha)
 		if err != nil {
 			if err.Error() != v.Output {
-				t.Fatal()
+				t.Error(err.Error())
 			} else {
 				t.Log(v.Amount, v.Alpha, "-->", err.Error())
 			}
 		} else {
 			if result != v.Output {
-				t.Fatal()
+				t.Error(result)
 			} else {
 				t.Log(v.Amount, v.Alpha, "-->", result)
 			}
@@ -80,9 +80,6 @@ var TestDisplayWithAlphaData = []struct {
 }{
 	{0, "USA", errorInvalidISO.Error()},
 	{0, "USD", "USD 0.00"},
-	// {0, "AED", "AED 0.00"},
-	// {0, "ARS", "ARS 0,00"},
-	// {0, "AUD", "AUD 0.00"},
 }
 
 func TestDisplayWithAlpha(t *testing.T) {
@@ -90,13 +87,13 @@ func TestDisplayWithAlpha(t *testing.T) {
 		result, err := DisplayWithAlpha(v.Amount, v.Alpha)
 		if err != nil {
 			if err.Error() != v.Output {
-				t.Fatal()
+				t.Error(err.Error())
 			} else {
 				t.Log(v.Amount, v.Alpha, "-->", err.Error())
 			}
 		} else {
 			if result != v.Output {
-				t.Fatal()
+				t.Error(result)
 			} else {
 				t.Log(v.Amount, v.Alpha, "-->", result)
 			}
@@ -125,11 +122,11 @@ func TestDisplayNoSymbol(t *testing.T) {
 		if err != nil {
 			t.Log(err.Error())
 			if err.Error() != v.Output {
-				t.Fatal()
+				t.Error(err.Error())
 			}
 		} else {
 			if result != v.Output {
-				t.Fatal()
+				t.Error(result)
 			}
 			t.Log(v.Num, v.Alpha, "-->", result)
 		}
@@ -157,11 +154,11 @@ func TestDisplayWithDecimal(t *testing.T) {
 		if err != nil {
 			t.Log(err.Error())
 			if err.Error() != v.Output {
-				t.Fatal()
+				t.Error(err.Error())
 			}
 		} else {
 			if result != v.Output {
-				t.Fatal()
+				t.Error(result)
 			}
 			t.Log(v.Num, v.Alpha, "-->", result)
 		}
@@ -189,11 +186,11 @@ func TestUintToString(t *testing.T) {
 		if err != nil {
 			t.Log(err.Error())
 			if err.Error() != v.Output {
-				t.Fatal()
+				t.Error(err.Error())
 			}
 		} else {
 			if result != v.Output {
-				t.Fatal()
+				t.Error(result)
 			}
 			t.Log(v.Num, v.Alpha, "-->", result)
 		}
