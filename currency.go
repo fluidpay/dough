@@ -17,18 +17,18 @@ func StringToUint(num string, alpha string) (uint, error) {
 	reg := regexp.MustCompile("[0-9]+")
 	str := reg.FindAllString(num, -1)
 	strJoin := strings.Join(str, "")
-	parsedNum, err := strconv.ParseUint(strJoin, 10, 64)
+	fl, err := strconv.ParseFloat(strJoin, 64)
 	if err != nil {
 		return 0, ErrorUnableToFormatCurrencyFromString
 	}
 	if strings.Contains(num, ISO.Decimal) == true {
-		fmt.Println(parsedNum, ConvertToStringWithDecimal(uint(parsedNum), ISO.Fraction))
-		return uint(parsedNum), nil
+		split := strings.Split(num, ISO.Decimal)
+		if len(split[1]) != ISO.Fraction {
+			return 0, ErrorUnableToFormatCurrencyFromString
+		}
+		return uint(fl), nil
 	}
-	return uint(int(parsedNum) * int(math.Pow10(ISO.Fraction))), nil
-	// strJoin = ConvertToStringWithDecimal(uint(parsedNum), ISO.Fraction)
-	// fmt.Println(strJoin)
-	// return 0, nil
+	return uint(fl * math.Pow10(ISO.Fraction)), nil
 }
 
 // DisplayFull : returns a string with full currency formatting... "num" being the amount, "alpha" being the ISO three digit alphabetic code.

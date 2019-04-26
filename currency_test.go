@@ -8,12 +8,14 @@ var TestStringToUintData = []struct {
 	Output interface{}
 }{
 	{"", "USD", ErrorUnableToFormatCurrencyFromString.Error()},
+	{"     ", "USD", ErrorUnableToFormatCurrencyFromString.Error()},
 	{"abcd", "USD", ErrorUnableToFormatCurrencyFromString.Error()},
+	{"$5", "USA", ErrorInvalidISO.Error()},
 	{"$5", "USD", uint(500)},
 	{"$500", "USD", uint(50000)},
 	{"$05", "USD", uint(500)},
 	{"$0.05", "USD", uint(5)},
-	{"$5.0", "USD", uint(500)},
+	{"$5.0", "USD", ErrorUnableToFormatCurrencyFromString.Error()},
 	{"$0.00", "USD", uint(0)},
 	{"$0.01", "USD", uint(1)},
 	{"$0.10", "USD", uint(10)},
