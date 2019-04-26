@@ -177,3 +177,23 @@ func TestUintToString(t *testing.T) {
 		}
 	}
 }
+
+var TestListCurrenciesData = []struct {
+	Input  []string
+	Output interface{}
+}{
+	{[]string{"USD"}, []Currency{{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Fraction: 2, Decimal: ".", Grouping: 3, Delimiter: ","}}},
+	{[]string{"USD", "GBP"}, []Currency{{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Fraction: 2, Decimal: ".", Grouping: 3, Delimiter: ","}, {Unit: "Pound Sterling", Alpha: "GBP", Numeric: "826", Symbol: "£", Fraction: 2, Decimal: ".", Grouping: 3, Delimiter: ","}}},
+}
+
+func TestListCurrencies(t *testing.T) {
+	for _, v := range TestListCurrenciesData {
+		result, err := ListCurrencies(v.Input)
+		if err != nil {
+			if err != v.Output {
+				t.Error(err.Error())
+			}
+		}
+		t.Log(result)
+	}
+}

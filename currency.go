@@ -79,3 +79,16 @@ func UintToString(num uint, alpha string) (string, error) {
 	}
 	return fmt.Sprint(num), nil
 }
+
+// ListCurrencies : returns a list of currencies
+func ListCurrencies(list []string) ([]Currency, error) {
+	currencies := []Currency{}
+	for _, v := range list {
+		ISO, err := GetISOFromAlpha(v)
+		if err != nil {
+			return nil, err
+		}
+		currencies = append(currencies, ISO)
+	}
+	return currencies, nil
+}
