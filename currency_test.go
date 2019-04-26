@@ -1,6 +1,9 @@
 package currency
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
 var TestStringToUintData = []struct {
 	Num    string
@@ -193,7 +196,8 @@ func TestListCurrencies(t *testing.T) {
 			if err != v.Output {
 				t.Error(err.Error())
 			}
+		} else if reflect.DeepEqual(result, v.Output) != true {
+			t.Error(result)
 		}
-		t.Log(result)
 	}
 }
