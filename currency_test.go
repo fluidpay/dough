@@ -168,6 +168,13 @@ func TestDisplayWithDecimal(t *testing.T) {
 	}
 }
 
+func TestTopCurrencies(t *testing.T) {
+	_, err := TopCurrencies()
+	if err != nil {
+		t.Error("Could not find all valid currencies from list")
+	}
+}
+
 var TestListCurrenciesData = []struct {
 	Input  []string
 	Output interface{}

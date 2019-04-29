@@ -72,6 +72,11 @@ func DisplayWithDecimal(num uint, alpha string) (string, error) {
 	return RemoveDelimiter(currency, ISO.Delimiter), nil
 }
 
+// TopCurrencies returns the list of top currencies based upon usage
+func TopCurrencies() ([]Currency, error) {
+	return ListCurrencies([]string{"USD", "EUR", "GBP", "INR", "CRC", "VND", "HUF", "ILS", "CNY", "KRW", "NGN", "PYG", "PHP", "PLN", "THB", "UAH", "JPY"})
+}
+
 // ListCurrencies : returns a list of currencies
 func ListCurrencies(list []string) ([]Currency, error) {
 	currencies := []Currency{}
