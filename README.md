@@ -1,5 +1,5 @@
 # Dough
-![Dough](https://github.com/fluidpay/dough/tree/develop/images/logo.png)
+![Dough](/images/dough.png)
 
 "Roll Out" your golang currency issues with Dough.
 
