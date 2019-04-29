@@ -14,20 +14,22 @@ func StringToUint(num string, alpha string) (uint, error) {
 	if err != nil {
 		return 0, err
 	}
-	reg := regexp.MustCompile("[0-9]+")
-	str := reg.FindAllString(num, -1)
-	strJoin := strings.Join(str, "")
-	fl, err := strconv.ParseFloat(strJoin, 64)
+
+	// Find all numbers and a decimal
+	reg := regexp.MustCompile("[0-9" + ISO.Decimal + "]+")
+	strArray := reg.FindAllString(num, -1)
+	str := strings.Join(strArray, "")
+
+	// If using a different decimal type replace with period
+	str = strings.Replace(str, ISO.Decimal, ".", -1)
+
+	// Take array of found matches and create float
+	fl, err := strconv.ParseFloat(str, 64)
 	if err != nil {
 		return 0, ErrorUnableToFormatCurrencyFromString
 	}
-	if strings.Contains(num, ISO.Decimal) == true {
-		split := strings.Split(num, ISO.Decimal)
-		if len(split[1]) != ISO.Fraction {
-			return 0, ErrorUnableToFormatCurrencyFromString
-		}
-		return uint(fl), nil
-	}
+
+	// Return a mulitple of the fraction to give us our uint
 	return uint(fl * math.Pow10(ISO.Fraction)), nil
 }
 

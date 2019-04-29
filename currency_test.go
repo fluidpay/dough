@@ -18,7 +18,8 @@ var TestStringToUintData = []struct {
 	{"$500", "USD", uint(50000)},
 	{"$05", "USD", uint(500)},
 	{"$0.05", "USD", uint(5)},
-	{"$5.0", "USD", ErrorUnableToFormatCurrencyFromString.Error()},
+	{"$5.0", "USD", uint(500)},
+	{"$5.52", "USD", uint(552)},
 	{"$0.00", "USD", uint(0)},
 	{"$0.01", "USD", uint(1)},
 	{"$0.10", "USD", uint(10)},
@@ -29,6 +30,10 @@ var TestStringToUintData = []struct {
 	{"$10,000.00", "USD", uint(1000000)},
 	{"$100,000.00", "USD", uint(10000000)},
 	{"$1,000,000.00", "USD", uint(100000000)},
+
+	// Non USD
+	{"$100.00,00", "ARS", uint(1000000)},
+	{"$10,000,000", "JPY", uint(10000000)},
 }
 
 func TestStringToUint(t *testing.T) {
@@ -36,10 +41,10 @@ func TestStringToUint(t *testing.T) {
 		result, err := StringToUint(v.Num, v.Alpha)
 		if err != nil {
 			if err.Error() != v.Output {
-				t.Error(err.Error())
+				t.Error("input: ", v.Num, " error: ", err)
 			}
 		} else if result != v.Output {
-			t.Error(result)
+			t.Error("got: ", result, " expected: ", v.Output)
 		}
 	}
 }
