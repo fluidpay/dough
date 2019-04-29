@@ -6,34 +6,25 @@ import (
 	"strings"
 )
 
-// ValidateISOCodeAlpha : returns a formatted ISO alpha code or an error if the ISO is not found
-func ValidateISOCodeAlpha(alpha string) (string, error) {
+// GetISOFromAlpha : returns a formatted ISO alpha code or an error if the ISO is not found
+func GetISOFromAlpha(alpha string) (Currency, error) {
 	alpha = strings.ToUpper(alpha)
 	for key := range CurrencyList {
 		if key == alpha {
-			return alpha, nil
+			return CurrencyList[key], nil
 		}
 	}
-	return "", ErrorInvalidISO
+	return Currency{}, ErrorInvalidISO
 }
 
-// ValidateISOCodeNumeric : returns a formatted ISO numeric code or an error if the ISO is not found
-func ValidateISOCodeNumeric(num string) (string, error) {
+// GetISOCodeFromNumeric : returns a formatted ISO numeric code or an error if the ISO is not found
+func GetISOCodeFromNumeric(num string) (string, error) {
 	for _, value := range CurrencyList {
 		if value.Numeric == num {
 			return value.Numeric, nil
 		}
 	}
 	return "", ErrorInvalidISO
-}
-
-// GetISOFromAlpha : returns the Currency struct for that ISO code alpha
-func GetISOFromAlpha(alpha string) (Currency, error) {
-	alpha, err := ValidateISOCodeAlpha(alpha)
-	if err != nil {
-		return Currency{}, err
-	}
-	return CurrencyList[alpha], nil
 }
 
 // GetAlphaFromISONumeric : returns a formatted ISO alpha code from the ISO numeric counterpart

@@ -14,13 +14,13 @@ var TestValidateISOCodeAlphaData = []struct {
 
 func TestValidateISOCodeAlpha(t *testing.T) {
 	for _, v := range TestValidateISOCodeAlphaData {
-		result, err := ValidateISOCodeAlpha(v.Input)
+		curr, err := GetISOFromAlpha(v.Input)
 		if err != nil {
 			if err.Error() != v.Output {
 				t.Error(err)
 			}
-		} else if result != v.Output {
-			t.Error(result)
+		} else if curr.Alpha != v.Output {
+			t.Error(curr.Alpha)
 		}
 	}
 }
@@ -37,7 +37,7 @@ var TestValidateISOCodeNumericData = []struct {
 
 func TestValidateISOCodeNumeric(t *testing.T) {
 	for _, v := range TestValidateISOCodeNumericData {
-		result, err := ValidateISOCodeNumeric(v.Input)
+		result, err := GetISOCodeFromNumeric(v.Input)
 		if err != nil {
 			if err.Error() != v.Output {
 				t.Error(err)
