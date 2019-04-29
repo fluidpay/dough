@@ -1,7 +1,6 @@
 package currency
 
 import (
-	"fmt"
 	"math"
 	"regexp"
 	"strconv"
@@ -71,15 +70,6 @@ func DisplayWithDecimal(num uint, alpha string) (string, error) {
 	currency := FormatCurrency(num, ISO)
 	currency = RemoveSymbol(currency, ISO.Symbol)
 	return RemoveDelimiter(currency, ISO.Delimiter), nil
-}
-
-// UintToString : returns a string with all currency formatting removed... "num" being the amount, "alpha" being the ISO three digit alphabetic code.
-func UintToString(num uint, alpha string) (string, error) {
-	_, err := GetISOFromAlpha(alpha)
-	if err != nil {
-		return "", err
-	}
-	return fmt.Sprint(num), nil
 }
 
 // ListCurrencies : returns a list of currencies

@@ -168,34 +168,6 @@ func TestDisplayWithDecimal(t *testing.T) {
 	}
 }
 
-var TestUintToStringData = []struct {
-	Num    uint
-	Alpha  string
-	Output string
-}{
-	{0, "USA", ErrorInvalidISO.Error()},
-	{0, "USD", "0"},
-	{1, "USD", "1"},
-	{10, "USD", "10"},
-	{100, "USD", "100"},
-	{1000, "USD", "1000"},
-	{10000, "USD", "10000"},
-	{100000, "USD", "100000"},
-}
-
-func TestUintToString(t *testing.T) {
-	for _, v := range TestUintToStringData {
-		result, err := UintToString(v.Num, v.Alpha)
-		if err != nil {
-			if err.Error() != v.Output {
-				t.Error(err.Error())
-			}
-		} else if result != v.Output {
-			t.Error(result)
-		}
-	}
-}
-
 var TestListCurrenciesData = []struct {
 	Input  []string
 	Output interface{}
