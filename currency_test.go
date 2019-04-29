@@ -60,6 +60,16 @@ var TestDisplayFullData = []struct {
 	{1000000, "USD", "$10,000.00"},
 	{10000000, "USD", "$100,000.00"},
 	{100000000, "USD", "$1,000,000.00"},
+	{0, "AED", "0.00\u0625\u002E\u062F"},
+	{1, "AED", "0.01\u0625\u002E\u062F"},
+	{10, "AED", "0.10\u0625\u002E\u062F"},
+	{100, "AED", "1.00\u0625\u002E\u062F"},
+	{1000, "AED", "10.00\u0625\u002E\u062F"},
+	{10000, "AED", "100.00\u0625\u002E\u062F"},
+	{100000, "AED", "1,000.00\u0625\u002E\u062F"},
+	{1000000, "AED", "10,000.00\u0625\u002E\u062F"},
+	{10000000, "AED", "100,000.00\u0625\u002E\u062F"},
+	{100000000, "AED", "1,000,000.00\u0625\u002E\u062F"},
 }
 
 func TestDisplayFull(t *testing.T) {
@@ -185,8 +195,9 @@ var TestListCurrenciesData = []struct {
 	Input  []string
 	Output interface{}
 }{
-	{[]string{"USD"}, []Currency{{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Fraction: 2, Decimal: ".", Grouping: 3, Delimiter: ","}}},
-	{[]string{"USD", "GBP"}, []Currency{{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Fraction: 2, Decimal: ".", Grouping: 3, Delimiter: ","}, {Unit: "Pound Sterling", Alpha: "GBP", Numeric: "826", Symbol: "£", Fraction: 2, Decimal: ".", Grouping: 3, Delimiter: ","}}},
+	{[]string{"USD"}, []Currency{{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Fraction: 2, Decimal: ".", Grouping: 3, Delimiter: ",", SymbolPositionFront: true}}},
+	{[]string{"AED"}, []Currency{{Unit: "UAE Dirham", Alpha: "AED", Numeric: "784", Symbol: "\u0625\u002E\u062F", Fraction: 2, Decimal: ".", Grouping: 3, Delimiter: ",", SymbolPositionFront: false}}},
+	{[]string{"USD", "GBP"}, []Currency{{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "\u0024", Fraction: 2, Decimal: ".", Grouping: 3, Delimiter: ",", SymbolPositionFront: true}, {Unit: "Pound Sterling", Alpha: "GBP", Numeric: "826", Symbol: "£", Fraction: 2, Decimal: ".", Grouping: 3, Delimiter: ",", SymbolPositionFront: true}}},
 }
 
 func TestListCurrencies(t *testing.T) {

@@ -100,5 +100,8 @@ func FormatCurrency(num uint, ISO Currency) string {
 	strSplit[0] = ReverseString(strSplit[0])
 	strSplit[0] = InsertDelimiter(strSplit[0], ISO.Grouping, ISO.Delimiter)
 	strSplit[0] = ReverseString(strSplit[0])
+	if ISO.SymbolPositionFront != true {
+		return strSplit[0] + ISO.Decimal + strSplit[1] + ISO.Symbol
+	}
 	return ISO.Symbol + strSplit[0] + ISO.Decimal + strSplit[1]
 }
