@@ -1,5 +1,5 @@
 # Dough
-![Dough](/images/dough.png)
+![Dough](/images/dough.svg)
 
 "Roll Out" your golang currency issues with Dough.
 
