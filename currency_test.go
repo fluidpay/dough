@@ -5,6 +5,11 @@ import (
 	"testing"
 )
 
+func TestCurrencyCount(t *testing.T) {
+	num := len(CurrencyList)
+	t.Log("Currency Count: ", num)
+}
+
 var TestFormattedStringToUintData = []struct {
 	Num    string
 	Alpha  string
