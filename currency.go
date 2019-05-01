@@ -1,15 +1,14 @@
 package currency
 
 import (
-	"fmt"
 	"math"
 	"regexp"
 	"strconv"
 	"strings"
 )
 
-// StringToUint : returns a uint from a string value
-func StringToUint(num string, alpha string) (uint, error) {
+// FormattedStringToUint : returns a uint from a string value
+func FormattedStringToUint(num string, alpha string) (uint, error) {
 	ISO, err := GetISOFromAlpha(alpha)
 	if err != nil {
 		return 0, err
@@ -33,13 +32,13 @@ func StringToUint(num string, alpha string) (uint, error) {
 	return uint(fl * math.Pow10(ISO.Fraction)), nil
 }
 
-// UintToString : returns a string with all currency formatting removed... "num" being the amount, "alpha" being the ISO three digit alphabetic code.
-func UintToString(num uint, alpha string) (string, error) {
+// PlainStringToInt returns a int64 from a purely numerical string
+func PlainStringToInt(str string, alpha string) (int64, error) {
 	_, err := GetISOFromAlpha(alpha)
 	if err != nil {
-		return "", err
+		return 0, err
 	}
-	return fmt.Sprint(num), nil
+	return strconv.ParseInt(str, 10, 64)
 }
 
 // DisplayFull : returns a string with full currency formatting... "num" being the amount, "alpha" being the ISO three digit alphabetic code.
