@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-var TestStringToUintData = []struct {
+var TestFormattedStringToUintData = []struct {
 	Num    string
 	Alpha  string
 	Output interface{}
@@ -36,9 +36,9 @@ var TestStringToUintData = []struct {
 	{"$10,000,000", "JPY", uint(10000000)},
 }
 
-func TestStringToUint(t *testing.T) {
-	for _, v := range TestStringToUintData {
-		result, err := StringToUint(v.Num, v.Alpha)
+func TestFormattedStringToUint(t *testing.T) {
+	for _, v := range TestFormattedStringToUintData {
+		result, err := FormattedStringToUint(v.Num, v.Alpha)
 		if err != nil {
 			if err.Error() != v.Output {
 				t.Error("input: ", v.Num, " error: ", err)
@@ -49,24 +49,24 @@ func TestStringToUint(t *testing.T) {
 	}
 }
 
-var TestUintToStringData = []struct {
-	Num    uint
+var TestPlainStringToIntData = []struct {
+	Num    string
 	Alpha  string
-	Output string
+	Output interface{}
 }{
-	{0, "USA", ErrorInvalidISO.Error()},
-	{0, "USD", "0"},
-	{1, "USD", "1"},
-	{10, "USD", "10"},
-	{100, "USD", "100"},
-	{1000, "USD", "1000"},
-	{10000, "USD", "10000"},
-	{100000, "USD", "100000"},
+	{"0", "USA", ErrorInvalidISO.Error()},
+	{"0", "USD", int64(0)},
+	{"1", "USD", int64(1)},
+	{"10", "USD", int64(10)},
+	{"100", "USD", int64(100)},
+	{"1000", "USD", int64(1000)},
+	{"10000", "USD", int64(10000)},
+	{"100000", "USD", int64(100000)},
 }
 
-func TestUintToString(t *testing.T) {
-	for _, v := range TestUintToStringData {
-		result, err := UintToString(v.Num, v.Alpha)
+func TestPlainStringToInt(t *testing.T) {
+	for _, v := range TestPlainStringToIntData {
+		result, err := PlainStringToInt(v.Num, v.Alpha)
 		if err != nil {
 			if err.Error() != v.Output {
 				t.Error(err.Error())
