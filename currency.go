@@ -1,4 +1,4 @@
-package currency
+package dough
 
 import (
 	"math"
