@@ -1,11 +1,16 @@
-package currency
+package dough
 
 import (
 	"reflect"
 	"testing"
 )
 
-var TestFormattedStringToUintData = []struct {
+func TestCurrencyCount(t *testing.T) {
+	num := len(CurrencyList)
+	t.Log("Currency Count: ", num)
+}
+
+var TestStringToIntData = []struct {
 	Num    string
 	Alpha  string
 	Output interface{}
@@ -14,59 +19,32 @@ var TestFormattedStringToUintData = []struct {
 	{"     ", "USD", ErrorUnableToFormatCurrencyFromString.Error()},
 	{"abcd", "USD", ErrorUnableToFormatCurrencyFromString.Error()},
 	{"$5", "USA", ErrorInvalidISO.Error()},
-	{"$5", "USD", uint(500)},
-	{"$500", "USD", uint(50000)},
-	{"$05", "USD", uint(500)},
-	{"$0.05", "USD", uint(5)},
-	{"$5.0", "USD", uint(500)},
-	{"$5.52", "USD", uint(552)},
-	{"$0.00", "USD", uint(0)},
-	{"$0.01", "USD", uint(1)},
-	{"$0.10", "USD", uint(10)},
-	{"$1.00", "USD", uint(100)},
-	{"$10.00", "USD", uint(1000)},
-	{"$100.00", "USD", uint(10000)},
-	{"$1,000.00", "USD", uint(100000)},
-	{"$10,000.00", "USD", uint(1000000)},
-	{"$100,000.00", "USD", uint(10000000)},
-	{"$1,000,000.00", "USD", uint(100000000)},
+	{"$5", "USD", 500},
+	{"$500", "USD", 50000},
+	{"-500", "USD", -50000},
+	{"$05", "USD", 500},
+	{"$0.05", "USD", 5},
+	{"$5.0", "USD", 500},
+	{"$5.52", "USD", 552},
+	{"$0.00", "USD", 0},
+	{"$0.01", "USD", 1},
+	{"$0.10", "USD", 10},
+	{"$1.00", "USD", 100},
+	{"$10.00", "USD", 1000},
+	{"$100.00", "USD", 10000},
+	{"$1,000.00", "USD", 100000},
+	{"$10,000.00", "USD", 1000000},
+	{"$100,000.00", "USD", 10000000},
+	{"$1,000,000.00", "USD", 100000000},
 
 	// Non USD
-	{"$100.00,00", "ARS", uint(1000000)},
-	{"$10,000,000", "JPY", uint(10000000)},
-}
-
-func TestFormattedStringToUint(t *testing.T) {
-	for _, v := range TestFormattedStringToUintData {
-		result, err := FormattedStringToUint(v.Num, v.Alpha)
-		if err != nil {
-			if err.Error() != v.Output {
-				t.Error("input: ", v.Num, " error: ", err)
-			}
-		} else if result != v.Output {
-			t.Error("got: ", result, " expected: ", v.Output)
-		}
-	}
-}
-
-var TestPlainStringToIntData = []struct {
-	Num    string
-	Alpha  string
-	Output interface{}
-}{
-	{"0", "USA", ErrorInvalidISO.Error()},
-	{"0", "USD", int64(0)},
-	{"1", "USD", int64(1)},
-	{"10", "USD", int64(10)},
-	{"100", "USD", int64(100)},
-	{"1000", "USD", int64(1000)},
-	{"10000", "USD", int64(10000)},
-	{"100000", "USD", int64(100000)},
+	{"$100.00,00", "ARS", 1000000},
+	{"$10,000,000", "JPY", 10000000},
 }
 
 func TestPlainStringToInt(t *testing.T) {
-	for _, v := range TestPlainStringToIntData {
-		result, err := PlainStringToInt(v.Num, v.Alpha)
+	for _, v := range TestStringToIntData {
+		result, err := StringToInt(v.Num, v.Alpha)
 		if err != nil {
 			if err.Error() != v.Output {
 				t.Error(err.Error())

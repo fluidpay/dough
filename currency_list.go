@@ -1,4 +1,4 @@
-package currency
+package dough
 
 // Currency - struct containing currency variables
 type Currency struct {

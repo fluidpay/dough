@@ -1,4 +1,4 @@
-package currency
+package dough
 
 import (
 	"math"
@@ -7,15 +7,15 @@ import (
 	"strings"
 )
 
-// FormattedStringToUint : returns a uint from a string value
-func FormattedStringToUint(num string, alpha string) (uint, error) {
+// StringToInt : returns a uint from a string value
+func StringToInt(num string, alpha string) (int, error) {
 	ISO, err := GetISOFromAlpha(alpha)
 	if err != nil {
 		return 0, err
 	}
 
 	// Find all numbers and a decimal
-	reg := regexp.MustCompile("[0-9" + ISO.Decimal + "]+")
+	reg := regexp.MustCompile("[-0-9" + ISO.Decimal + "]+")
 	strArray := reg.FindAllString(num, -1)
 	str := strings.Join(strArray, "")
 
@@ -29,16 +29,7 @@ func FormattedStringToUint(num string, alpha string) (uint, error) {
 	}
 
 	// Return a mulitple of the fraction to give us our uint
-	return uint(fl * math.Pow10(ISO.Fraction)), nil
-}
-
-// PlainStringToInt returns a int64 from a purely numerical string
-func PlainStringToInt(str string, alpha string) (int64, error) {
-	_, err := GetISOFromAlpha(alpha)
-	if err != nil {
-		return 0, err
-	}
-	return strconv.ParseInt(str, 10, 64)
+	return int(fl * math.Pow10(ISO.Fraction)), nil
 }
 
 // DisplayFull : returns a string with full currency formatting... "num" being the amount, "alpha" being the ISO three digit alphabetic code.
