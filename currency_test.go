@@ -10,7 +10,7 @@ func TestCurrencyCount(t *testing.T) {
 	t.Log("Currency Count: ", num)
 }
 
-var TestFormattedStringToUintData = []struct {
+var TestStringToIntData = []struct {
 	Num    string
 	Alpha  string
 	Output interface{}
