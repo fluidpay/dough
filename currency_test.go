@@ -42,7 +42,7 @@ var TestStringToIntData = []struct {
 	{"$10,000,000", "JPY", 10000000},
 }
 
-func TestPlainStringToInt(t *testing.T) {
+func TestStringToInt(t *testing.T) {
 	for _, v := range TestStringToIntData {
 		result, err := StringToInt(v.Num, v.Alpha)
 		if err != nil {
