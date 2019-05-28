@@ -84,30 +84,31 @@ func RemoveDecimal(str string, dec string) string {
 	return strings.Replace(str, dec, "", -1)
 }
 
-// CheckNegative : checks for a negative int and converts it to positive for formatting
-func CheckNegative(num int) (int, bool) {
+// IsNegative : returns a bool based on whether the int is negative or positive
+func IsNegative(num int) bool {
 	if math.Signbit(float64(num)) == true {
-		return int(math.Abs(float64(num))), true
+		return true
 	}
-	return num, false
+	return false
 }
 
 // FormatCurrency : returns basic currency formatting
 func FormatCurrency(num int, ISO Currency) string {
-	newNum, isNegative := CheckNegative(num)
-	str := ConvertToStringWithDecimal(newNum, ISO.Fraction)
+	isNegative := IsNegative(num)
+	num = int(math.Abs(float64(num)))
+	str := ConvertToStringWithDecimal(num, ISO.Fraction)
 	strSplit := strings.Split(str, ".")
 	strSplit[0] = ReverseString(strSplit[0])
 	strSplit[0] = InsertDelimiter(strSplit[0], ISO.Grouping, ISO.Delimiter)
 	strSplit[0] = ReverseString(strSplit[0])
-	if isNegative {
-		if ISO.SymbolPositionFront != true {
+	if ISO.SymbolPositionFront != true {
+		if isNegative {
 			return "-" + strSplit[0] + ISO.Decimal + strSplit[1] + ISO.Symbol
 		}
-		return ISO.Symbol + "-" + strSplit[0] + ISO.Decimal + strSplit[1]
-	}
-	if ISO.SymbolPositionFront != true {
 		return strSplit[0] + ISO.Decimal + strSplit[1] + ISO.Symbol
+	}
+	if isNegative {
+		return ISO.Symbol + "-" + strSplit[0] + ISO.Decimal + strSplit[1]
 	}
 	return ISO.Symbol + strSplit[0] + ISO.Decimal + strSplit[1]
 }
