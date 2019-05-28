@@ -21,7 +21,7 @@ var TestStringToIntData = []struct {
 	{"$5", "USA", ErrorInvalidISO.Error()},
 	{"$5", "USD", 500},
 	{"$500", "USD", 50000},
-	{"-500", "USD", -50000},
+	{"$ -500", "USD", -50000},
 	{"$05", "USD", 500},
 	{"$0.05", "USD", 5},
 	{"$5.0", "USD", 500},
@@ -56,7 +56,7 @@ func TestStringToInt(t *testing.T) {
 }
 
 var TestDisplayFullData = []struct {
-	Amount uint
+	Amount int
 	Alpha  string
 	Output string
 }{
@@ -81,6 +81,16 @@ var TestDisplayFullData = []struct {
 	{1000000, "AED", "10,000.00\u0625\u002E\u062F"},
 	{10000000, "AED", "100,000.00\u0625\u002E\u062F"},
 	{100000000, "AED", "1,000,000.00\u0625\u002E\u062F"},
+	{-0, "USD", "$0.00"},
+	{-1, "USD", "$-0.01"},
+	{-10, "USD", "$-0.10"},
+	{-100, "USD", "$-1.00"},
+	{-1000, "USD", "$-10.00"},
+	{-10000, "USD", "$-100.00"},
+	{-100000, "USD", "$-1,000.00"},
+	{-1000000, "USD", "$-10,000.00"},
+	{-10000000, "USD", "$-100,000.00"},
+	{-100000000, "USD", "$-1,000,000.00"},
 }
 
 func TestDisplayFull(t *testing.T) {
@@ -97,12 +107,13 @@ func TestDisplayFull(t *testing.T) {
 }
 
 var TestDisplayWithAlphaData = []struct {
-	Amount uint
+	Amount int
 	Alpha  string
 	Output string
 }{
 	{0, "USA", ErrorInvalidISO.Error()},
 	{0, "USD", "USD 0.00"},
+	{-1, "USD", "USD -0.01"},
 }
 
 func TestDisplayWithAlpha(t *testing.T) {
@@ -119,7 +130,7 @@ func TestDisplayWithAlpha(t *testing.T) {
 }
 
 var TestDisplayNoSymbolData = []struct {
-	Num    uint
+	Num    int
 	Alpha  string
 	Output string
 }{
@@ -131,6 +142,12 @@ var TestDisplayNoSymbolData = []struct {
 	{1000, "USD", "10.00"},
 	{10000, "USD", "100.00"},
 	{100000, "USD", "1,000.00"},
+	{-1, "USD", "-0.01"},
+	{-10, "USD", "-0.10"},
+	{-100, "USD", "-1.00"},
+	{-1000, "USD", "-10.00"},
+	{-10000, "USD", "-100.00"},
+	{-100000, "USD", "-1,000.00"},
 }
 
 func TestDisplayNoSymbol(t *testing.T) {
@@ -147,7 +164,7 @@ func TestDisplayNoSymbol(t *testing.T) {
 }
 
 var TestDisplayWithDecimalData = []struct {
-	Num    uint
+	Num    int
 	Alpha  string
 	Output string
 }{
@@ -159,6 +176,12 @@ var TestDisplayWithDecimalData = []struct {
 	{1000, "USD", "10.00"},
 	{10000, "USD", "100.00"},
 	{100000, "USD", "1000.00"},
+	{-1, "USD", "-0.01"},
+	{-10, "USD", "-0.10"},
+	{-100, "USD", "-1.00"},
+	{-1000, "USD", "-10.00"},
+	{-10000, "USD", "-100.00"},
+	{-100000, "USD", "-1000.00"},
 }
 
 func TestDisplayWithDecimal(t *testing.T) {

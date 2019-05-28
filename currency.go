@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-// StringToInt : returns a uint from a string value
+// StringToInt : returns a int from a string value
 func StringToInt(num string, alpha string) (int, error) {
 	ISO, err := GetISOFromAlpha(alpha)
 	if err != nil {
@@ -33,7 +33,7 @@ func StringToInt(num string, alpha string) (int, error) {
 }
 
 // DisplayFull : returns a string with full currency formatting... "num" being the amount, "alpha" being the ISO three digit alphabetic code.
-func DisplayFull(num uint, alpha string) (string, error) {
+func DisplayFull(num int, alpha string) (string, error) {
 	ISO, err := GetISOFromAlpha(alpha)
 	if err != nil {
 		return "", err
@@ -42,7 +42,7 @@ func DisplayFull(num uint, alpha string) (string, error) {
 }
 
 // DisplayWithAlpha : returns a string with full currency formatting with the symbol replaced by the ISO three digit alphabetic code... "num" being the amount, "alpha" being the ISO three digit alphabetic code.
-func DisplayWithAlpha(num uint, alpha string) (string, error) {
+func DisplayWithAlpha(num int, alpha string) (string, error) {
 	ISO, err := GetISOFromAlpha(alpha)
 	if err != nil {
 		return "", err
@@ -52,7 +52,7 @@ func DisplayWithAlpha(num uint, alpha string) (string, error) {
 }
 
 // DisplayNoSymbol : returns a string with full currency formatting minus the ISO symbol... "num" being the amount, "alpha" being the ISO three digit alphabetic code.
-func DisplayNoSymbol(num uint, alpha string) (string, error) {
+func DisplayNoSymbol(num int, alpha string) (string, error) {
 	ISO, err := GetISOFromAlpha(alpha)
 	if err != nil {
 		return "", err
@@ -62,7 +62,7 @@ func DisplayNoSymbol(num uint, alpha string) (string, error) {
 }
 
 // DisplayWithDecimal : returns a string with all currency formatting removed except decimal places... "num" being the amount, "alpha" being the ISO three digit alphabetic code.
-func DisplayWithDecimal(num uint, alpha string) (string, error) {
+func DisplayWithDecimal(num int, alpha string) (string, error) {
 	ISO, err := GetISOFromAlpha(alpha)
 	if err != nil {
 		return "", err
