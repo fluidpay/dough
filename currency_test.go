@@ -5,10 +5,12 @@ import (
 	"testing"
 )
 
-func TestCurrencyCount(t *testing.T) {
-	num := len(CurrencyList)
-	t.Log("Currency Count: ", num)
-}
+// Enable to view currency count
+
+// func TestCurrencyCount(t *testing.T) {
+// 	num := len(CurrencyList)
+// 	t.Log("Currency Count: ", num)
+// }
 
 var TestStringToIntData = []struct {
 	Num    string
