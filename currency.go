@@ -27,7 +27,7 @@ func StringToInt(num string, alpha string) (int, error) {
 	if strings.Contains(num, ISO.Decimal) == true {
 		split := strings.Split(num, ISO.Decimal)
 		if len(split[1]) != ISO.Fraction {
-			return 0, ErrorUnableToFormatCurrencyFromString
+			return 0, ErrorInvalidStringFormat
 		}
 		if isNegative {
 			return int(fl) * -1, nil
