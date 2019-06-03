@@ -14,21 +14,29 @@ func StringToInt(num string, alpha string) (int, error) {
 		return 0, err
 	}
 
-	// Find all numbers and a decimal
-	reg := regexp.MustCompile("[-0-9" + ISO.Decimal + "]+")
-	strArray := reg.FindAllString(num, -1)
-	str := strings.Join(strArray, "")
+	isNegative := strings.Contains(num, "-")
 
-	// If using a different decimal type replace with period
-	str = strings.Replace(str, ISO.Decimal, ".", -1)
+	reg := regexp.MustCompile("[0-9]+")
+	str := reg.FindAllString(num, -1)
+	strJoin := strings.Join(str, "")
+	fl, err := strconv.ParseFloat(strJoin, 64)
 
-	// Take array of found matches and create float
-	fl, err := strconv.ParseFloat(str, 64)
 	if err != nil {
 		return 0, ErrorUnableToFormatCurrencyFromString
 	}
-
-	// Return a mulitple of the fraction to give us our uint
+	if strings.Contains(num, ISO.Decimal) == true {
+		split := strings.Split(num, ISO.Decimal)
+		if len(split[1]) != ISO.Fraction {
+			return 0, ErrorUnableToFormatCurrencyFromString
+		}
+		if isNegative {
+			return int(fl) * -1, nil
+		}
+		return int(fl), nil
+	}
+	if isNegative {
+		return int(fl*math.Pow10(ISO.Fraction)) * -1, nil
+	}
 	return int(fl * math.Pow10(ISO.Fraction)), nil
 }
 

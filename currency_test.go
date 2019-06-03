@@ -24,7 +24,7 @@ var TestStringToIntData = []struct {
 	{"$ -500", "USD", -50000},
 	{"$05", "USD", 500},
 	{"$0.05", "USD", 5},
-	{"$5.0", "USD", 500},
+	{"$5.0", "USD", ErrorUnableToFormatCurrencyFromString.Error()},
 	{"$5.52", "USD", 552},
 	{"$0.00", "USD", 0},
 	{"$0.01", "USD", 1},
@@ -36,6 +36,11 @@ var TestStringToIntData = []struct {
 	{"$10,000.00", "USD", 1000000},
 	{"$100,000.00", "USD", 10000000},
 	{"$1,000,000.00", "USD", 100000000},
+
+	// Problematic Numbers
+	{"$538.92", "USD", 53892},
+	{"$65.85", "USD", 6585},
+	{"$17.99", "USD", 1799},
 
 	// Non USD
 	{"$100.00,00", "ARS", 1000000},
