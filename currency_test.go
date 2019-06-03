@@ -5,10 +5,12 @@ import (
 	"testing"
 )
 
-func TestCurrencyCount(t *testing.T) {
-	num := len(CurrencyList)
-	t.Log("Currency Count: ", num)
-}
+// Enable to view currency count
+
+// func TestCurrencyCount(t *testing.T) {
+// 	num := len(CurrencyList)
+// 	t.Log("Currency Count: ", num)
+// }
 
 var TestStringToIntData = []struct {
 	Num    string
@@ -21,10 +23,12 @@ var TestStringToIntData = []struct {
 	{"$5", "USA", ErrorInvalidISO.Error()},
 	{"$5", "USD", 500},
 	{"$500", "USD", 50000},
-	{"$ -500", "USD", -50000},
+	{"$-500", "USD", -50000},
 	{"$05", "USD", 500},
 	{"$0.05", "USD", 5},
-	{"$5.0", "USD", 500},
+	{"$0.0.5", "USD", ErrorInvalidStringFormat.Error()},
+	{"$5.0", "USD", ErrorInvalidStringFormat.Error()},
+	{"$5.000", "USD", ErrorInvalidStringFormat.Error()},
 	{"$5.52", "USD", 552},
 	{"$0.00", "USD", 0},
 	{"$0.01", "USD", 1},
@@ -36,6 +40,23 @@ var TestStringToIntData = []struct {
 	{"$10,000.00", "USD", 1000000},
 	{"$100,000.00", "USD", 10000000},
 	{"$1,000,000.00", "USD", 100000000},
+
+	// Problematic Numbers
+	{"$538.92", "USD", 53892},
+	{"$65.85", "USD", 6585},
+	{"$17.99", "USD", 1799},
+	{"538.92", "USD", 53892},
+	{"65.85", "USD", 6585},
+	{"17.99", "USD", 1799},
+	{"$-538.92", "USD", -53892},
+	{"$-65.85", "USD", -6585},
+	{"$-17.99", "USD", -1799},
+	{"-538.92", "USD", -53892},
+	{"-65.85", "USD", -6585},
+	{"-17.99", "USD", -1799},
+	{"-$538.92", "USD", -53892},
+	{"-$65.85", "USD", -6585},
+	{"-$17.99", "USD", -1799},
 
 	// Non USD
 	{"$100.00,00", "ARS", 1000000},
