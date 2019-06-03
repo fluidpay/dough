@@ -26,6 +26,7 @@ var TestStringToIntData = []struct {
 	{"$-500", "USD", -50000},
 	{"$05", "USD", 500},
 	{"$0.05", "USD", 5},
+	{"$0.0.5", "USD", ErrorInvalidStringFormat.Error()},
 	{"$5.0", "USD", ErrorInvalidStringFormat.Error()},
 	{"$5.000", "USD", ErrorInvalidStringFormat.Error()},
 	{"$5.52", "USD", 552},
