@@ -112,3 +112,11 @@ func FormatCurrency(num int, ISO Currency) string {
 	}
 	return ISO.Symbol + strSplit[0] + ISO.Decimal + strSplit[1]
 }
+
+// CleanFloatToInt will fix floating point issues when going from float to int based upon fraction
+func CleanFloatToInt(amt float64, fraction int) int {
+	fractionFl := math.Pow10(fraction)
+	percentageFloat := float64(fractionFl) / 10000
+	amtFloat := amt * 100 //need to convert int to a usd float
+	return int(math.Round((amtFloat * percentageFloat) * 100))
+}
