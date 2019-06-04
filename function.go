@@ -112,3 +112,8 @@ func FormatCurrency(num int, ISO Currency) string {
 	}
 	return ISO.Symbol + strSplit[0] + ISO.Decimal + strSplit[1]
 }
+
+// FloatToInt will take in a float and based upon fraction will output the int version
+func FloatToInt(amt float64, fraction int) int {
+	return int(math.Round(((amt * 100) * (float64(math.Pow10(fraction)) / 10000)) * 100))
+}

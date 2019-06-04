@@ -1,7 +1,6 @@
 package dough
 
 import (
-	"math"
 	"regexp"
 	"strconv"
 	"strings"
@@ -14,30 +13,28 @@ func StringToInt(num string, alpha string) (int, error) {
 		return 0, err
 	}
 
-	isNegative := strings.Contains(num, "-")
+	// Clean string
+	reg, _ := regexp.Compile("[^-" + ISO.Decimal + "0-9]+")
+	str := reg.ReplaceAllString(num, "")
+	str = strings.Replace(str, ISO.Decimal, ".", -1) // Replace ISO specific decimal with float decimal .
+	if str == "" {
+		return 0, ErrorInvalidStringFormat
+	}
 
-	reg := regexp.MustCompile("[0-9]+")
-	str := reg.FindAllString(num, -1)
-	strJoin := strings.Join(str, "")
-	fl, err := strconv.ParseFloat(strJoin, 64)
+	// Validate ISO fraction matches
+	split := strings.Split(str, ".")
+	if len(split) == 2 && len(split[1]) != ISO.Fraction {
+		return 0, ErrorInvalidISOFractionMatch
+	}
 
+	// Convert to Float - to test if valid number
+	fl, err := strconv.ParseFloat(str, 64)
 	if err != nil {
-		return 0, ErrorUnableToFormatCurrencyFromString
+		return 0, ErrorInvalidStringFormat
 	}
-	if strings.Contains(num, ISO.Decimal) == true {
-		split := strings.Split(num, ISO.Decimal)
-		if len(split[1]) != ISO.Fraction {
-			return 0, ErrorInvalidStringFormat
-		}
-		if isNegative {
-			return int(fl) * -1, nil
-		}
-		return int(fl), nil
-	}
-	if isNegative {
-		return int(fl*math.Pow10(ISO.Fraction)) * -1, nil
-	}
-	return int(fl * math.Pow10(ISO.Fraction)), nil
+
+	// Convert float to cents based upon iso fraction
+	return FloatToInt(fl, ISO.Fraction), nil
 }
 
 // DisplayFull : returns a string with full currency formatting... "num" being the amount, "alpha" being the ISO three digit alphabetic code.
