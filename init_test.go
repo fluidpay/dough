@@ -21,6 +21,5 @@ func init() {
 		float, _ := strconv.ParseFloat(str, 64)
 		integer, _ := strconv.Atoi(strReplace)
 		TestLargeNums = append(TestLargeNums, testNum{str, float, integer})
-		// fmt.Printf("%#v %#v %#v \n", str, float, integer)
 	}
 }
