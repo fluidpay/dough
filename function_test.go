@@ -343,3 +343,19 @@ func TestFormatCurrency(t *testing.T) {
 		}
 	}
 }
+
+func TestFloatToIntLargeNums(t *testing.T) {
+	for _, v := range TestLargeNums {
+		result := FloatToInt(v.Float, 2)
+		if result != v.Integer {
+			t.Error("Expected:", v.Integer, "Got:", result)
+		}
+	}
+}
+
+func BenchmarkDecimalToInt(b *testing.B) {
+	// run the Fib function b.N times
+	for n := 0; n < b.N; n++ {
+		FloatToInt(123456789.99, 2)
+	}
+}

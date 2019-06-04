@@ -5,30 +5,26 @@ import (
 	"testing"
 )
 
-// Enable to view currency count
-
-// func TestCurrencyCount(t *testing.T) {
-// 	num := len(CurrencyList)
-// 	t.Log("Currency Count: ", num)
-// }
-
 var TestStringToIntData = []struct {
 	Num    string
 	Alpha  string
 	Output interface{}
 }{
-	{"", "USD", ErrorUnableToFormatCurrencyFromString.Error()},
-	{"     ", "USD", ErrorUnableToFormatCurrencyFromString.Error()},
-	{"abcd", "USD", ErrorUnableToFormatCurrencyFromString.Error()},
+	// Invalid values
+	{"", "USD", ErrorInvalidStringFormat.Error()},
+	{"     ", "USD", ErrorInvalidStringFormat.Error()},
+	{"abcd", "USD", ErrorInvalidStringFormat.Error()},
 	{"$5", "USA", ErrorInvalidISO.Error()},
+	{"$0.0.5", "USD", ErrorInvalidStringFormat.Error()},
+	{"$5.0", "USD", ErrorInvalidISOFractionMatch.Error()},
+	{"$5.000", "USD", ErrorInvalidISOFractionMatch.Error()},
+
+	// Various Standard values
 	{"$5", "USD", 500},
 	{"$500", "USD", 50000},
 	{"$-500", "USD", -50000},
 	{"$05", "USD", 500},
 	{"$0.05", "USD", 5},
-	{"$0.0.5", "USD", ErrorInvalidStringFormat.Error()},
-	{"$5.0", "USD", ErrorInvalidStringFormat.Error()},
-	{"$5.000", "USD", ErrorInvalidStringFormat.Error()},
 	{"$5.52", "USD", 552},
 	{"$0.00", "USD", 0},
 	{"$0.01", "USD", 1},
@@ -68,11 +64,30 @@ func TestStringToInt(t *testing.T) {
 		result, err := StringToInt(v.Num, v.Alpha)
 		if err != nil {
 			if err.Error() != v.Output {
-				t.Error(err.Error())
+				t.Error("Expected:", v.Output, "Error:", err.Error())
 			}
 		} else if result != v.Output {
-			t.Error(result)
+			t.Error("Expected:", v.Output, "Got:", result)
 		}
+	}
+}
+
+func TestStringToIntLargeNums(t *testing.T) {
+	for _, v := range TestLargeNums {
+		result, err := StringToInt(v.String, "USD")
+		if err != nil {
+			t.Error(err)
+		}
+		if result != v.Integer {
+			t.Error("Expected:", v.Integer, "Got:", result)
+		}
+	}
+}
+
+func BenchmarkStringToInt(b *testing.B) {
+	// run the Fib function b.N times
+	for n := 0; n < b.N; n++ {
+		StringToInt("12,345,678.99", "USD")
 	}
 }
 

@@ -6,7 +6,10 @@ import "errors"
 var ErrorInvalidISO = errors.New("Invalid ISO Code")
 
 // ErrorInvalidStringFormat : returns an error if trying to convert an invalid string value
-var ErrorInvalidStringFormat = errors.New("Unable To Convert Invalid String Format")
+var ErrorInvalidStringFormat = errors.New("Invalid String Format")
+
+// ErrorInvalidISOFractionMatch : returns an error if fraction does not match ISO fraction
+var ErrorInvalidISOFractionMatch = errors.New("Invalid ISO Fraction Match")
 
 // ErrorUnableToFormatCurrency : returns an error for invalid currency formatting
 var ErrorUnableToFormatCurrency = errors.New("Unable To Format Currency")
