@@ -117,3 +117,13 @@ func FormatCurrency(num int, ISO Currency) string {
 func FloatToInt(amt float64, fraction int) int {
 	return int(math.Round(((amt * 100) * (float64(math.Pow10(fraction)) / 10000)) * 100))
 }
+
+// IntToFloat will take in a int and based upon magnitude will output the float version
+func IntToFloat(amt int, magnitude int) float64 {
+	return float64(float64(amt) / math.Pow10(magnitude))
+}
+
+// GetPercentage will give you a percentage to the exact precision that you want based on magnitude
+func GetPercentage(amt int, pct float64, magnitude int) float64 {
+	return math.Round(float64(amt) * pct * math.Pow10(magnitude)) / math.Pow10(magnitude)
+}

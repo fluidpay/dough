@@ -353,6 +353,24 @@ func TestFloatToIntLargeNums(t *testing.T) {
 	}
 }
 
+func TestIntToFloat(t *testing.T) {
+	for _, v := range TestLargeNums {
+		result := IntToFloat(v.Integer, 2)
+		if result != v.Float {
+			t.Error("Expected: ", v.Float, "Got: ", result)
+		}
+	}
+}
+
+func TestGetPercentage(t *testing.T) {
+	for _, v := range TestLargeNums {
+		result := GetPercentage(v.Integer, .01, 2)
+			if result != v.Float {
+				t.Error("Expected: ", v.Float, "Got: ", result)
+		}
+	}
+}
+
 func BenchmarkDecimalToInt(b *testing.B) {
 	// run the Fib function b.N times
 	for n := 0; n < b.N; n++ {
