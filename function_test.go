@@ -346,18 +346,34 @@ func TestFormatCurrency(t *testing.T) {
 
 func TestFloatToIntLargeNums(t *testing.T) {
 	for _, v := range TestLargeNums {
-		result := FloatToInt(v.Float, 2)
+		result := FloatToInt(v.Float1, 1)
 		if result != v.Integer {
-			t.Error("Expected:", v.Integer, "Got:", result)
+			t.Error("Expected: ", v.Integer, "Got: ", result)
 		}
-	}
+		result = FloatToInt(v.Float2, 2)
+		if result != v.Integer {
+			t.Error("Expected:", v.Integer, "Got: ", result)
+		}
+		result = FloatToInt(v.Float3, 3)
+		if result != v.Integer {
+			t.Error("Expected: ", v.Integer, "Got: ", result)
+		}
+ 	}
 }
 
 func TestIntToFloat(t *testing.T) {
 	for _, v := range TestLargeNums {
-		result := IntToFloat(v.Integer, 2)
-		if result != v.Float {
-			t.Error("Expected: ", v.Float, "Got: ", result)
+		result := IntToFloat(v.Integer, 1)
+		if result != v.Float1 {
+			t.Error("Expected: ", v.Float1, "Got: ", result)
+		}
+		result = IntToFloat(v.Integer, 2)
+		if result != v.Float2 {
+			t.Error("Expected: ", v.Float2, "Got: ", result)
+		}
+		result = IntToFloat(v.Integer, 3)
+		if result != v.Float3 {
+			t.Error("Expected: ", v.Float3, "Got: ", result)
 		}
 	}
 }
@@ -365,8 +381,8 @@ func TestIntToFloat(t *testing.T) {
 func TestGetPercentage(t *testing.T) {
 	for _, v := range TestLargeNums {
 		result := GetPercentage(v.Integer, .01, 2)
-			if result != v.Float {
-				t.Error("Expected: ", v.Float, "Got: ", result)
+			if result != v.Float2 {
+				t.Error("Expected: ", v.Float2, "Got: ", result)
 		}
 	}
 }
