@@ -60,6 +60,7 @@ var TestStringToIntData = []struct {
 }
 
 func TestStringToInt(t *testing.T) {
+	// Test various structs
 	for _, v := range TestStringToIntData {
 		result, err := StringToInt(v.Num, v.Alpha)
 		if err != nil {
@@ -70,11 +71,10 @@ func TestStringToInt(t *testing.T) {
 			t.Error("Expected:", v.Output, "Got:", result)
 		}
 	}
-}
 
-func TestStringToIntLargeNums(t *testing.T) {
+	// Test seeding numbers
 	for _, v := range TestLargeNums {
-		result, err := StringToInt(v.String, "USD")
+		result, err := StringToInt(v.String2, "USD")
 		if err != nil {
 			t.Error(err)
 		}

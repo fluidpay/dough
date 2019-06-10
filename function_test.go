@@ -344,18 +344,125 @@ func TestFormatCurrency(t *testing.T) {
 	}
 }
 
-func TestFloatToIntLargeNums(t *testing.T) {
+func TestFloatToInt(t *testing.T) {
 	for _, v := range TestLargeNums {
-		result := FloatToInt(v.Float, 2)
+		result := FloatToInt(v.Float1, 1)
 		if result != v.Integer {
-			t.Error("Expected:", v.Integer, "Got:", result)
+			t.Error("Expected: ", v.Integer, "Got: ", result)
+		}
+		result = FloatToInt(v.Float2, 2)
+		if result != v.Integer {
+			t.Error("Expected:", v.Integer, "Got: ", result)
+		}
+		result = FloatToInt(v.Float3, 3)
+		if result != v.Integer {
+			t.Error("Expected: ", v.Integer, "Got: ", result)
 		}
 	}
 }
 
-func BenchmarkDecimalToInt(b *testing.B) {
+func BenchmarkFloatToInt(b *testing.B) {
 	// run the Fib function b.N times
 	for n := 0; n < b.N; n++ {
 		FloatToInt(123456789.99, 2)
+	}
+}
+
+func TestIntToFloat(t *testing.T) {
+	for _, v := range TestLargeNums {
+		result := IntToFloat(v.Integer, 1)
+		if result != v.Float1 {
+			t.Error("Expected: ", v.Float1, "Got: ", result)
+		}
+		result = IntToFloat(v.Integer, 2)
+		if result != v.Float2 {
+			t.Error("Expected: ", v.Float2, "Got: ", result)
+		}
+		result = IntToFloat(v.Integer, 3)
+		if result != v.Float3 {
+			t.Error("Expected: ", v.Float3, "Got: ", result)
+		}
+	}
+}
+
+func BenchmarkIntToFloat(b *testing.B) {
+	// run the Fib function b.N times
+	for n := 0; n < b.N; n++ {
+		IntToFloat(123456789, 2)
+	}
+}
+
+var intPercentageData = []struct {
+	amt int
+	pct float64
+	fraction int
+	result float64
+}{
+	{898, .567, 2, 509.17},
+	{898, .567, 3, 509.166},
+	{10975, .11, 2, 1207.25},
+	{10975, .11, 3, 1207.25},
+	{10, .27, 2, 2.7},
+	{6942, .99, 2, 6872.58},
+	{9999, .0, 2, 0},
+	{9999, 1.0, 2, 9999},
+	{45435, .69, 2, 31350.15},
+	{420, .42, 2, 176.4},
+	{89357, .854, 2, 76310.88},
+	{200, .14, 2, 28},
+	{1414104958, .2145, 2, 303325513.49},
+	{9857, .756, 1, 7451.9},
+	{9857, .756, 0, 7452},
+	{100, .1, 2, 10},
+	{1055, 3.5, 2, 3692.5},
+	{100, 15.98, 2, 1598},
+	{333, .08, 2, 26.64},
+}
+func TestGetPercentageFromInt(t *testing.T) {
+	for _, v := range TestLargeNums {
+		result := PercentageFromInt(v.Integer, .01, 2)
+		if result != v.Float2 {
+			t.Error("Expected: ", v.Float2, "Got: ", result)
+		}
+	}
+	for _, v := range intPercentageData {
+		result := PercentageFromInt(v.amt, v.pct, v.fraction)
+		if result != v.result {
+			t.Error("Expected: ", v.result, "Got: ", result)
+		}
+	}
+}
+
+var floatPercentageData = []struct {
+	amt float64
+	pct float64
+	fraction int
+	result float64
+}{
+	{64.72, .10, 3, 6.472},
+	{64.72, .1, 2, 6.47},
+	{11.11, .13, 2, 1.44},
+	{11.11, .13, 4, 1.4443},
+	{9999.99, 1.0, 2, 9999.99},
+	{10000.85, 0.0, 2, 0},
+	{420.69, .42, 2, 176.69},
+	{1.25, .50, 1, 0.6},
+	{95545.194, .399, 2, 38122.53},
+	{95545.194, .399, 3, 38122.532},
+	{95545.194, .399, 4, 38122.5324},
+	{95545.194, .399, 5, 38122.53241},
+	{95545.194, .399, 6, 38122.532406},
+	{21.4, 15.4, 2, 329.56},
+	{0.5, .01, 2, 0.01},
+	{0.5, .01, 3, 0.005},
+	{0, .42, 2, 0},
+	{134.2, .555, 0, 74},
+}
+func TestGetPercentageFromFloat(t *testing.T) {
+	for _, v := range floatPercentageData {
+		result := PercentageFromFloat(v.amt, v.pct, v.fraction)
+		if result != v.result {
+			t.Error("Expected: ", v.result, "Got: ", result)
+		}
 	}
 }
