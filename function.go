@@ -117,3 +117,18 @@ func FormatCurrency(num int, ISO Currency) string {
 func FloatToInt(amt float64, fraction int) int {
 	return int(math.Round(((amt * 100) * (float64(math.Pow10(fraction)) / 10000)) * 100))
 }
+
+// IntToFloat will take in a int and based upon fraction will output the float version
+func IntToFloat(amt int, fraction int) float64 {
+	return float64(float64(amt) / math.Pow10(fraction))
+}
+
+// PercentageFromInt will give you a percentage to the exact precision that you want based on fraction
+func PercentageFromInt(amt int, percentage float64, fraction int) float64 {
+	return math.Round(float64(amt)*percentage*math.Pow10(fraction)) / math.Pow10(fraction)
+}
+
+// PercentageFromFloat will give you a percentage to the exact precision that you want based on fraction
+func PercentageFromFloat(amt float64, percentage float64, fraction int) float64 {
+	return math.Round(amt*percentage*math.Pow10(fraction)) / math.Pow10(fraction)
+}
