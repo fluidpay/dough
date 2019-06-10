@@ -124,6 +124,6 @@ func IntToFloat(amt int, fraction int) float64 {
 }
 
 // Percentage will give you a percentage to the exact precision that you want based on fraction
-func Percentage(amt int, pct float64, fraction int) float64 {
-	return math.Round(float64(amt)*pct*math.Pow10(fraction)) / math.Pow10(fraction)
+func Percentage(amt int, percentage float64, fraction int) float64 {
+	return math.Round(float64(amt)*percentage*math.Pow10(fraction)) / math.Pow10(fraction)
 }
