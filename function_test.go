@@ -417,6 +417,9 @@ var intPercentageData = []struct {
 	{1055, 350, 2, 3692.5},
 	{100, 1598, 2, 1598},
 	{333, 8, 2, 26.64},
+	{1992, .345, 2, 6.87},
+	{65, .011, 3, 0.007},
+	{65, .011, 4, 0.0072},
 }
 func TestGetPercentageFromInt(t *testing.T) {
 	for _, v := range TestLargeNums {
@@ -457,6 +460,9 @@ var floatPercentageData = []struct {
 	{0.5, 1, 3, 0.005},
 	{0, 42, 2, 0},
 	{134.2, 55.5, 0, 74},
+	{19.93, .045, 2, .01},
+	{19.93, .045, 4, .009},
+	{19.93, .045, 5, .00897},
 }
 func TestGetPercentageFromFloat(t *testing.T) {
 	for _, v := range floatPercentageData {
