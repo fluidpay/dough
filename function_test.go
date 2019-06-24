@@ -121,7 +121,7 @@ func TestConvertToStringWithDecimal(t *testing.T) {
 	}
 }
 
-var TestReverseStringData = []struct {
+var TestreverseStringData = []struct {
 	Input  string
 	Output string
 }{
@@ -135,9 +135,9 @@ var TestReverseStringData = []struct {
 	{"000,000,1", "1,000,000"},
 }
 
-func TestReverseString(t *testing.T) {
-	for _, v := range TestReverseStringData {
-		result := ReverseString(v.Input)
+func TestreverseString(t *testing.T) {
+	for _, v := range TestreverseStringData {
+		result := reverseString(v.Input)
 		if result != v.Output {
 			t.Error(result)
 		}
@@ -192,7 +192,7 @@ func TestSwapSymbolWithAlpha(t *testing.T) {
 	}
 }
 
-var TestRemoveSymbolData = []struct {
+var TestremoveSymbolData = []struct {
 	Str    string
 	Sym    string
 	Output string
@@ -209,16 +209,16 @@ var TestRemoveSymbolData = []struct {
 	{"$1,000,000.00", "$", "1,000,000.00"},
 }
 
-func TestRemoveSymbol(t *testing.T) {
-	for _, v := range TestRemoveSymbolData {
-		result := RemoveSymbol(v.Str, v.Sym)
+func TestremoveSymbol(t *testing.T) {
+	for _, v := range TestremoveSymbolData {
+		result := removeSymbol(v.Str, v.Sym)
 		if result != v.Output {
 			t.Error(result)
 		}
 	}
 }
 
-var TestRemoveDelimiterData = []struct {
+var TestremoveDelimiterData = []struct {
 	Str    string
 	Del    string
 	Output string
@@ -235,16 +235,16 @@ var TestRemoveDelimiterData = []struct {
 	{"$1,000,000.00", ",", "$1000000.00"},
 }
 
-func TestRemoveDelimiter(t *testing.T) {
-	for _, v := range TestRemoveDelimiterData {
-		result := RemoveDelimiter(v.Str, v.Del)
+func TestremoveDelimiter(t *testing.T) {
+	for _, v := range TestremoveDelimiterData {
+		result := removeDelimiter(v.Str, v.Del)
 		if result != v.Output {
 			t.Error(result)
 		}
 	}
 }
 
-var TestRemoveDecimalData = []struct {
+var TestremoveDecimalData = []struct {
 	Str    string
 	Dec    string
 	Output string
@@ -261,9 +261,9 @@ var TestRemoveDecimalData = []struct {
 	{"$1,000,000.00", ".", "$1,000,00000"},
 }
 
-func TestRemoveDecimal(t *testing.T) {
-	for _, v := range TestRemoveDecimalData {
-		result := RemoveDecimal(v.Str, v.Dec)
+func TestremoveDecimal(t *testing.T) {
+	for _, v := range TestremoveDecimalData {
+		result := removeDecimal(v.Str, v.Dec)
 		if result != v.Output {
 			t.Error(result)
 		}

@@ -41,17 +41,9 @@ GetAlphaFromISONumeric("840") // output = "USD"
 
 ConvertToStringWithDecimal(100, 2) // output = "1.00"
 
-ReverseString("001") // output = "100"
-
 InsertDelimiter("0001", 3, ",") // output = "000,1"
 
 SwapSymbolWithAlpha("$0.00", "$", "USD") // output = "USD 0.00"
-
-RemoveSymbol("$0.00", "$") // output = "0.00"
-
-RemoveDelimiter("$0.00", ".") // output = "$000"
-
-RemoveDecimal("$0.00", ".", "$000")
 
 IsNegative(-1) // output = true
 

@@ -42,8 +42,8 @@ func ConvertToStringWithDecimal(num int, fraction int) string {
 	return fmt.Sprintf("%.*f", fraction, float64(float64(num)/math.Pow10(fraction)))
 }
 
-// ReverseString : returns a reversed string for delimiter formatting
-func ReverseString(str string) string {
+// reverseString : returns a reversed string for delimiter formatting
+func reverseString(str string) string {
 	var output string
 	for key := len(str) - 1; key >= 0; key-- {
 		output += string(str[key])
@@ -69,18 +69,18 @@ func SwapSymbolWithAlpha(str string, sym string, alpha string) string {
 	return strings.Replace(str, sym, alpha+" ", -1)
 }
 
-// RemoveSymbol : returns a string with the symbol removed
-func RemoveSymbol(str string, sym string) string {
+// removeSymbol : returns a string with the symbol removed
+func removeSymbol(str string, sym string) string {
 	return strings.Replace(str, sym, "", -1)
 }
 
-// RemoveDelimiter : returns a string with the delimiter removed
-func RemoveDelimiter(str string, del string) string {
+// removeDelimiter : returns a string with the delimiter removed
+func removeDelimiter(str string, del string) string {
 	return strings.Replace(str, del, "", -1)
 }
 
-// RemoveDecimal : returns a string with the decimal removed
-func RemoveDecimal(str string, dec string) string {
+// removeDecimal : returns a string with the decimal removed
+func removeDecimal(str string, dec string) string {
 	return strings.Replace(str, dec, "", -1)
 }
 
@@ -98,9 +98,9 @@ func FormatCurrency(num int, ISO Currency) string {
 	num = int(math.Abs(float64(num)))
 	str := ConvertToStringWithDecimal(num, ISO.Fraction)
 	strSplit := strings.Split(str, ".")
-	strSplit[0] = ReverseString(strSplit[0])
+	strSplit[0] = reverseString(strSplit[0])
 	strSplit[0] = InsertDelimiter(strSplit[0], ISO.Grouping, ISO.Delimiter)
-	strSplit[0] = ReverseString(strSplit[0])
+	strSplit[0] = reverseString(strSplit[0])
 	if ISO.SymbolPositionFront != true {
 		if isNegative {
 			return "-" + strSplit[0] + ISO.Decimal + strSplit[1] + ISO.Symbol
