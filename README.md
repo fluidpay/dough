@@ -56,6 +56,14 @@ IntToFloat(999, 2) // output = 9.99
 PercentageFromInt(898, 56.7, 3) // output = 509.166
 
 PercentageFromFloat(11.11, 13, 4) // output = 1.4443
+
+MaskCard("4111111111111111") // output = "411111", "1111", "411111******1111"
+
+MaskACHAccount("8114460248") // output = "81******48"
+
+ValidLuhn("4111111111111111") // output = true
+
+GetCardType("4111111111111111") // output = "visa"
 ```
 
 ## Contributing
