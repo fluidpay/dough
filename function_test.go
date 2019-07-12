@@ -261,7 +261,7 @@ var TestremoveDecimalData = []struct {
 	{"$1,000,000.00", ".", "$1,000,00000"},
 }
 
-func TestremoveDecimal(t *testing.T) {
+func TestRemoveDecimal(t *testing.T) {
 	for _, v := range TestremoveDecimalData {
 		result := removeDecimal(v.Str, v.Dec)
 		if result != v.Output {
