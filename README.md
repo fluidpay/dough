@@ -57,26 +57,6 @@ PercentageFromInt(898, 56.7, 3) // output = 509.166
 
 PercentageFromFloat(11.11, 13, 4) // output = 1.4443
 
-ValidatePostalCodeByCountyCode("GB", "L1 0AA") // output = true
-
-DesEncrypt([]byte("src"), []byte("12345678"+"12345678"+"12345678")) // output = envrypted string as []byte
-
-DesDecrypt([]byte("encrypted"), []byte("12345678"+"12345678"+"12345678")) // output = decrypted string as []byte
-
-PKCS5Padding([]byte("chipertext"), 16) // output = []byte of extended string
-
-PKCS5UnPadding([]byte("data")) // output = []byte of original string
-
-ZeroPadding([]byte("chipertext"), 16) // output = string filled with zero byte to blocksize
-
-ZeroUnPadding([]byte("data")) // output = remove zero bytes from string returns original data
-
-ParseExpToTime("07/19") // output = time.Time of the parameter
-
-ParseTimeToExp(time.Now()) // output = "07/19" (depends on the date)
-
-GetTimeZoneDetails("US/Arizona") // output = "MST", true, -420, false
-
 MaskCard("4111111111111111") // output = "411111", "1111", "411111******1111"
 
 MaskACHAccount("8114460248") // output = "81******48"
