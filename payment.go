@@ -57,33 +57,22 @@ func MaskACHAccount(accountNumber string) (string, error) {
 	return maskedAccount, nil
 }
 
-// Valid returns a boolean indicating if the argument was valid according to the Luhn algorithm.
+// ValidLuhn returns a boolean indicating if the argument was valid according to the Luhn algorithm.
 func ValidLuhn(luhnString string) bool {
-	checksumMod := calculateChecksum(luhnString, false) % 10
-	return checksumMod == 0
-}
-
-func calculateChecksum(luhnString string, double bool) int {
-	source := strings.Split(luhnString, "")
-	checksum := 0
-
-	for i := len(source) - 1; i > -1; i-- {
-		t, _ := strconv.ParseInt(source[i], 10, 8)
-		n := int(t)
-
-		if double {
-			n = n * 2
+	var t = [...]int{0, 2, 4, 6, 8, 1, 3, 5, 7, 9}
+	odd := len(s) & 1
+	var sum int
+	for i, c := range s {
+		if c < '0' || c > '9' {
+			return false
 		}
-		double = !double
-
-		if n >= 10 {
-			n = n - 9
+		if i&1 == odd {
+			sum += t[c-'0']
+		} else {
+			sum += int(c - '0')
 		}
-
-		checksum += n
 	}
-
-	return checksum
+	return sum%10 == 0
 }
 
 // GetCardType Accepts a string containing a credit card number and validates it against some regexes to return the card type.
