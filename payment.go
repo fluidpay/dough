@@ -57,7 +57,7 @@ func MaskACHAccount(accountNumber string) (string, error) {
 }
 
 // ValidLuhn returns a boolean indicating if the argument was valid according to the Luhn algorithm.
-func ValidLuhn(luhnString string) bool {
+func ValidLuhn(s string) bool {
 	var t = [...]int{0, 2, 4, 6, 8, 1, 3, 5, 7, 9}
 	odd := len(s) & 1
 	var sum int
