@@ -81,7 +81,7 @@ func TestStringToInt(t *testing.T) {
 
 	// Test seeding numbers
 	for _, v := range TestLargeNums {
-		result, err := StringToInt(v.String2, "USD", false)
+		result, err := StringToInt(v.String2, "USD")
 		if err != nil {
 			t.Error(err)
 		}
@@ -92,6 +92,13 @@ func TestStringToInt(t *testing.T) {
 }
 
 func BenchmarkStringToInt(b *testing.B) {
+	// run the Fib function b.N times
+	for n := 0; n < b.N; n++ {
+		StringToInt("12,345,678.99", "USD")
+	}
+}
+
+func BenchmarkStringToIntLoose(b *testing.B) {
 	// run the Fib function b.N times
 	for n := 0; n < b.N; n++ {
 		StringToInt("12,345,678.99", "USD", true)
