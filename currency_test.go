@@ -6,63 +6,70 @@ import (
 )
 
 var TestStringToIntData = []struct {
-	Num    string
-	Alpha  string
-	Output interface{}
+	Num        string
+	Alpha      string
+	AllowLoose bool
+	Output     interface{}
 }{
 	// Invalid values
-	{"", "USD", ErrorInvalidStringFormat.Error()},
-	{"     ", "USD", ErrorInvalidStringFormat.Error()},
-	{"abcd", "USD", ErrorInvalidStringFormat.Error()},
-	{"$5", "USA", ErrorInvalidISO.Error()},
-	{"$0.0.5", "USD", ErrorInvalidStringFormat.Error()},
-	{"$5.0", "USD", ErrorInvalidISOFractionMatch.Error()},
-	{"$5.000", "USD", ErrorInvalidISOFractionMatch.Error()},
+	{"", "USD", false, ErrorInvalidStringFormat.Error()},
+	{"     ", "USD", false, ErrorInvalidStringFormat.Error()},
+	{"abcd", "USD", false, ErrorInvalidStringFormat.Error()},
+	{"$5", "USA", false, ErrorInvalidISO.Error()},
+	{"$0.0.5", "USD", false, ErrorInvalidStringFormat.Error()},
+	{"$5.0", "USD", false, ErrorInvalidISOFractionMatch.Error()},
+	{"$5.000", "USD", false, ErrorInvalidISOFractionMatch.Error()},
+
+	//  Loose Validation tests
+	{"$5.1", "USD", true, 510},
+	{"$5.", "USD", true, 500},
+	{"$5.001", "USD", true, 500},
+	{"$5.101", "USD", true, 510},
 
 	// Various Standard values
-	{"$5", "USD", 500},
-	{"$500", "USD", 50000},
-	{"$-500", "USD", -50000},
-	{"$05", "USD", 500},
-	{"$0.05", "USD", 5},
-	{"$5.52", "USD", 552},
-	{"$0.00", "USD", 0},
-	{"$0.01", "USD", 1},
-	{"$0.10", "USD", 10},
-	{"$1.00", "USD", 100},
-	{"$10.00", "USD", 1000},
-	{"$100.00", "USD", 10000},
-	{"$1,000.00", "USD", 100000},
-	{"$10,000.00", "USD", 1000000},
-	{"$100,000.00", "USD", 10000000},
-	{"$1,000,000.00", "USD", 100000000},
+	{"$5", "USD", false, 500},
+	{"$500", "USD", false, 50000},
+	{"$-500", "USD", false, -50000},
+	{"$05", "USD", false, 500},
+	{"$0.05", "USD", false, 5},
+	{"$5.52", "USD", false, 552},
+	{"$0.00", "USD", false, 0},
+	{"$0.01", "USD", false, 1},
+	{"$0.10", "USD", false, 10},
+	{"$1.00", "USD", false, 100},
+	{"$10.00", "USD", false, 1000},
+	{"$100.00", "USD", false, 10000},
+	{"$1,000.00", "USD", false, 100000},
+	{"$10,000.00", "USD", false, 1000000},
+	{"$100,000.00", "USD", false, 10000000},
+	{"$1,000,000.00", "USD", false, 100000000},
 
 	// Problematic Numbers
-	{"$538.92", "USD", 53892},
-	{"$65.85", "USD", 6585},
-	{"$17.99", "USD", 1799},
-	{"538.92", "USD", 53892},
-	{"65.85", "USD", 6585},
-	{"17.99", "USD", 1799},
-	{"$-538.92", "USD", -53892},
-	{"$-65.85", "USD", -6585},
-	{"$-17.99", "USD", -1799},
-	{"-538.92", "USD", -53892},
-	{"-65.85", "USD", -6585},
-	{"-17.99", "USD", -1799},
-	{"-$538.92", "USD", -53892},
-	{"-$65.85", "USD", -6585},
-	{"-$17.99", "USD", -1799},
+	{"$538.92", "USD", false, 53892},
+	{"$65.85", "USD", false, 6585},
+	{"$17.99", "USD", false, 1799},
+	{"538.92", "USD", false, 53892},
+	{"65.85", "USD", false, 6585},
+	{"17.99", "USD", false, 1799},
+	{"$-538.92", "USD", false, -53892},
+	{"$-65.85", "USD", false, -6585},
+	{"$-17.99", "USD", false, -1799},
+	{"-538.92", "USD", false, -53892},
+	{"-65.85", "USD", false, -6585},
+	{"-17.99", "USD", false, -1799},
+	{"-$538.92", "USD", false, -53892},
+	{"-$65.85", "USD", false, -6585},
+	{"-$17.99", "USD", false, -1799},
 
 	// Non USD
-	{"$100.00,00", "ARS", 1000000},
-	{"$10,000,000", "JPY", 10000000},
+	{"$100.00,00", "ARS", false, 1000000},
+	{"$10,000,000", "JPY", false, 10000000},
 }
 
 func TestStringToInt(t *testing.T) {
 	// Test various structs
 	for _, v := range TestStringToIntData {
-		result, err := StringToInt(v.Num, v.Alpha)
+		result, err := StringToInt(v.Num, v.Alpha, v.AllowLoose)
 		if err != nil {
 			if err.Error() != v.Output {
 				t.Error("Expected:", v.Output, "Error:", err.Error())
@@ -88,6 +95,13 @@ func BenchmarkStringToInt(b *testing.B) {
 	// run the Fib function b.N times
 	for n := 0; n < b.N; n++ {
 		StringToInt("12,345,678.99", "USD")
+	}
+}
+
+func BenchmarkStringToIntLoose(b *testing.B) {
+	// run the Fib function b.N times
+	for n := 0; n < b.N; n++ {
+		StringToInt("12,345,678.99", "USD", true)
 	}
 }
 
