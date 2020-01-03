@@ -7,7 +7,7 @@ import (
 )
 
 // StringToInt : returns a int from a string value
-func StringToInt(num string, alpha string) (int, error) {
+func StringToInt(num string, alpha string, allowLoose bool) (int, error) {
 	ISO, err := GetISOFromAlpha(alpha)
 	if err != nil {
 		return 0, err
@@ -23,8 +23,10 @@ func StringToInt(num string, alpha string) (int, error) {
 
 	// Validate ISO fraction matches
 	split := strings.Split(str, ".")
-	if len(split) == 2 && len(split[1]) != ISO.Fraction {
-		return 0, ErrorInvalidISOFractionMatch
+	if !allowLoose {
+		if len(split) == 2 && len(split[1]) != ISO.Fraction {
+			return 0, ErrorInvalidISOFractionMatch
+		}
 	}
 
 	// Convert to Float - to test if valid number
