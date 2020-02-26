@@ -294,7 +294,7 @@ var CurrencyList = map[string]Currency{
 		Unit:                "Canadian Dollar",
 		Alpha:               "CAD",
 		Numeric:             "124",
-		Symbol:              "\u0024",
+		Symbol:              "\u0043\u0041\u0024",
 		Fraction:            2,
 		Decimal:             ".",
 		Grouping:            3,
