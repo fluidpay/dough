@@ -6,7 +6,20 @@ import (
 	"strings"
 )
 
-// GetISOFromAlpha : returns a formatted ISO alpha code or an error if the ISO is not found
+// GetISOFromNumeric : returns an ISO currency struct or an error if the ISO is not found
+func GetISOFromNumeric(num string) (Currency, error) {
+	alpha, err := GetAlphaFromISONumeric(num)
+	if err != nil {
+		return Currency{}, ErrorInvalidISO
+	}
+	currency, err := GetISOFromAlpha(alpha)
+	if err != nil {
+		return Currency{}, ErrorInvalidISO
+	}
+	return currency, nil
+}
+
+// GetISOFromAlpha : returns an ISO currency struct or an error if the ISO is not found
 func GetISOFromAlpha(alpha string) (Currency, error) {
 	alpha = strings.ToUpper(alpha)
 	for key := range CurrencyList {
@@ -125,10 +138,10 @@ func IntToFloat(amt int, fraction int) float64 {
 
 // PercentageFromInt will give you a percentage to the exact precision that you want based on fraction
 func PercentageFromInt(amt int, percentage float64, fraction int) float64 {
-	return math.Round((float64(amt) / 100)*percentage*math.Pow10(fraction)) / math.Pow10(fraction)
+	return math.Round((float64(amt)/100)*percentage*math.Pow10(fraction)) / math.Pow10(fraction)
 }
 
 // PercentageFromFloat will give you a percentage to the exact precision that you want based on fraction
 func PercentageFromFloat(amt float64, percentage float64, fraction int) float64 {
-	return math.Round((amt / 100)*percentage*math.Pow10(fraction)) / math.Pow10(fraction)
+	return math.Round((amt/100)*percentage*math.Pow10(fraction)) / math.Pow10(fraction)
 }

@@ -1,6 +1,30 @@
 package dough
 
-import "testing"
+import (
+	"testing"
+)
+
+var TestGetISOFromNumericData = []struct {
+	Input  string
+	Output interface{}
+}{
+	{"", ErrorInvalidISO.Error()},
+	{"USA", ErrorInvalidISO.Error()},
+	{"840", Currency{Unit: "US Dollar", Alpha: "USD", Numeric: "840", Symbol: "$", Fraction: 2, Decimal: ".", Grouping: 3, Delimiter: ",", SymbolPositionFront: true}},
+}
+
+func TestGetISOFromNumeric(t *testing.T) {
+	for _, v := range TestGetISOFromNumericData {
+		result, err := GetISOFromNumeric(v.Input)
+		if err != nil {
+			if err.Error() != v.Output {
+				t.Error(err)
+			}
+		} else if result != v.Output {
+			t.Error(result)
+		}
+	}
+}
 
 var TestValidateISOCodeAlphaData = []struct {
 	Input  string
@@ -393,10 +417,10 @@ func BenchmarkIntToFloat(b *testing.B) {
 }
 
 var intPercentageData = []struct {
-	amt int
-	pct float64
+	amt      int
+	pct      float64
 	fraction int
-	result float64
+	result   float64
 }{
 	{898, 56.7, 2, 509.17},
 	{898, 56.7, 3, 509.166},
@@ -421,6 +445,7 @@ var intPercentageData = []struct {
 	{65, .011, 3, 0.007},
 	{65, .011, 4, 0.0072},
 }
+
 func TestGetPercentageFromInt(t *testing.T) {
 	for _, v := range TestLargeNums {
 		result := PercentageFromInt(v.Integer, 1, 2)
@@ -437,10 +462,10 @@ func TestGetPercentageFromInt(t *testing.T) {
 }
 
 var floatPercentageData = []struct {
-	amt float64
-	pct float64
+	amt      float64
+	pct      float64
 	fraction int
-	result float64
+	result   float64
 }{
 	{64.72, 10, 3, 6.472},
 	{64.72, 10, 2, 6.47},
@@ -464,6 +489,7 @@ var floatPercentageData = []struct {
 	{19.93, .045, 4, .009},
 	{19.93, .045, 5, .00897},
 }
+
 func TestGetPercentageFromFloat(t *testing.T) {
 	for _, v := range floatPercentageData {
 		result := PercentageFromFloat(v.amt, v.pct, v.fraction)
