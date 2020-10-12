@@ -6,12 +6,14 @@ import (
 	"strings"
 )
 
+// errors
 var (
-	ErrCardLength = errors.New("card length should be > 10")
-	ErrACHLength = errors.New("account length should be > 4")
+	ErrCardLength      = errors.New("card length should be > 10")
+	ErrACHLength       = errors.New("account length should be > 4")
 	ErrUnknownCardType = errors.New("unknown card type")
 )
 
+// vars
 var (
 	amexCardFormatString                = "^3[47][0-9]{13}$"
 	visaCardFormatString                = "^4[0-9]{15}$"
