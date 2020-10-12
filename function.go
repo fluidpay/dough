@@ -109,21 +109,24 @@ func IsNegative(num int) bool {
 func FormatCurrency(num int, ISO Currency) string {
 	isNegative := IsNegative(num)
 	num = int(math.Abs(float64(num)))
-	str := ConvertToStringWithDecimal(num, ISO.Fraction)
-	strSplit := strings.Split(str, ".")
-	strSplit[0] = reverseString(strSplit[0])
-	strSplit[0] = InsertDelimiter(strSplit[0], ISO.Grouping, ISO.Delimiter)
-	strSplit[0] = reverseString(strSplit[0])
-	if ISO.SymbolPositionFront != true {
-		if isNegative {
-			return "-" + strSplit[0] + ISO.Decimal + strSplit[1] + ISO.Symbol
+	if ISO.Fraction != 0 {
+		str := ConvertToStringWithDecimal(num, ISO.Fraction)
+		strSplit := strings.Split(str, ".")
+		strSplit[0] = reverseString(strSplit[0])
+		strSplit[0] = InsertDelimiter(strSplit[0], ISO.Grouping, ISO.Delimiter)
+		strSplit[0] = reverseString(strSplit[0])
+		if ISO.SymbolPositionFront != true {
+			if isNegative {
+				return "-" + strSplit[0] + ISO.Decimal + strSplit[1] + ISO.Symbol
+			}
+			return strSplit[0] + ISO.Decimal + strSplit[1] + ISO.Symbol
 		}
-		return strSplit[0] + ISO.Decimal + strSplit[1] + ISO.Symbol
+		if isNegative {
+			return ISO.Symbol + "-" + strSplit[0] + ISO.Decimal + strSplit[1]
+		}
+		return ISO.Symbol + strSplit[0] + ISO.Decimal + strSplit[1]
 	}
-	if isNegative {
-		return ISO.Symbol + "-" + strSplit[0] + ISO.Decimal + strSplit[1]
-	}
-	return ISO.Symbol + strSplit[0] + ISO.Decimal + strSplit[1]
+	return fmt.Sprintf("%s%d", ISO.Symbol, num)
 }
 
 // FloatToInt will take in a float and based upon fraction will output the int version
