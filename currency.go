@@ -29,18 +29,27 @@ func StringToInt(num string, alpha string, options ...bool) (int, error) {
 	if len(options) >= 1 {
 		allowLoose = options[0]
 	}
-	if !allowLoose && len(split) == 2 && len(split[1]) != ISO.Fraction {
-		return 0, ErrorInvalidISOFractionMatch
+	if ISO.Fraction != 0 {
+		if !allowLoose && len(split) == 2 && len(split[1]) != ISO.Fraction {
+			return 0, ErrorInvalidISOFractionMatch
+		}
+
+		// Convert to Float - to test if valid number
+		fl, err := strconv.ParseFloat(str, 64)
+		if err != nil {
+			return 0, ErrorInvalidStringFormat
+		}
+
+		// Convert float to cents based upon iso fraction
+		return FloatToInt(fl, ISO.Fraction), nil
 	}
 
-	// Convert to Float - to test if valid number
-	fl, err := strconv.ParseFloat(str, 64)
+	s := strings.Replace(str, ".", "", -1)
+	i, err := strconv.Atoi(s)
 	if err != nil {
 		return 0, ErrorInvalidStringFormat
 	}
-
-	// Convert float to cents based upon iso fraction
-	return FloatToInt(fl, ISO.Fraction), nil
+	return i, nil
 }
 
 // DisplayFull : returns a string with full currency formatting... "num" being the amount, "alpha" being the ISO three digit alphabetic code.

@@ -159,7 +159,7 @@ var TestreverseStringData = []struct {
 	{"000,000,1", "1,000,000"},
 }
 
-func TestreverseString(t *testing.T) {
+func TestReverseString(t *testing.T) {
 	for _, v := range TestreverseStringData {
 		result := reverseString(v.Input)
 		if result != v.Output {
@@ -233,7 +233,7 @@ var TestremoveSymbolData = []struct {
 	{"$1,000,000.00", "$", "1,000,000.00"},
 }
 
-func TestremoveSymbol(t *testing.T) {
+func TestRemoveSymbol(t *testing.T) {
 	for _, v := range TestremoveSymbolData {
 		result := removeSymbol(v.Str, v.Sym)
 		if result != v.Output {
@@ -259,7 +259,7 @@ var TestremoveDelimiterData = []struct {
 	{"$1,000,000.00", ",", "$1000000.00"},
 }
 
-func TestremoveDelimiter(t *testing.T) {
+func TestRemoveDelimiter(t *testing.T) {
 	for _, v := range TestremoveDelimiterData {
 		result := removeDelimiter(v.Str, v.Del)
 		if result != v.Output {
