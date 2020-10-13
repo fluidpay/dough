@@ -368,7 +368,6 @@ func TestConversions(t *testing.T) {
 			t.Error(err)
 		}
 		s := FormatCurrency(d.Amount, i)
-		t.Log(s)
 		if s != d.Output {
 			t.Error("not a match")
 		}
