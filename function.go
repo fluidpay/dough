@@ -6,6 +6,15 @@ import (
 	"strings"
 )
 
+type round string
+
+const (
+	Round   round = "round"
+	Floor   round = "floor"
+	Ceil    round = "ceil"
+	Bankers round = "bankers"
+)
+
 // GetISOFromNumeric : returns an ISO currency struct or an error if the ISO is not found
 func GetISOFromNumeric(num string) (Currency, error) {
 	alpha, err := GetAlphaFromISONumeric(num)
@@ -143,11 +152,57 @@ func IntToFloat(amt int, fraction int) float64 {
 }
 
 // PercentageFromInt will give you a percentage to the exact precision that you want based on fraction
-func PercentageFromInt(amt int, percentage float64, fraction int) float64 {
-	return math.Round((float64(amt)/100)*percentage*math.Pow10(fraction)) / math.Pow10(fraction)
+func PercentageFromInt(amt int, percentage float64, fraction int, round round) float64 {
+	// Calculate percentage.
+	val := float64(amt) * (percentage * 10000)
+	val = math.Round(val)
+	val = val / 10000 / 100
+
+	// Remove potential rounding errors by moving decimal
+	// two places past desired fraction and rounding.
+	val = math.Round(val*math.Pow10(fraction+2)) / math.Pow10(fraction+2)
+
+	// Handle rounding.
+	switch round {
+	case Round:
+		val = math.Round(val*math.Pow10(fraction)) / math.Pow10(fraction)
+	case Floor:
+		val = math.Floor(val*math.Pow10(fraction)) / math.Pow10(fraction)
+	case Ceil:
+		val = math.Ceil(val*math.Pow10(fraction)) / math.Pow10(fraction)
+	case Bankers:
+		val = math.RoundToEven(val*math.Pow10(fraction)) / math.Pow10(fraction)
+	default:
+		val = math.Round(val*math.Pow10(fraction)) / math.Pow10(fraction)
+	}
+
+	return val
 }
 
 // PercentageFromFloat will give you a percentage to the exact precision that you want based on fraction
-func PercentageFromFloat(amt float64, percentage float64, fraction int) float64 {
-	return math.Round((amt/100)*percentage*math.Pow10(fraction)) / math.Pow10(fraction)
+func PercentageFromFloat(amt float64, percentage float64, fraction int, round round) float64 {
+	// Calculate percentage.
+	val := amt * (percentage * 10000)
+	val = math.Round(val)
+	val = val / 10000 / 100
+
+	// Remove potential rounding errors by moving decimal
+	// two places past desired fraction and rounding.
+	val = math.Round(val*math.Pow10(fraction+2)) / math.Pow10(fraction+2)
+
+	// Handle rounding.
+	switch round {
+	case Round:
+		val = math.Round(val*math.Pow10(fraction)) / math.Pow10(fraction)
+	case Floor:
+		val = math.Floor(val*math.Pow10(fraction)) / math.Pow10(fraction)
+	case Ceil:
+		val = math.Ceil(val*math.Pow10(fraction)) / math.Pow10(fraction)
+	case Bankers:
+		val = math.RoundToEven(val*math.Pow10(fraction)) / math.Pow10(fraction)
+	default:
+		val = math.Round(val*math.Pow10(fraction)) / math.Pow10(fraction)
+	}
+
+	return val
 }
