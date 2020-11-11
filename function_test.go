@@ -602,6 +602,7 @@ var floatPercentageData = []struct {
 	{24.5, 100, 0, Bankers, 24},
 	{-23.5, 100, 0, Bankers, -24},
 	{-24.5, 100, 0, Bankers, -24},
+	{1.534953, 100, 2, Bankers, 1.53},
 }
 
 func TestGetPercentageFromFloat(t *testing.T) {
