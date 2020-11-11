@@ -155,12 +155,12 @@ func IntToFloat(amt int, fraction int) float64 {
 func PercentageFromInt(amt int, percentage float64, fraction int, round round) float64 {
 	// Calculate percentage.
 	val := float64(amt) * (percentage * 10000)
-	val = math.Round(val)
+	val = math.Floor(val)
 	val = val / 10000 / 100
 
 	// Remove potential rounding errors by moving decimal
-	// three places past desired fraction and rounding.
-	val = math.Round(val*math.Pow10(fraction+3)) / math.Pow10(fraction+3)
+	// four places past desired fraction and rounding.
+	val = math.Round(val*math.Pow10(fraction+4)) / math.Pow10(fraction+4)
 
 	// Handle rounding.
 	switch round {
@@ -183,12 +183,12 @@ func PercentageFromInt(amt int, percentage float64, fraction int, round round) f
 func PercentageFromFloat(amt float64, percentage float64, fraction int, round round) float64 {
 	// Calculate percentage.
 	val := amt * (percentage * 10000)
-	val = math.Round(val)
+	val = math.Floor(val)
 	val = val / 10000 / 100
 
 	// Remove potential rounding errors by moving decimal
-	// three places past desired fraction and rounding.
-	val = math.Round(val*math.Pow10(fraction+3)) / math.Pow10(fraction+3)
+	// four places past desired fraction and rounding.
+	val = math.Round(val*math.Pow10(fraction+4)) / math.Pow10(fraction+4)
 
 	// Handle rounding.
 	switch round {
