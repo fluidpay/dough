@@ -154,13 +154,12 @@ func IntToFloat(amt int, fraction int) float64 {
 // PercentageFromInt will give you a percentage to the exact precision that you want based on fraction
 func PercentageFromInt(amt int, percentage float64, fraction int, round round) float64 {
 	// Calculate percentage.
-	val := float64(amt) * (percentage * 10000)
-	val = math.Floor(val)
-	val = val / 10000 / 100
+	val := float64(amt) * percentage
+	val = val / 100
 
 	// Remove potential rounding errors by moving decimal
-	// four places past desired fraction and rounding.
-	val = math.Round(val*math.Pow10(fraction+4)) / math.Pow10(fraction+4)
+	// two places past desired fraction and truncating.
+	val = math.Trunc(val*math.Pow10(fraction+2)) / math.Pow10(fraction+2)
 
 	// Handle rounding.
 	switch round {
@@ -182,13 +181,12 @@ func PercentageFromInt(amt int, percentage float64, fraction int, round round) f
 // PercentageFromFloat will give you a percentage to the exact precision that you want based on fraction
 func PercentageFromFloat(amt float64, percentage float64, fraction int, round round) float64 {
 	// Calculate percentage.
-	val := amt * (percentage * 10000)
-	val = math.Floor(val)
-	val = val / 10000 / 100
+	val := amt * percentage
+	val = val / 100
 
 	// Remove potential rounding errors by moving decimal
-	// four places past desired fraction and rounding.
-	val = math.Round(val*math.Pow10(fraction+4)) / math.Pow10(fraction+4)
+	// two places past desired fraction and truncating.
+	val = math.Trunc(val*math.Pow10(fraction+2)) / math.Pow10(fraction+2)
 
 	// Handle rounding.
 	switch round {

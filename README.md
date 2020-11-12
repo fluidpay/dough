@@ -53,9 +53,9 @@ FloatToInt(9.99, 2) // output = 999
 
 IntToFloat(999, 2) // output = 9.99
 
-PercentageFromInt(898, 56.7, 3) // output = 509.166
+PercentageFromInt(898, 56.7, 3, Round) // output = 509.166
 
-PercentageFromFloat(11.11, 13, 4) // output = 1.4443
+PercentageFromFloat(11.11, 13, 4, Round) // output = 1.4443
 
 MaskCard("4111111111111111") // output = "411111", "1111", "411111******1111"
 
