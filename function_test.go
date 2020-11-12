@@ -681,9 +681,7 @@ func TestRoundingError(t *testing.T) {
 		split := strings.Split(resultStr, ".")
 
 		var resultMantLen int
-		if len(split) == 1 {
-			resultMantLen = 0
-		} else {
+		if len(split) == 2 {
 			resultMantLen = len(split[1])
 		}
 
@@ -698,9 +696,7 @@ func TestRoundingError(t *testing.T) {
 		split := strings.Split(resultStr, ".")
 
 		var resultMantLen int
-		if len(split) == 1 {
-			resultMantLen = 0
-		} else {
+		if len(split) == 2 {
 			resultMantLen = len(split[1])
 		}
 
