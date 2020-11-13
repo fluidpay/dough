@@ -1,6 +1,10 @@
 package dough
 
 import (
+	"math"
+	"math/rand"
+	"strconv"
+	"strings"
 	"testing"
 )
 
@@ -598,6 +602,18 @@ var floatPercentageData = []struct {
 	{24.5, 100, 0, Bankers, 24},
 	{-23.5, 100, 0, Bankers, -24},
 	{-24.5, 100, 0, Bankers, -24},
+	{1.534953, 100, 2, Bankers, 1.53},
+	{1.53499999, 100, 2, Bankers, 1.53},
+	{1.53499999999, 100, 2, Bankers, 1.53},
+	{1.5299999, 100, 2, Bankers, 1.53},
+	{1.5350, 100, 2, Bankers, 1.54},
+	{1.53599, 100, 2, Bankers, 1.54},
+	{3.2, 100, 0, Bankers, 3},
+	{3.4, 100, 0, Bankers, 3},
+	{3.5, 100, 0, Bankers, 4},
+	{4.5, 100, 0, Bankers, 4},
+	{5.5, 100, 0, Bankers, 6},
+	{-7.5, 100, 0, Bankers, -8},
 }
 
 func TestGetPercentageFromFloat(t *testing.T) {
@@ -605,6 +621,87 @@ func TestGetPercentageFromFloat(t *testing.T) {
 		result := PercentageFromFloat(v.amt, v.pct, v.fraction, v.round)
 		if result != v.result {
 			t.Error("Expected: ", v.result, "Got: ", result)
+		}
+	}
+}
+
+// randFloat generates a random floating point number to the given precision.
+func randFloat(min, max float64, prec int) float64 {
+	result := min + rand.Float64()*(max-min)
+	return math.Round(result*math.Pow10(prec)) / math.Pow10(prec)
+}
+
+type roundingErrorTestInt struct {
+	amt            int
+	pct            float64
+	fraction       int
+	round          round
+	maxMantissaLen int
+}
+
+type roundingErrorTestFloat struct {
+	amt            float64
+	pct            float64
+	fraction       int
+	round          round
+	maxMantissaLen int
+}
+
+func TestRoundingError(t *testing.T) {
+	var testNumsInt []roundingErrorTestInt
+	var testNumsFloat []roundingErrorTestFloat
+
+	for i := 1; i < 100000; i++ {
+		testNum := roundingErrorTestInt{
+			amt:            i,
+			pct:            randFloat(1.0, 99.9, 4),
+			fraction:       3,
+			round:          Bankers,
+			maxMantissaLen: 4,
+		}
+
+		testNumsInt = append(testNumsInt, testNum)
+	}
+
+	for i := float64(1); i < 100000.99; i += .01 {
+		testNum := roundingErrorTestFloat{
+			amt:            i,
+			pct:            randFloat(1.0, 99.9, 4),
+			fraction:       3,
+			round:          Bankers,
+			maxMantissaLen: 4,
+		}
+
+		testNumsFloat = append(testNumsFloat, testNum)
+	}
+
+	for _, v := range testNumsInt {
+		result := PercentageFromInt(v.amt, v.pct, v.fraction, v.round)
+		resultStr := strconv.FormatFloat(result, 'f', -1, 64)
+		split := strings.Split(resultStr, ".")
+
+		var resultMantLen int
+		if len(split) == 2 {
+			resultMantLen = len(split[1])
+		}
+
+		if resultMantLen > v.maxMantissaLen {
+			t.Errorf("Expected mantissa length to be less than %v, got %v", v.maxMantissaLen, resultMantLen)
+		}
+	}
+
+	for _, v := range testNumsFloat {
+		result := PercentageFromFloat(v.amt, v.pct, v.fraction, v.round)
+		resultStr := strconv.FormatFloat(result, 'f', -1, 64)
+		split := strings.Split(resultStr, ".")
+
+		var resultMantLen int
+		if len(split) == 2 {
+			resultMantLen = len(split[1])
+		}
+
+		if resultMantLen > v.maxMantissaLen {
+			t.Errorf("Expected mantissa length to be less than %v, got %v", v.maxMantissaLen, resultMantLen)
 		}
 	}
 }
