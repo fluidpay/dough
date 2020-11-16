@@ -302,7 +302,7 @@ func PercentageFromFloat(amt float64, percentage float64, fraction int, round ro
 	}
 
 	// Convert rounded num back to string
-	roundedStr := strconv.Itoa(int(rounded))
+	roundedStr := strconv.FormatInt(int64(rounded), 10)
 
 	// If rounded string length is less then fraction, pad.
 	if len(roundedStr) < fraction {
