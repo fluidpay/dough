@@ -705,3 +705,15 @@ func TestRoundingError(t *testing.T) {
 		}
 	}
 }
+
+func BenchmarkPercentageFromInt(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		PercentageFromInt(1534935, 50.393, 2, Round)
+	}
+}
+
+func BenchmarkPercentageFromFloat(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		PercentageFromFloat(1.534935, 50.393, 2, Round)
+	}
+}

@@ -3,6 +3,7 @@ package dough
 import (
 	"fmt"
 	"math"
+	"strconv"
 	"strings"
 )
 
@@ -180,27 +181,142 @@ func PercentageFromInt(amt int, percentage float64, fraction int, round round) f
 
 // PercentageFromFloat will give you a percentage to the exact precision that you want based on fraction
 func PercentageFromFloat(amt float64, percentage float64, fraction int, round round) float64 {
-	// Calculate percentage.
-	val := amt * percentage
-	val = val / 100
+	// Convert amt to a string.
+	amtStr := strconv.FormatFloat(amt, 'f', -1, 64)
 
-	// Remove potential rounding errors by moving decimal
-	// two places past desired fraction and truncating.
-	val = math.Trunc(val*math.Pow10(fraction+2)) / math.Pow10(fraction+2)
-
-	// Handle rounding.
-	switch round {
-	case Round:
-		val = math.Round(val*math.Pow10(fraction)) / math.Pow10(fraction)
-	case Floor:
-		val = math.Floor(val*math.Pow10(fraction)) / math.Pow10(fraction)
-	case Ceil:
-		val = math.Ceil(val*math.Pow10(fraction)) / math.Pow10(fraction)
-	case Bankers:
-		val = math.RoundToEven(val*math.Pow10(fraction)) / math.Pow10(fraction)
-	default:
-		val = math.Round(val*math.Pow10(fraction)) / math.Pow10(fraction)
+	// Get mantissa length.
+	var amtMantissaLen int
+	split := strings.Split(amtStr, ".")
+	if len(split) == 2 {
+		amtMantissaLen = len(split[1])
 	}
 
-	return val
+	// Convert percentage to a string.
+	percStr := strconv.FormatFloat(percentage, 'f', -1, 64)
+
+	// Get mantissa length.
+	var percMantissaLen int
+	split = strings.Split(percStr, ".")
+	if len(split) == 2 {
+		percMantissaLen = len(split[1])
+	}
+
+	amtIntStr := strings.Replace(amtStr, ".", "", -1)
+	amtInt, _ := strconv.ParseInt(amtIntStr, 10, 64)
+	percIntStr := strings.Replace(percStr, ".", "", -1)
+	percInt, _ := strconv.ParseInt(percIntStr, 10, 64)
+
+	multi := amtInt * percInt
+
+	// Convert integer back to a string.
+	multiStr := strconv.FormatInt(multi, 10)
+
+	// Determine decimal point placement.
+	// (1.33 amount = 2, 1.233 percentage = 3, 2 + 3 = 5)
+	// (amt mantissa + perc mantissa)
+	// Start from end of integer.
+	decimalPlace := amtMantissaLen + percMantissaLen
+
+	// Fix potential negative decimal place.
+	if len(multiStr)-decimalPlace < 0 {
+		neg := int(math.Abs(float64(len(multiStr) - decimalPlace)))
+
+		for i := 0; i < neg; i++ {
+			multiStr = "0" + multiStr
+		}
+	}
+
+	// Add standard percentage of 2 decimal places.
+	decimalPlace += 2
+
+	// Fix potential negative decimal place.
+	if len(multiStr)-decimalPlace < 0 {
+		neg := int(math.Abs(float64(len(multiStr) - decimalPlace)))
+
+		for i := 0; i < neg; i++ {
+			multiStr = "0" + multiStr
+		}
+	}
+
+	// Format into whole and decimal parts.
+	var whole string
+	var decimal string
+
+	if string(multiStr[0]) == "0" {
+		whole = "0"
+		decimal = multiStr
+	} else {
+		whole = multiStr[0 : len(multiStr)-decimalPlace]
+		decimal = multiStr[len(multiStr)-decimalPlace:]
+	}
+
+	// Form the final result of the calculation.
+	multiResultStr := fmt.Sprintf("%v.%v", whole, decimal)
+
+	// If the fraction amount is greater than or equal to the
+	// decimal length, return it.
+	if fraction >= len(decimal) {
+		endNum, _ := strconv.ParseFloat(multiResultStr, 64)
+		return endNum
+	}
+
+	// If the fraction is 0, round it as is.
+	var numToRound float64
+	if fraction == 0 {
+		numToRound, _ = strconv.ParseFloat(multiResultStr, 64)
+
+		switch round {
+		case Round:
+			return math.Round(numToRound)
+		case Floor:
+			return math.Floor(numToRound)
+		case Ceil:
+			return math.Ceil(numToRound)
+		case Bankers:
+			return math.RoundToEven(numToRound)
+		default:
+			return math.Round(numToRound)
+		}
+	} else {
+		// Otherwise, round to given fraction.
+		numToRoundStr := fmt.Sprintf("%v%v.%v",
+			whole,
+			decimal[0:fraction],
+			decimal[fraction:])
+
+		numToRound, _ = strconv.ParseFloat(numToRoundStr, 64)
+	}
+
+	var rounded float64
+	switch round {
+	case Round:
+		rounded = math.Round(numToRound)
+	case Floor:
+		rounded = math.Floor(numToRound)
+	case Ceil:
+		rounded = math.Ceil(numToRound)
+	case Bankers:
+		rounded = math.RoundToEven(numToRound)
+	default:
+		rounded = math.Round(numToRound)
+	}
+
+	// Convert rounded num back to string
+	roundedStr := strconv.Itoa(int(rounded))
+
+	// If rounded string length is less then fraction, pad.
+	if len(roundedStr) < fraction {
+		for i := 0; i < fraction; i++ {
+			roundedStr = "0" + roundedStr
+		}
+	}
+
+	// Form final whole and decimal numbers.
+	whole = roundedStr[0 : len(roundedStr)-fraction]
+	decimal = roundedStr[len(roundedStr)-fraction:]
+
+	endNumStr := fmt.Sprintf("%v.%v", whole, decimal)
+	endNum, _ := strconv.ParseFloat(endNumStr, 64)
+
+	return endNum
 }
