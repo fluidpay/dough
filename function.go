@@ -154,29 +154,7 @@ func IntToFloat(amt int, fraction int) float64 {
 
 // PercentageFromInt will give you a percentage to the exact precision that you want based on fraction
 func PercentageFromInt(amt int, percentage float64, fraction int, round round) float64 {
-	// Calculate percentage.
-	val := float64(amt) * percentage
-	val = val / 100
-
-	// Remove potential rounding errors by moving decimal
-	// two places past desired fraction and truncating.
-	val = math.Trunc(val*math.Pow10(fraction+2)) / math.Pow10(fraction+2)
-
-	// Handle rounding.
-	switch round {
-	case Round:
-		val = math.Round(val*math.Pow10(fraction)) / math.Pow10(fraction)
-	case Floor:
-		val = math.Floor(val*math.Pow10(fraction)) / math.Pow10(fraction)
-	case Ceil:
-		val = math.Ceil(val*math.Pow10(fraction)) / math.Pow10(fraction)
-	case Bankers:
-		val = math.RoundToEven(val*math.Pow10(fraction)) / math.Pow10(fraction)
-	default:
-		val = math.Round(val*math.Pow10(fraction)) / math.Pow10(fraction)
-	}
-
-	return val
+	return PercentageFromFloat(float64(amt), percentage, fraction, round)
 }
 
 // PercentageFromFloat will give you a percentage to the exact precision that you want based on fraction
@@ -210,6 +188,13 @@ func PercentageFromFloat(amt float64, percentage float64, fraction int, round ro
 
 	// Convert integer back to a string.
 	multiStr := strconv.FormatInt(multi, 10)
+
+	// Handle negative sign if present.
+	var sign string
+	if string(multiStr[0]) == "-" {
+		sign = "-"
+		multiStr = multiStr[1:]
+	}
 
 	// Determine decimal point placement.
 	// (1.33 amount = 2, 1.233 percentage = 3, 2 + 3 = 5)
@@ -256,6 +241,7 @@ func PercentageFromFloat(amt float64, percentage float64, fraction int, round ro
 	// If the fraction amount is greater than or equal to the
 	// decimal length, return it.
 	if fraction >= len(decimal) {
+		multiResultStr = sign + multiResultStr
 		endNum, _ := strconv.ParseFloat(multiResultStr, 64)
 		return endNum
 	}
@@ -263,6 +249,7 @@ func PercentageFromFloat(amt float64, percentage float64, fraction int, round ro
 	// If the fraction is 0, round it as is.
 	var numToRound float64
 	if fraction == 0 {
+		multiResultStr = sign + multiResultStr
 		numToRound, _ = strconv.ParseFloat(multiResultStr, 64)
 
 		switch round {
@@ -279,7 +266,8 @@ func PercentageFromFloat(amt float64, percentage float64, fraction int, round ro
 		}
 	} else {
 		// Otherwise, round to given fraction.
-		numToRoundStr := fmt.Sprintf("%v%v.%v",
+		numToRoundStr := fmt.Sprintf("%v%v%v.%v",
+			sign,
 			whole,
 			decimal[0:fraction],
 			decimal[fraction:])
@@ -304,6 +292,12 @@ func PercentageFromFloat(amt float64, percentage float64, fraction int, round ro
 	// Convert rounded num back to string
 	roundedStr := strconv.FormatInt(int64(rounded), 10)
 
+	// Handle negative sign if present.
+	if string(roundedStr[0]) == "-" {
+		sign = "-"
+		roundedStr = roundedStr[1:]
+	}
+
 	// If rounded string length is less then fraction, pad.
 	if len(roundedStr) < fraction {
 		for i := 0; i < fraction; i++ {
@@ -315,7 +309,7 @@ func PercentageFromFloat(amt float64, percentage float64, fraction int, round ro
 	whole = roundedStr[0 : len(roundedStr)-fraction]
 	decimal = roundedStr[len(roundedStr)-fraction:]
 
-	endNumStr := fmt.Sprintf("%v.%v", whole, decimal)
+	endNumStr := fmt.Sprintf("%v%v.%v", sign, whole, decimal)
 	endNum, _ := strconv.ParseFloat(endNumStr, 64)
 
 	return endNum
