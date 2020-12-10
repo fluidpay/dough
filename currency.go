@@ -81,6 +81,17 @@ func DisplayNoSymbol(num int, alpha string) (string, error) {
 	return removeSymbol(currency, ISO.Symbol), nil
 }
 
+// DisplayNoSymbolAndNoDelimiter : returns a string with full currency formatting minus the ISO symbol and delimiter... "num" being the amount, "alpha" being the ISO three digit alphabetic code.
+func DisplayNoSymbolAndNoDelimiter(num int, alpha string) (string, error) {
+	ISO, err := GetISOFromAlpha(alpha)
+	if err != nil {
+		return "", err
+	}
+	currency := FormatCurrency(num, ISO)
+	currency = removeSymbol(currency, ISO.Symbol)
+	return removeDelimiter(currency, ISO.Delimiter), nil
+}
+
 // DisplayWithDecimal : returns a string with all currency formatting removed except decimal places... "num" being the amount, "alpha" being the ISO three digit alphabetic code.
 func DisplayWithDecimal(num int, alpha string) (string, error) {
 	ISO, err := GetISOFromAlpha(alpha)

@@ -223,6 +223,40 @@ func TestDisplayNoSymbol(t *testing.T) {
 	}
 }
 
+var TestDisplayNoSymbolAndNoDelimiterData = []struct {
+	Num    int
+	Alpha  string
+	Output string
+}{
+	{0, "USA", ErrorInvalidISO.Error()},
+	{0, "USD", "0.00"},
+	{1, "USD", "0.01"},
+	{10, "USD", "0.10"},
+	{100, "USD", "1.00"},
+	{1000, "USD", "10.00"},
+	{10000, "USD", "100.00"},
+	{100000, "USD", "1000.00"},
+	{-1, "USD", "-0.01"},
+	{-10, "USD", "-0.10"},
+	{-100, "USD", "-1.00"},
+	{-1000, "USD", "-10.00"},
+	{-10000, "USD", "-100.00"},
+	{-100000, "USD", "-1000.00"},
+}
+
+func TestDisplayNoAndNoDelimiterSymbol(t *testing.T) {
+	for _, v := range TestDisplayNoSymbolAndNoDelimiterData {
+		result, err := DisplayNoSymbolAndNoDelimiter(v.Num, v.Alpha)
+		if err != nil {
+			if err.Error() != v.Output {
+				t.Error(err.Error())
+			}
+		} else if result != v.Output {
+			t.Error(result)
+		}
+	}
+}
+
 var TestDisplayWithDecimalData = []struct {
 	Num    int
 	Alpha  string
