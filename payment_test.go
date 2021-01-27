@@ -63,6 +63,7 @@ var testCards = map[string]string{
 	"5435101234510196":    "mastercard",
 	"5407102010000018":    "mastercard",
 	"5112000900000005":    "mastercard",
+	"6759649826438453":    "mastercard",
 	"6011010000000003":    "discover",
 	"6011010100000002":    "discover",
 	"6011010140000004":    "discover",
