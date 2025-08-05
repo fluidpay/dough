@@ -6,8 +6,8 @@ import (
 	"strings"
 )
 
-// StringToInt : returns a int from a string value
-func StringToInt(num string, alpha string, options ...bool) (int, error) {
+// StringToInt : returns an int from a string value
+func StringToInt(num string, alpha string) (int, error) {
 	ISO, err := GetISOFromAlpha(alpha)
 	if err != nil {
 		return 0, err
@@ -24,16 +24,17 @@ func StringToInt(num string, alpha string, options ...bool) (int, error) {
 	// Validate ISO fraction matches
 	split := strings.Split(str, ".")
 
-	// Check valid fraction match
-	allowLoose := false
-	if len(options) >= 1 {
-		allowLoose = options[0]
+	if len(split) > 2 {
+		return 0, ErrorInvalidStringFormat
 	}
-	if ISO.Fraction != 0 {
-		if !allowLoose && len(split) == 2 && len(split[1]) != ISO.Fraction {
-			return 0, ErrorInvalidISOFractionMatch
-		}
 
+	// If decimal is longer than ISO fraction, remove excess digits
+	if len(split) == 2 && len(split[1]) > ISO.Fraction {
+		split[1] = split[1][:ISO.Fraction]
+		str = strings.Join(split, ".")
+	}
+
+	if ISO.Fraction != 0 {
 		// Convert to Float - to test if valid number
 		fl, err := strconv.ParseFloat(str, 64)
 		if err != nil {
