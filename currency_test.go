@@ -44,6 +44,8 @@ var TestStringToIntData = []struct {
 	{"42.9900", "USD", 4299},
 	{"42.2360", "USD", 4223},
 	{"$5.999", "USD", 599},
+	{"$42.0000", "USD", 4200},
+	{"$42.9900", "USD", 4299},
 
 	// Problematic Numbers
 	{"$538.92", "USD", 53892},
