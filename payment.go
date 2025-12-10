@@ -22,6 +22,7 @@ var (
 	mastroCardFormatString              = `^(?:5[0678]\d\d|6304|6390|67\d\d)\d{8,15}$`
 	jcbCardFormatString                 = `^(?:2131|1800|35[0-9]{2})[0-9]{12,15}$`
 	dinersClubInternationalFormatString = `^3(?:0[0-5]|[68][0-9])[0-9]{11,16}$`
+	cupFormatString                     = `^(62|81)\d{14,17}$`
 
 	AMEXCardFormatRegex     = regexp.MustCompile(amexCardFormatString)
 	VISACardFormatRegex     = regexp.MustCompile(visaCardFormatString)
@@ -30,6 +31,7 @@ var (
 	DISCOVERCardFormatRegex = regexp.MustCompile(discoverCardFormatString)
 	JCBCardFormatRegex      = regexp.MustCompile(jcbCardFormatString)
 	DINERSCardFormatRegex   = regexp.MustCompile(dinersClubInternationalFormatString)
+	CUPCardFormatRegex      = regexp.MustCompile(cupFormatString)
 )
 
 // MaskCard takes in a card number and returns firstsix, lastfour, masked
@@ -106,6 +108,10 @@ func GetCardType(cardnum string) (string, error) {
 
 	if DINERSCardFormatRegex.MatchString(cardnum) {
 		return "diners", nil
+	}
+
+	if CUPCardFormatRegex.MatchString(cardnum) {
+		return "cup", nil
 	}
 
 	return "", ErrUnknownCardType
