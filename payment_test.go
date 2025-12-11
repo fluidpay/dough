@@ -84,6 +84,7 @@ var testCards = map[string]string{
 	"38520000023237":      "diners",
 	"3056930902590411014": "diners",
 	"3852000002323711017": "diners",
+	"6212345678901232":    "cup",
 }
 
 func TestValidLuhn(t *testing.T) {
@@ -189,7 +190,7 @@ func TestMaskACHAccount(t *testing.T) {
 	}
 }
 
-//TestInvalidCountryCode
+// TestInvalidCountryCode
 func TestValidCardTypes(t *testing.T) {
 	for key, value := range testCards {
 		val, err := GetCardType(key)
@@ -201,7 +202,7 @@ func TestValidCardTypes(t *testing.T) {
 		}
 	}
 
-	_, err := GetCardType("1111111111111111")
+	_, err := GetCardType("490071")
 	if err != ErrUnknownCardType {
 		t.Errorf("Error should be %s", ErrUnknownCardType.Error())
 	}
