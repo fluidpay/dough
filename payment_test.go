@@ -85,6 +85,7 @@ var testCards = map[string]string{
 	"3056930902590411014": "diners",
 	"3852000002323711017": "diners",
 	"6212345678901232":    "cup",
+	"6210946888090005":    "cup",
 }
 
 func TestValidLuhn(t *testing.T) {
