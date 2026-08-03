@@ -32,9 +32,12 @@ func TestGetISOFromNumeric(t *testing.T) {
 
 func TestGetISOFromNumericInconsistentList(t *testing.T) {
 	// Simulate a CurrencyList entry whose Alpha does not resolve via GetISOFromAlpha.
-	CurrencyList["BAD"] = Currency{Unit: "Bad", Alpha: "MISSING", Numeric: "000", Symbol: "!", Fraction: 2, Decimal: ".", Grouping: 3, Delimiter: ",", SymbolPositionFront: true}
+	bad := Currency{Unit: "Bad", Alpha: "MISSING", Numeric: "000", Symbol: "!", Fraction: 2, Decimal: ".", Grouping: 3, Delimiter: ",", SymbolPositionFront: true}
+	CurrencyList["BAD"] = bad
+	currencyByNumeric["000"] = bad
 	t.Cleanup(func() {
 		delete(CurrencyList, "BAD")
+		delete(currencyByNumeric, "000")
 	})
 
 	_, err := GetISOFromNumeric("000")
@@ -198,6 +201,9 @@ var TestInsertDelimiterData = []struct {
 	{"00001", 3, ",", "000,01"},
 	{"000001", 3, ",", "000,001"},
 	{"0000001", 3, ",", "000,000,1"},
+	{"", 3, ",", ""},
+	{"1234", 0, ",", "1234"},
+	{"1234", -1, ",", "1234"},
 }
 
 func TestInsertDelimiter(t *testing.T) {

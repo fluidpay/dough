@@ -15,48 +15,50 @@ const (
 	Bankers round = "bankers"
 )
 
+// currencyByNumeric maps ISO numeric codes to currency entries for O(1) lookup.
+var currencyByNumeric map[string]Currency
+
+func init() {
+	currencyByNumeric = make(map[string]Currency, len(CurrencyList))
+	for _, currency := range CurrencyList {
+		currencyByNumeric[currency.Numeric] = currency
+	}
+}
+
 // GetISOFromNumeric : returns an ISO currency struct or an error if the ISO is not found
 func GetISOFromNumeric(num string) (Currency, error) {
 	alpha, err := GetAlphaFromISONumeric(num)
 	if err != nil {
 		return Currency{}, ErrorInvalidISO
 	}
-	currency, err := GetISOFromAlpha(alpha)
-	if err != nil {
+	return GetISOFromAlpha(alpha)
+}
+
+// GetISOFromAlpha : returns an ISO currency struct or an error if the ISO is not found
+func GetISOFromAlpha(alpha string) (Currency, error) {
+	currency, ok := CurrencyList[strings.ToUpper(alpha)]
+	if !ok {
 		return Currency{}, ErrorInvalidISO
 	}
 	return currency, nil
 }
 
-// GetISOFromAlpha : returns an ISO currency struct or an error if the ISO is not found
-func GetISOFromAlpha(alpha string) (Currency, error) {
-	alpha = strings.ToUpper(alpha)
-	for key := range CurrencyList {
-		if key == alpha {
-			return CurrencyList[key], nil
-		}
-	}
-	return Currency{}, ErrorInvalidISO
-}
-
 // GetISOCodeFromNumeric : returns a formatted ISO numeric code or an error if the ISO is not found
 func GetISOCodeFromNumeric(num string) (string, error) {
-	for _, value := range CurrencyList {
-		if value.Numeric == num {
-			return value.Numeric, nil
-		}
+	currency, ok := currencyByNumeric[num]
+	if !ok {
+		return "", ErrorInvalidISO
 	}
-	return "", ErrorInvalidISO
+	return currency.Numeric, nil
 }
 
 // GetAlphaFromISONumeric : returns a formatted ISO alpha code from the ISO numeric counterpart
 func GetAlphaFromISONumeric(num string) (string, error) {
-	for _, value := range CurrencyList {
-		if value.Numeric == num {
-			return value.Alpha, nil
-		}
+	currency, ok := currencyByNumeric[num]
+	if !ok {
+		return "", ErrorInvalidISO
 	}
-	return "", ErrorInvalidISO
+	return currency.Alpha, nil
 }
 
 // ConvertToStringWithDecimal : returns the uint as a stringified float
@@ -66,24 +68,31 @@ func ConvertToStringWithDecimal(num int, fraction int) string {
 
 // reverseString : returns a reversed string for delimiter formatting
 func reverseString(str string) string {
-	var output string
-	for key := len(str) - 1; key >= 0; key-- {
-		output += string(str[key])
+	n := len(str)
+	if n < 2 {
+		return str
 	}
-	return output
+	b := make([]byte, n)
+	for i := 0; i < n; i++ {
+		b[i] = str[n-1-i]
+	}
+	return string(b)
 }
 
 // InsertDelimiter : returns a new string with delimiter formatting
 func InsertDelimiter(str string, group int, del string) string {
-	output := ""
-	for key, val := range str {
-		if key%group == 0 && key != 0 {
-			output += del + string(val)
-		} else {
-			output += string(val)
-		}
+	if group <= 0 || str == "" {
+		return str
 	}
-	return output
+	var b strings.Builder
+	b.Grow(len(str) + len(del)*(len(str)/group))
+	for i := 0; i < len(str); i++ {
+		if i != 0 && i%group == 0 {
+			b.WriteString(del)
+		}
+		b.WriteByte(str[i])
+	}
+	return b.String()
 }
 
 // SwapSymbolWithAlpha : returns a string with the ISO alpha code instead of symbol
@@ -108,24 +117,20 @@ func removeDecimal(str string, dec string) string {
 
 // IsNegative : returns a bool based on whether the int is negative or positive
 func IsNegative(num int) bool {
-	if math.Signbit(float64(num)) == true {
-		return true
-	}
-	return false
+	return num < 0
 }
 
 // FormatCurrency : returns basic currency formatting
 func FormatCurrency(num int, ISO Currency) string {
-	isNegative := IsNegative(num)
 	isNegativeText := ""
-	if isNegative {
+	if num < 0 {
 		isNegativeText = "-"
+		num = -num
 	}
-	num = int(math.Abs(float64(num)))
 
 	// to catch frational split panic
 	if ISO.Fraction == 0 {
-		if ISO.SymbolPositionFront != true {
+		if !ISO.SymbolPositionFront {
 			return fmt.Sprintf("%s%d%s", isNegativeText, num, ISO.Symbol)
 		}
 		return fmt.Sprintf("%s%s%d", ISO.Symbol, isNegativeText, num)
@@ -135,7 +140,7 @@ func FormatCurrency(num int, ISO Currency) string {
 	strSplit[0] = reverseString(strSplit[0])
 	strSplit[0] = InsertDelimiter(strSplit[0], ISO.Grouping, ISO.Delimiter)
 	strSplit[0] = reverseString(strSplit[0])
-	if ISO.SymbolPositionFront != true {
+	if !ISO.SymbolPositionFront {
 		return isNegativeText + strSplit[0] + ISO.Decimal + strSplit[1] + ISO.Symbol
 	}
 	return ISO.Symbol + isNegativeText + strSplit[0] + ISO.Decimal + strSplit[1]

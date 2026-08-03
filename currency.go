@@ -6,6 +6,22 @@ import (
 	"strings"
 )
 
+var (
+	currencyCleanRegexDot   = regexp.MustCompile(`[^-.0-9]+`)
+	currencyCleanRegexComma = regexp.MustCompile(`[^-,0-9]+`)
+)
+
+func currencyCleanRegex(decimal string) *regexp.Regexp {
+	switch decimal {
+	case ".":
+		return currencyCleanRegexDot
+	case ",":
+		return currencyCleanRegexComma
+	default:
+		return regexp.MustCompile("[^-" + decimal + "0-9]+")
+	}
+}
+
 // StringToInt : returns an int from a string value
 func StringToInt(num string, alpha string) (int, error) {
 	ISO, err := GetISOFromAlpha(alpha)
@@ -14,9 +30,8 @@ func StringToInt(num string, alpha string) (int, error) {
 	}
 
 	// Clean string
-	reg, _ := regexp.Compile("[^-" + ISO.Decimal + "0-9]+")
-	str := reg.ReplaceAllString(num, "")
-	str = strings.Replace(str, ISO.Decimal, ".", -1) // Replace ISO specific decimal with float decimal .
+	str := currencyCleanRegex(ISO.Decimal).ReplaceAllString(num, "")
+	str = strings.ReplaceAll(str, ISO.Decimal, ".") // Replace ISO specific decimal with float decimal .
 	if str == "" {
 		return 0, ErrorInvalidStringFormat
 	}

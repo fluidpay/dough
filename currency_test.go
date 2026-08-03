@@ -112,6 +112,14 @@ func BenchmarkStringToInt(b *testing.B) {
 	}
 }
 
+func TestCurrencyCleanRegexFallback(t *testing.T) {
+	re := currencyCleanRegex("·")
+	got := re.ReplaceAllString("$1·23USD", "")
+	if got != "1·23" {
+		t.Fatalf("expected %q, got %q", "1·23", got)
+	}
+}
+
 var TestDisplayFullData = []struct {
 	Amount int
 	Alpha  string
