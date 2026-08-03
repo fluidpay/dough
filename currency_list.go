@@ -1742,4 +1742,15 @@ var CurrencyList = map[string]Currency{
 		Delimiter:           ",",
 		SymbolPositionFront: true,
 	},
+	"ZWG": {
+		Unit:                "Zimbabwe Gold",
+		Alpha:               "ZWG",
+		Numeric:             "924",
+		Symbol:              "\u0024",
+		Fraction:            2,
+		Decimal:             ".",
+		Grouping:            3,
+		Delimiter:           ",",
+		SymbolPositionFront: true,
+	},
 }

@@ -67,6 +67,11 @@ var TestStringToIntData = []struct {
 	// Non USD
 	{"$100.00,00", "ARS", 1000000},
 	{"$10,000,000", "JPY", 10000000},
+
+	// Zimbabwe Gold
+	{"$5", "ZWG", 500},
+	{"$100.00", "ZWG", 10000},
+	{"$1,000.00", "ZWG", 100000},
 }
 
 func TestStringToInt(t *testing.T) {
@@ -377,5 +382,27 @@ func TestConversions(t *testing.T) {
 		if s != d.Output {
 			t.Error("not a match")
 		}
+	}
+}
+
+func TestCurrencyListZWG(t *testing.T) {
+	currency, exists := CurrencyList["ZWG"]
+	if !exists {
+		t.Error("Expected ZWG to exist in CurrencyList")
+	}
+	if currency.Unit != "Zimbabwe Gold" {
+		t.Error("Expected Unit to be 'Zimbabwe Gold', got:", currency.Unit)
+	}
+	if currency.Alpha != "ZWG" {
+		t.Error("Expected Alpha to be 'ZWG', got:", currency.Alpha)
+	}
+	if currency.Numeric != "924" {
+		t.Error("Expected Numeric to be '924', got:", currency.Numeric)
+	}
+	if currency.Fraction != 2 {
+		t.Error("Expected Fraction to be 2, got:", currency.Fraction)
+	}
+	if currency.SymbolPositionFront != true {
+		t.Error("Expected SymbolPositionFront to be true, got:", currency.SymbolPositionFront)
 	}
 }
