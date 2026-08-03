@@ -30,6 +30,19 @@ func TestGetISOFromNumeric(t *testing.T) {
 	}
 }
 
+func TestGetISOFromNumericInconsistentList(t *testing.T) {
+	// Simulate a CurrencyList entry whose Alpha does not resolve via GetISOFromAlpha.
+	CurrencyList["BAD"] = Currency{Unit: "Bad", Alpha: "MISSING", Numeric: "000", Symbol: "!", Fraction: 2, Decimal: ".", Grouping: 3, Delimiter: ",", SymbolPositionFront: true}
+	t.Cleanup(func() {
+		delete(CurrencyList, "BAD")
+	})
+
+	_, err := GetISOFromNumeric("000")
+	if err != ErrorInvalidISO {
+		t.Errorf("Expected %v, got %v", ErrorInvalidISO, err)
+	}
+}
+
 var TestValidateISOCodeAlphaData = []struct {
 	Input  string
 	Output string
@@ -361,6 +374,13 @@ var TestFormatCurrencyData = []struct {
 	{int(-1000000), Currency{Unit: "UAE Dirham", Alpha: "AED", Numeric: "784", Symbol: "\u0625\u002E\u062F", Fraction: 2, Decimal: ".", Grouping: 3, Delimiter: ",", SymbolPositionFront: false}, "-10,000.00" + "\u0625\u002E\u062F"},
 	{int(-10000000), Currency{Unit: "UAE Dirham", Alpha: "AED", Numeric: "784", Symbol: "\u0625\u002E\u062F", Fraction: 2, Decimal: ".", Grouping: 3, Delimiter: ",", SymbolPositionFront: false}, "-100,000.00" + "\u0625\u002E\u062F"},
 	{int(-100000000), Currency{Unit: "UAE Dirham", Alpha: "AED", Numeric: "784", Symbol: "\u0625\u002E\u062F", Fraction: 2, Decimal: ".", Grouping: 3, Delimiter: ",", SymbolPositionFront: false}, "-1,000,000.00" + "\u0625\u002E\u062F"},
+	// Zero-fraction currencies with trailing symbol
+	{int(0), Currency{Unit: "Test", Alpha: "XXX", Numeric: "999", Symbol: "T", Fraction: 0, Decimal: ".", Grouping: 3, Delimiter: ",", SymbolPositionFront: false}, "0T"},
+	{int(1000), Currency{Unit: "Test", Alpha: "XXX", Numeric: "999", Symbol: "T", Fraction: 0, Decimal: ".", Grouping: 3, Delimiter: ",", SymbolPositionFront: false}, "1000T"},
+	{int(-1000), Currency{Unit: "Test", Alpha: "XXX", Numeric: "999", Symbol: "T", Fraction: 0, Decimal: ".", Grouping: 3, Delimiter: ",", SymbolPositionFront: false}, "-1000T"},
+	// Zero-fraction currencies with leading symbol (e.g. JPY)
+	{int(1000), Currency{Unit: "Yen", Alpha: "JPY", Numeric: "392", Symbol: "\u00a5", Fraction: 0, Decimal: ".", Grouping: 3, Delimiter: ",", SymbolPositionFront: true}, "\u00a51000"},
+	{int(-1000), Currency{Unit: "Yen", Alpha: "JPY", Numeric: "392", Symbol: "\u00a5", Fraction: 0, Decimal: ".", Grouping: 3, Delimiter: ",", SymbolPositionFront: true}, "\u00a5-1000"},
 }
 
 func TestFormatCurrency(t *testing.T) {
@@ -498,6 +518,10 @@ var intPercentageData = []struct {
 
 	{3, 50, 0, Bankers, 2},
 	{5, 50, 0, Bankers, 2},
+
+	// Unknown round mode falls back to standard Round
+	{898, 56.7, 2, round("unknown"), 509.17},
+	{65, .011, 4, round(""), 0.0072},
 }
 
 func TestGetPercentageFromInt(t *testing.T) {
@@ -614,6 +638,10 @@ var floatPercentageData = []struct {
 	{4.5, 100, 0, Bankers, 4},
 	{5.5, 100, 0, Bankers, 6},
 	{-7.5, 100, 0, Bankers, -8},
+
+	// Unknown round mode falls back to standard Round
+	{11.11, 13, 2, round("unknown"), 1.44},
+	{0.5, 1, 2, round(""), 0.01},
 }
 
 func TestGetPercentageFromFloat(t *testing.T) {

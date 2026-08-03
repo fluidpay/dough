@@ -94,6 +94,17 @@ func TestValidLuhn(t *testing.T) {
 			t.Errorf("Should be valid %s", key)
 		}
 	}
+
+	invalid := []string{
+		"4111111111111112", // valid length, bad checksum
+		"4111a11111111111", // non-digit
+		"411111111111111!", // non-digit
+	}
+	for _, num := range invalid {
+		if ValidLuhn(num) {
+			t.Errorf("Should be invalid %q", num)
+		}
+	}
 }
 
 func TestMaskCard(t *testing.T) {

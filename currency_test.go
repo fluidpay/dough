@@ -16,6 +16,12 @@ var TestStringToIntData = []struct {
 	{"abcd", "USD", ErrorInvalidStringFormat.Error()},
 	{"$5", "USA", ErrorInvalidISO.Error()},
 	{"$0.0.5", "USD", ErrorInvalidStringFormat.Error()},
+	{".", "USD", ErrorInvalidStringFormat.Error()},
+	{"-", "USD", ErrorInvalidStringFormat.Error()},
+	{"--", "USD", ErrorInvalidStringFormat.Error()},
+	{".", "JPY", ErrorInvalidStringFormat.Error()},
+	{"-", "JPY", ErrorInvalidStringFormat.Error()},
+	{"--5", "JPY", ErrorInvalidStringFormat.Error()},
 
 	// Various Standard values
 	{"$5", "USD", 500},
